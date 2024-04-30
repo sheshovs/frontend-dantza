@@ -1,6 +1,8 @@
+import '@fontsource/poppins'
+import '@fontsource/roboto'
 
 const typography = {
-  fontFamily: 'Montserrat, sans-serif',
+  fontFamily: `Poppins, Roboto, sans-serif`,
 }
 
 export default typography

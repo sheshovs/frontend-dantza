@@ -1,16 +1,15 @@
-import { Grid } from "@mui/material"
+import { Grid } from '@mui/material'
 
-const About = () => {
+const About = (): JSX.Element => {
   return (
     <Grid
       container
-      minHeight='100vh'
-      justifyContent='center'
+      minHeight="100vh"
+      justifyContent="center"
       sx={{
-        backgroundColor: '#f9f7f8',
-      }}>
-
-    </Grid>
+        backgroundColor: `#f9f7f8`,
+      }}
+    ></Grid>
   )
 }
 
