@@ -43,7 +43,7 @@ const Header = (): JSX.Element => {
         width: `100%`,
         display: `flex`,
         justifyContent: `center`,
-        padding: `48px 48px 48px 280px`,
+        padding: `48px 48px 48px 300px`,
         ...backgroundStyles,
       }}
     >

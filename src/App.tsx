@@ -2,6 +2,8 @@ import Header from './modules/Header'
 import Sidebar from './common/components/Sidebar'
 import About from './modules/About'
 import { Grid } from '@mui/material'
+import Disciplines from './modules/Disciplines'
+import Teachers from './modules/Teachers'
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Sidebar />
       <Header />
       <About />
+      <Disciplines />
+      <Teachers />
     </Grid>
   )
 }

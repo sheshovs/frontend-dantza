@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
 import { useSpring, animated, useScroll } from '@react-spring/web'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 interface SidebarRouteProps {
   label: string
@@ -21,7 +21,7 @@ const SidebarRoute = ({ label, route }: SidebarRouteProps): JSX.Element => {
     },
   })
   return (
-    <Link
+    <NavLink
       to={route}
       style={{
         textDecoration: `none`,
@@ -46,7 +46,7 @@ const SidebarRoute = ({ label, route }: SidebarRouteProps): JSX.Element => {
           {label}
         </Typography>
       </animated.div>
-    </Link>
+    </NavLink>
   )
 }
 

@@ -66,7 +66,7 @@ const Sidebar = (): JSX.Element => {
 
         <Grid container item flexDirection="column">
           <SidebarRoute label="Inicio" route="#home" />
-          <SidebarRoute label="Nosotros" route="#about-us" />
+          <SidebarRoute label="Nosotros" route="#about" />
           <SidebarRoute label="Disciplinas" route="#disciplines" />
           <SidebarRoute label="Profesores" route="#teachers" />
           <SidebarRoute label="Eventos" route="#events" />
