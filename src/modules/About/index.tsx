@@ -15,14 +15,14 @@ const About = (): JSX.Element => {
       }}
     >
       <Container>
-        <Grid container gap={4} height="65vh">
+        <Grid container gap={4} height="60vh">
           <Grid container item xs={4} flexDirection="column" justifyContent="space-between">
             <Typography variant="h3" textTransform="uppercase">
               Lorem ipsum dolor sit amet
             </Typography>
-            <img src="https://placehold.co/400x250" alt="placeholder" />
+            <img src="https://placehold.co/400x250" alt="placeholder" width="100%" />
           </Grid>
-          <Grid container item xs={6} flexDirection="column">
+          <Grid container item xs flexDirection="column">
             <Grid container alignItems="center" gap={3} marginBottom={2}>
               <Divider
                 sx={{
@@ -35,7 +35,11 @@ const About = (): JSX.Element => {
               <Typography variant="h4">Lorem ipsum dolor sit</Typography>
             </Grid>
             <Grid item paddingLeft={2}>
-              <List>
+              <List
+                sx={{
+                  listStyle: `initial`,
+                }}
+              >
                 <li
                   style={{
                     marginBottom: `16px`,

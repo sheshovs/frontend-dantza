@@ -7,6 +7,7 @@ const primary = {
 const common = {
   white: `#ffffff`,
   black: `#000000`,
+  grey: `#ffffff66`,
 }
 
 const palette = {

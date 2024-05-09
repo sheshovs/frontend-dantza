@@ -9,15 +9,18 @@ interface SidebarRouteProps {
 
 const SidebarRoute = ({ label, route }: SidebarRouteProps): JSX.Element => {
   const [sidebarItemStyles, sidebarItemApi] = useSpring(() => ({
-    to: { color: `white` },
+    to: { color: `black` },
   }))
   useScroll({
     onChange: ({ value: { scrollYProgress } }) => {
-      if (scrollYProgress > 0.6) {
+      if (
+        (scrollYProgress > 0 && scrollYProgress < 0.13) ||
+        (scrollYProgress > 0.62 && scrollYProgress < 0.86)
+      ) {
+        sidebarItemApi.start({ color: `white` })
+      } else {
         sidebarItemApi.start({ color: `black` })
-        return
       }
-      sidebarItemApi.start({ color: `white` })
     },
   })
   return (

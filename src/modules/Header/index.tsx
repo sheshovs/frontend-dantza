@@ -16,12 +16,12 @@ const Header = (): JSX.Element => {
   }))
   useScroll({
     onChange: ({ value: { scrollYProgress } }) => {
-      if (scrollYProgress > 0.09) {
+      if (scrollYProgress > 0.03) {
         titleApi.start({ bottom: `0px`, opacity: 1, display: `flex` })
         rightTextApi.start({ opacity: 1 })
         return
       }
-      if (scrollYProgress > 0.02) {
+      if (scrollYProgress > 0.005) {
         backgroundApi.start({ backgroundSize: `120%`, opacity: 1 })
         return
       }

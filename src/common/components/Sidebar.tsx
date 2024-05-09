@@ -13,26 +13,28 @@ const Sidebar = (): JSX.Element => {
     },
   }))
   const [iconStyles, iconApi] = useSpring(() => ({
-    to: { color: `white` },
+    to: { color: `black` },
   }))
 
   const [sidebarLogo, setSidebarLogo] = useState(LOGO_WHITE)
 
   useScroll({
     onChange: ({ value: { scrollYProgress } }) => {
-      if (scrollYProgress > 0.6) {
-        sidebarApi.start({ background: `white` })
-        setSidebarLogo(LOGO)
-      } else {
+      console.log(scrollYProgress)
+      if (
+        (scrollYProgress > 0 && scrollYProgress < 0.13) ||
+        (scrollYProgress > 0.62 && scrollYProgress < 0.86)
+      ) {
         sidebarApi.start({ background: `rgba(255,255,255,0.2)` })
         setSidebarLogo(LOGO_WHITE)
-      }
-      if (scrollYProgress > 0.4) {
-        iconApi.start({ color: `black` })
-      } else {
         iconApi.start({ color: `white` })
+      } else {
+        iconApi.start({ color: `black` })
+        sidebarApi.start({ background: `white` })
+        setSidebarLogo(LOGO)
       }
-      if (scrollYProgress > 0.09) {
+
+      if (scrollYProgress > 0.02) {
         sidebarApi.start({ opacity: 1 })
       } else {
         sidebarApi.start({ opacity: 0 })
@@ -47,6 +49,7 @@ const Sidebar = (): JSX.Element => {
         height: `100vh`,
         padding: `48px 24px`,
         position: `fixed`,
+        zIndex: 100,
         left: `3.5%`,
         backdropFilter: `blur(3px)`,
         boxShadow: `0px 0px 10px 0px rgba(0,0,0,0.2)`,
