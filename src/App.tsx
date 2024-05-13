@@ -5,6 +5,7 @@ import { Grid } from '@mui/material'
 import Disciplines from './modules/Disciplines'
 import Teachers from './modules/Teachers'
 import UpcomingEvents from './modules/UpcomingEvents'
+import Footer from './modules/Footer'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Disciplines />
       <UpcomingEvents />
       <Teachers />
+      <Footer />
     </Grid>
   )
 }

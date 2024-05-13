@@ -2,7 +2,7 @@ import { Grid } from '@mui/material'
 import { animated, useScroll, useSpring } from '@react-spring/web'
 import SidebarRoute from './SidebarRoute'
 import { FaInstagram, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
-import { LOGO, LOGO_WHITE } from '../../assets'
+import { LOGO_COLOR, LOGO_WHITE } from '../../assets'
 import { useState } from 'react'
 
 const Sidebar = (): JSX.Element => {
@@ -10,6 +10,7 @@ const Sidebar = (): JSX.Element => {
     to: {
       opacity: 0,
       background: `rgba(255,255,255,0.2)`,
+      bottom: 0,
     },
   }))
   const [iconStyles, iconApi] = useSpring(() => ({
@@ -20,7 +21,6 @@ const Sidebar = (): JSX.Element => {
 
   useScroll({
     onChange: ({ value: { scrollYProgress } }) => {
-      console.log(scrollYProgress)
       if (
         (scrollYProgress > 0 && scrollYProgress < 0.13) ||
         (scrollYProgress > 0.62 && scrollYProgress < 0.86)
@@ -31,13 +31,19 @@ const Sidebar = (): JSX.Element => {
       } else {
         iconApi.start({ color: `black` })
         sidebarApi.start({ background: `white` })
-        setSidebarLogo(LOGO)
+        setSidebarLogo(LOGO_COLOR)
       }
 
       if (scrollYProgress > 0.02) {
         sidebarApi.start({ opacity: 1 })
       } else {
         sidebarApi.start({ opacity: 0 })
+      }
+
+      if (scrollYProgress > 0.99) {
+        sidebarApi.start({ bottom: 400 })
+      } else {
+        sidebarApi.start({ bottom: 0 })
       }
     },
   })
