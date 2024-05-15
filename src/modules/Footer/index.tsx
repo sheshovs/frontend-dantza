@@ -1,5 +1,4 @@
 import { Grid, Typography } from '@mui/material'
-import React from 'react'
 import { FaInstagram, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
 import { LOGO_COLOR } from '../../assets'
 
