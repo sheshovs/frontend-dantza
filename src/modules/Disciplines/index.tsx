@@ -34,19 +34,23 @@ const Disciplines = (): JSX.Element => {
       alignItems="center"
       sx={{
         backgroundColor: `common.white`,
-        padding: `48px 48px 48px 300px`,
+        padding: {
+          xs: `32px 32px 32px 32px`,
+          sm: `48px 48px 48px 48px`,
+          md: `48px 48px 48px 300px`,
+        },
       }}
     >
       <Container>
         <Grid container>
-          <Grid container item xs={12} gap={4} marginBottom={12}>
-            <Grid container item xs={4}>
+          <Grid container item xs={12} gap={4} marginBottom={{ md: 12, xs: 8 }}>
+            <Grid container item xs={12} md={4}>
               <Typography variant="h3" textTransform="uppercase">
                 Lorem ipsum dolor sit amet
               </Typography>
             </Grid>
 
-            <Grid container item xs={5} flexDirection="column">
+            <Grid container item xs={12} md={5} flexDirection="column">
               <Grid container alignItems="center" gap={3} marginBottom={2}>
                 <Divider
                   sx={{
@@ -66,7 +70,13 @@ const Disciplines = (): JSX.Element => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container alignItems="center" gap={3} marginBottom={8}>
+          <Grid
+            container
+            justifyContent={{ xs: `center`, md: `flex-start` }}
+            alignItems="center"
+            gap={3}
+            marginBottom={8}
+          >
             {disciplinesLabels.map((label, index) => {
               if (index === disciplinesLabels.length - 1) {
                 return (
@@ -92,32 +102,64 @@ const Disciplines = (): JSX.Element => {
               )
             })}
           </Grid>
-          <Grid container justifyContent="space-between">
-            <Grid container item width="fit-content" flexDirection="column" gap={4}>
+          <Grid
+            container
+            justifyContent={{ md: `space-between`, xs: `center` }}
+            gap={{ md: 0, xs: 5 }}
+          >
+            <Grid
+              container
+              item
+              width="fit-content"
+              flexDirection="column"
+              gap={{ md: 4, xs: 2 }}
+              marginBottom={{ md: 4, xs: 0 }}
+            >
               <img src="https://placehold.co/220x350" alt="placeholder" />
               <Typography variant="h5" fontWeight={700}>
                 Lorem
               </Typography>
             </Grid>
-            <Grid container item width="fit-content" flexDirection="column" gap={4}>
+            <Grid
+              container
+              item
+              width="fit-content"
+              flexDirection="column"
+              gap={{ md: 4, xs: 2 }}
+              marginBottom={{ md: 4, xs: 0 }}
+            >
               <img src="https://placehold.co/220x350" alt="placeholder" />
               <Typography variant="h5" fontWeight={700}>
                 Ipsum
               </Typography>
             </Grid>
-            <Grid container item width="fit-content" flexDirection="column" gap={4}>
+            <Grid
+              container
+              item
+              width="fit-content"
+              flexDirection="column"
+              gap={{ md: 4, xs: 2 }}
+              marginBottom={{ md: 4, xs: 0 }}
+            >
               <img src="https://placehold.co/220x350" alt="placeholder" />
               <Typography variant="h5" fontWeight={700}>
                 Dolor
               </Typography>
             </Grid>
-            <Grid container item width="fit-content" flexDirection="column" gap={4}>
+            <Grid
+              container
+              item
+              width="fit-content"
+              flexDirection="column"
+              gap={{ md: 4, xs: 2 }}
+              marginBottom={{ md: 4, xs: 0 }}
+            >
               <img src="https://placehold.co/220x350" alt="placeholder" />
               <Typography variant="h5" fontWeight={700}>
                 Sit
               </Typography>
             </Grid>
-            <Grid container item width="fit-content">
+            <Grid container item width="fit-content" marginBottom={{ md: 4, xs: 0 }}>
               <Button
                 variant="outlined"
                 color="primary"

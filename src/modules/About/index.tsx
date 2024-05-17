@@ -11,13 +11,17 @@ const About = (): JSX.Element => {
       alignItems="center"
       sx={{
         backgroundColor: `#f9f7f8`,
-        padding: `48px 48px 48px 300px`,
+        padding: {
+          xs: `32px 32px 32px 32px`,
+          sm: `48px 48px 48px 48px`,
+          md: `48px 48px 48px 300px`,
+        },
       }}
     >
       <Container>
-        <Grid container gap={4} height="60vh">
-          <Grid container item xs={4} flexDirection="column" justifyContent="space-between">
-            <Typography variant="h3" textTransform="uppercase">
+        <Grid container gap={8} minHeight="60vh">
+          <Grid container item xs={12} md={4} flexDirection="column" justifyContent="space-between">
+            <Typography variant="h3" textTransform="uppercase" marginBottom={4}>
               Lorem ipsum dolor sit amet
             </Typography>
             <img src="https://placehold.co/400x250" alt="placeholder" width="100%" />

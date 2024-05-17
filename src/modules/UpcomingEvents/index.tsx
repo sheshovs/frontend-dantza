@@ -1,4 +1,4 @@
-import { Divider, Grid, Typography, useTheme } from '@mui/material'
+import { Divider, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import Container from '../../common/components/Container'
 import { EVENT_BG } from '../../assets'
 import Countdown, { zeroPad } from 'react-countdown'
@@ -28,7 +28,7 @@ const upcomingEventsMock = [
   },
 ]
 
-const CountdownRenderer = ({ days, hours, minutes, seconds }: any) => {
+const CountdownRendererLarge = ({ days, hours, minutes, seconds }: any): JSX.Element => {
   return (
     <Grid container gap={2} alignItems="center">
       <Grid container item xs flexDirection="column" alignItems="center">
@@ -132,10 +132,116 @@ const CountdownRenderer = ({ days, hours, minutes, seconds }: any) => {
   )
 }
 
+const CountdownRendererSmall = ({ days, hours, minutes, seconds }: any): JSX.Element => {
+  return (
+    <Grid container gap={2} alignItems="center" flexDirection="column">
+      <Grid container item xs width="60%" alignItems="center" justifyContent="space-between">
+        <Typography
+          variant="h2"
+          color="common.white"
+          sx={{
+            lineHeight: `${1} !important`,
+          }}
+        >
+          {zeroPad(days)}
+        </Typography>
+        <Typography
+          variant="body2"
+          color="common.white"
+          textTransform="uppercase"
+          letterSpacing={3}
+        >
+          dias
+        </Typography>
+      </Grid>
+      <Divider
+        orientation="horizontal"
+        sx={{
+          backgroundColor: `common.grey`,
+          width: `65%`,
+        }}
+      />
+      <Grid container item xs width="60%" alignItems="center" justifyContent="space-between">
+        <Typography
+          variant="h2"
+          color="common.white"
+          sx={{
+            lineHeight: `${1} !important`,
+          }}
+        >
+          {zeroPad(hours)}
+        </Typography>
+        <Typography
+          variant="body2"
+          color="common.white"
+          textTransform="uppercase"
+          letterSpacing={3}
+        >
+          horas
+        </Typography>
+      </Grid>
+      <Divider
+        orientation="horizontal"
+        sx={{
+          backgroundColor: `common.grey`,
+          width: `65%`,
+        }}
+      />
+      <Grid container item xs width="60%" alignItems="center" justifyContent="space-between">
+        <Typography
+          variant="h2"
+          color="common.white"
+          sx={{
+            lineHeight: `${1} !important`,
+          }}
+        >
+          {zeroPad(minutes)}
+        </Typography>
+        <Typography
+          variant="body2"
+          color="common.white"
+          textTransform="uppercase"
+          letterSpacing={3}
+        >
+          minutos
+        </Typography>
+      </Grid>
+      <Divider
+        orientation="horizontal"
+        sx={{
+          backgroundColor: `common.grey`,
+          width: `65%`,
+        }}
+      />
+      <Grid container item xs width="60%" alignItems="center" justifyContent="space-between">
+        <Typography
+          variant="h2"
+          color="common.white"
+          sx={{
+            lineHeight: `${1} !important`,
+          }}
+        >
+          {zeroPad(seconds)}
+        </Typography>
+        <Typography
+          variant="body2"
+          color="common.white"
+          textTransform="uppercase"
+          letterSpacing={3}
+        >
+          segundos
+        </Typography>
+      </Grid>
+    </Grid>
+  )
+}
+
 const UpcomingEvents = (): JSX.Element => {
   const {
     palette: { common },
+    breakpoints,
   } = useTheme()
+  const widthAboveLg = useMediaQuery(breakpoints.up(900))
   return (
     <Grid
       id="upcoming-events"
@@ -148,7 +254,11 @@ const UpcomingEvents = (): JSX.Element => {
         backgroundPosition: `center`,
         backgroundRepeat: `no-repeat`,
         backgroundSize: `cover`,
-        padding: `48px 48px 48px 300px`,
+        padding: {
+          xs: `32px 32px 32px 32px`,
+          sm: `48px 48px 48px 48px`,
+          md: `48px 48px 48px 300px`,
+        },
         position: `relative`,
         '&:after': {
           content: `''`,
@@ -163,7 +273,7 @@ const UpcomingEvents = (): JSX.Element => {
       }}
     >
       <Container>
-        <Grid container zIndex={51} gap={8}>
+        <Grid container zIndex={51} gap={{ md: 8, xs: 4 }}>
           <Grid container>
             <Typography variant="h3" textTransform="uppercase" color="common.white">
               Próximos eventos
@@ -178,8 +288,8 @@ const UpcomingEvents = (): JSX.Element => {
                 gap={4}
                 key={event.id}
                 paddingY={3}
-                paddingLeft={4}
-                paddingRight={8}
+                paddingLeft={{ md: 4, xs: 3 }}
+                paddingRight={{ md: 8, xs: 3 }}
                 sx={{
                   backgroundColor: `rgba(0,0,0,0.6)`,
                   border: `1px solid rgba(255,255,255,0.4)`,
@@ -195,14 +305,17 @@ const UpcomingEvents = (): JSX.Element => {
                       {event.location} - {dayjs(event.date).format(`DD/MM/YYYY HH:mm`)}
                     </Typography>
                   </Grid>
-                  <Grid item xs={11}>
+                  <Grid item xs={12} md={11}>
                     <Typography variant="body1" color={`${common.white}99`}>
                       {event.description}
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container item xs={5} color="common.white">
-                  <Countdown date={dayjs(event.date).toDate()} renderer={CountdownRenderer} />
+                <Grid container item xs={12} md={5} color="common.white">
+                  <Countdown
+                    date={dayjs(event.date).toDate()}
+                    renderer={widthAboveLg ? CountdownRendererLarge : CountdownRendererSmall}
+                  />
                 </Grid>
               </Grid>
             ))}
