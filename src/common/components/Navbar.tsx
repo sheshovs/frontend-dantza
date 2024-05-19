@@ -1,5 +1,4 @@
 import { Divider, Grid, IconButton, Link, Slide, Zoom, useTheme } from '@mui/material'
-import React from 'react'
 import { LOGO_COLOR } from '../../assets'
 import Icon from './Icon'
 import { routes } from './routes'
