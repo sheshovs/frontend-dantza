@@ -4,40 +4,39 @@ import SidebarRoute from './SidebarRoute'
 import { FaInstagram, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
 import { LOGO_COLOR, LOGO_WHITE } from '../../assets'
 import { useState } from 'react'
+import { routes } from './routes'
 
-const Sidebar = (): JSX.Element => {
+const Sidebar = ({ isActive }: { isActive: string }): JSX.Element => {
   const [sidebarStyles, sidebarApi] = useSpring(() => ({
-    to: {
+    from: {
       opacity: 0,
       background: `rgba(255,255,255,0.2)`,
       bottom: 0,
     },
+    to: {
+      opacity: 1,
+      background: `rgba(255,255,255,0.2)`,
+      bottom: 0,
+    },
+    delay: 500,
   }))
   const [iconStyles, iconApi] = useSpring(() => ({
-    to: { color: `black` },
+    from: { color: `black` },
+    to: { color: `white` },
   }))
 
   const [sidebarLogo, setSidebarLogo] = useState(LOGO_WHITE)
 
   useScroll({
     onChange: ({ value: { scrollYProgress } }) => {
-      if (
-        (scrollYProgress > 0 && scrollYProgress < 0.13) ||
-        (scrollYProgress > 0.62 && scrollYProgress < 0.86)
-      ) {
-        sidebarApi.start({ background: `rgba(255,255,255,0.2)` })
-        setSidebarLogo(LOGO_WHITE)
-        iconApi.start({ color: `white` })
-      } else {
-        iconApi.start({ color: `black` })
+      if ((scrollYProgress > 0.13 && scrollYProgress < 0.62) || scrollYProgress > 0.86) {
         sidebarApi.start({ background: `white` })
+        iconApi.start({ color: `black` })
         setSidebarLogo(LOGO_COLOR)
-      }
-
-      if (scrollYProgress > 0.02) {
-        sidebarApi.start({ opacity: 1 })
       } else {
-        sidebarApi.start({ opacity: 0 })
+        sidebarApi.start({ background: `rgba(255,255,255,0.2)` })
+        iconApi.start({ color: `white` })
+        setSidebarLogo(LOGO_WHITE)
       }
 
       if (scrollYProgress > 0.99) {
@@ -74,21 +73,24 @@ const Sidebar = (): JSX.Element => {
         </Grid>
 
         <Grid container item flexDirection="column">
-          <SidebarRoute label="Inicio" route="#home" />
-          <SidebarRoute label="Nosotros" route="#about" />
-          <SidebarRoute label="Disciplinas" route="#disciplines" />
-          <SidebarRoute label="Profesores" route="#teachers" />
-          <SidebarRoute label="Eventos" route="#events" />
+          {routes.map((route) => (
+            <SidebarRoute
+              key={route.id}
+              label={route.label}
+              route={route.route}
+              isActive={isActive === route.id.toLowerCase()}
+            />
+          ))}
         </Grid>
 
         <Grid container item flexDirection="column" gap={2}>
-          <animated.span style={{ ...iconStyles, transition: `color 0.3s` }}>
+          <animated.span style={{ ...iconStyles, transition: `color 0.3s`, cursor: `pointer` }}>
             <FaInstagram size={20} />
           </animated.span>
-          <animated.span style={{ ...iconStyles, transition: `color 0.3s` }}>
+          <animated.span style={{ ...iconStyles, transition: `color 0.3s`, cursor: `pointer` }}>
             <FaWhatsapp size={20} />
           </animated.span>
-          <animated.span style={{ ...iconStyles, transition: `color 0.3s` }}>
+          <animated.span style={{ ...iconStyles, transition: `color 0.3s`, cursor: `pointer` }}>
             <FaFacebookF size={20} />
           </animated.span>
         </Grid>

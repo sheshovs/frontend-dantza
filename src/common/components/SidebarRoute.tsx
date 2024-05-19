@@ -1,34 +1,43 @@
-import { Typography } from '@mui/material'
+import { Link, Typography } from '@mui/material'
 import { useSpring, animated, useScroll } from '@react-spring/web'
-import { NavLink } from 'react-router-dom'
 
 interface SidebarRouteProps {
   label: string
   route: string
+  isActive: boolean
+  color?: string
+  onClick?: () => void
 }
 
-const SidebarRoute = ({ label, route }: SidebarRouteProps): JSX.Element => {
+const SidebarRoute = ({
+  label,
+  route,
+  isActive,
+  color,
+  onClick,
+}: SidebarRouteProps): JSX.Element => {
   const [sidebarItemStyles, sidebarItemApi] = useSpring(() => ({
-    to: { color: `black` },
+    from: { color: `black` },
+    to: { color: `white` },
   }))
+
   useScroll({
     onChange: ({ value: { scrollYProgress } }) => {
-      if (
-        (scrollYProgress > 0 && scrollYProgress < 0.13) ||
-        (scrollYProgress > 0.62 && scrollYProgress < 0.86)
-      ) {
-        sidebarItemApi.start({ color: `white` })
-      } else {
+      if ((scrollYProgress > 0.13 && scrollYProgress < 0.62) || scrollYProgress > 0.86) {
         sidebarItemApi.start({ color: `black` })
+      } else {
+        sidebarItemApi.start({ color: `white` })
       }
     },
   })
+
   return (
-    <NavLink
-      to={route}
-      style={{
+    <Link
+      href={route}
+      sx={{
         textDecoration: `none`,
       }}
+      onClick={onClick}
     >
       <animated.div
         style={{
@@ -40,6 +49,7 @@ const SidebarRoute = ({ label, route }: SidebarRouteProps): JSX.Element => {
           sx={{
             paddingY: 1,
             transition: `color 0.3s`,
+            color: isActive ? `primary.light` : color,
             '&:hover': {
               color: `primary.light`,
               cursor: `pointer`,
@@ -49,7 +59,7 @@ const SidebarRoute = ({ label, route }: SidebarRouteProps): JSX.Element => {
           {label}
         </Typography>
       </animated.div>
-    </NavLink>
+    </Link>
   )
 }
 

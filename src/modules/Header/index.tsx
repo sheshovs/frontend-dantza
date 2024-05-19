@@ -2,52 +2,41 @@ import { Button, Grid, Typography, useMediaQuery, useTheme } from '@mui/material
 import { HEADER_BG } from '../../assets'
 import Icon from '../../common/components/Icon'
 import Container from '../../common/components/Container'
-import { useScroll, useSpring, animated } from '@react-spring/web'
+import { useSpring, animated } from '@react-spring/web'
 
 const Header = (): JSX.Element => {
   const { breakpoints } = useTheme()
   const widthAboveLg = useMediaQuery(breakpoints.up(900))
-  const [rightTextStyles, rightTextApi] = useSpring(() => ({
-    to: { opacity: 0 },
-  }))
-  const [titleStyles, titleApi] = useSpring(() => ({
-    to: { bottom: `-100px`, opacity: 0, display: `none` },
-  }))
-  const [backgroundStyles, backgroundApi] = useSpring(() => ({
-    to: { opacity: 0 },
-  }))
-  useScroll({
-    onChange: ({ value: { scrollYProgress } }) => {
-      if (scrollYProgress > 0.03) {
-        titleApi.start({ bottom: `0px`, opacity: 1, display: `flex` })
-        rightTextApi.start({ opacity: 1 })
-        return
-      }
-      if (scrollYProgress > 0.005) {
-        backgroundApi.start({ opacity: 1 })
-        return
-      }
-
-      rightTextApi.start({ opacity: 0 })
-      titleApi.start({ bottom: `-100px`, opacity: 0, display: `none` })
-      backgroundApi.start({ opacity: 0 })
-    },
+  const backgroundStyles = useSpring({
+    from: { opacity: 0, backgroundSize: `140%` },
+    to: { opacity: 1, backgroundSize: `cover` },
+    delay: 300,
   })
+  const rightTextStyles = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+    delay: 500,
+  })
+  const titleStyles = useSpring({
+    from: { bottom: `-100px`, opacity: 0, display: `none` },
+    to: { bottom: `0`, opacity: 1, display: `flex` },
+    delay: 700,
+  })
+
   return (
     <animated.div
       id="home"
       style={{
+        ...backgroundStyles,
         minHeight: `100vh`,
         backgroundImage: `url(${HEADER_BG})`,
         backgroundPosition: `center`,
         backgroundRepeat: `no-repeat`,
-        backgroundSize: `cover`,
-        height: `120vh`,
+        height: `100vh`,
         width: `100%`,
         display: `flex`,
         justifyContent: `center`,
         padding: widthAboveLg ? `48px 48px 48px 300px` : `0px`,
-        ...backgroundStyles,
       }}
     >
       <Container>
@@ -66,7 +55,7 @@ const Header = (): JSX.Element => {
               height: widthAboveLg ? `100%` : `70%`,
               width: widthAboveLg ? `70%` : `100%`,
               position: `relative`,
-              padding: widthAboveLg ? `0px` : `0px 48px`,
+              padding: widthAboveLg ? `0px` : `0px 32px`,
             }}
           >
             <Typography
@@ -99,14 +88,13 @@ const Header = (): JSX.Element => {
               display: `flex`,
               width: widthAboveLg ? `25%` : `100%`,
               height: widthAboveLg ? `90vh` : `auto`,
-              top: widthAboveLg ? 200 : 0,
               justifyContent: `space-between`,
               flexDirection: `column`,
               position: `relative`,
               background: widthAboveLg
                 ? ``
                 : `linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 80%)`,
-              padding: widthAboveLg ? `0px` : `48px 48px 48px 48px`,
+              padding: widthAboveLg ? `0px` : `0px 32px 32px 32px`,
               gap: widthAboveLg ? 0 : 24,
             }}
           >

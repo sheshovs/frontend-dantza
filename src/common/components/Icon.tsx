@@ -1,8 +1,15 @@
 import { SvgIconProps } from '@mui/material'
-import { ArrowForwardIosRounded, ArrowRightAltRounded } from '@mui/icons-material'
+import {
+  ArrowForwardIosRounded,
+  ArrowRightAltRounded,
+  CloseRounded,
+  MenuRounded,
+} from '@mui/icons-material'
 export const icons = {
   arrowRight: ArrowRightAltRounded,
   arrowForward: ArrowForwardIosRounded,
+  close: CloseRounded,
+  menuExpand: MenuRounded,
 }
 interface IconProps extends SvgIconProps {
   icon: keyof typeof icons
