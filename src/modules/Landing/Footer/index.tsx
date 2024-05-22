@@ -1,6 +1,6 @@
 import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { FaInstagram, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
-import { LOGO_COLOR } from '../../assets'
+import { LOGO_COLOR } from '../../../assets'
 
 const disciplinesLabels = [
   `Lorem`,

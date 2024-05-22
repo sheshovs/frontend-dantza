@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material'
-import Container from '../../common/components/Container'
-import Icon from '../../common/components/Icon'
+import Container from '../../../common/components/Container'
+import Icon from '../../../common/components/Icon'
 
 const teachersNames = [
   `Charlie Brown`,

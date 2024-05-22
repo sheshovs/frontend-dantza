@@ -1,7 +1,7 @@
 import { Button, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
-import { HEADER_BG } from '../../assets'
-import Icon from '../../common/components/Icon'
-import Container from '../../common/components/Container'
+import { HEADER_BG } from '../../../assets'
+import Icon from '../../../common/components/Icon'
+import Container from '../../../common/components/Container'
 import { useSpring, animated } from '@react-spring/web'
 
 const Header = (): JSX.Element => {

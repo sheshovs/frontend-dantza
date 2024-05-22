@@ -1,6 +1,6 @@
 import { Divider, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
-import Container from '../../common/components/Container'
-import { EVENT_BG } from '../../assets'
+import Container from '../../../common/components/Container'
+import { EVENT_BG } from '../../../assets'
 import Countdown, { zeroPad } from 'react-countdown'
 import dayjs from 'dayjs'
 

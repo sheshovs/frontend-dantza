@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material'
-import Container from '../../common/components/Container'
+import Container from '../../../common/components/Container'
 
 const disciplinesLabels = [
   `Lorem`,
