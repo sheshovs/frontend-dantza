@@ -18,7 +18,7 @@ const Sidebar = (): JSX.Element => {
       paddingTop={6}
       paddingBottom={10}
     >
-      <Grid container xs flexDirection="column" alignItems="center" gap={2}>
+      <Grid container xs item flexDirection="column" alignItems="center" gap={2}>
         <Grid item width="fit-content">
           <img src={LOGO_COLOR} width={110} height="auto" alt="Logo Dantza" />
         </Grid>

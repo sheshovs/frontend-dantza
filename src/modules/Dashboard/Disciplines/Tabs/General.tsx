@@ -4,9 +4,9 @@ import React, { useState } from 'react'
 import SortableList, { SortableItem } from 'react-easy-sort'
 
 interface GeneralProps {
-  disciplineName: string
-  disciplineDescription: string
-  secondaryImages: File[]
+  name: string
+  description: string
+  images: File[]
   setTabValue: (value: string) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   onSortEnd: (oldIndex: number, newIndex: number) => void
@@ -15,9 +15,9 @@ interface GeneralProps {
 }
 
 const General = ({
-  disciplineName,
-  disciplineDescription,
-  secondaryImages,
+  name,
+  description,
+  images,
   setTabValue,
   handleInputChange,
   onSortEnd,
@@ -39,13 +39,7 @@ const General = ({
           <Typography variant="body1">Nombre</Typography>
         </Grid>
         <Grid item xs={6}>
-          <TextField
-            size="small"
-            fullWidth
-            name="disciplineName"
-            value={disciplineName}
-            onChange={handleInputChange}
-          />
+          <TextField size="small" fullWidth name="name" value={name} onChange={handleInputChange} />
         </Grid>
       </Grid>
 
@@ -58,8 +52,8 @@ const General = ({
             multiline
             rows={3}
             fullWidth
-            name="disciplineDescription"
-            value={disciplineDescription}
+            name="description"
+            value={description}
             onChange={handleInputChange}
           />
         </Grid>
@@ -77,17 +71,17 @@ const General = ({
           >
             <span
               style={{
-                color: secondaryImages.length > 10 ? `red` : ``,
+                color: images.length > 10 ? `red` : ``,
               }}
             >
-              Fotos · {secondaryImages.length}/10
+              Fotos · {images.length}/10
             </span>
             {` `}- Puedes agregar un máximo de 10 fotos.
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <SortableList onSortEnd={onSortEnd} className="list" draggedItemClassName="dragged">
-            {secondaryImages.map((image) => (
+            {images.map((image) => (
               <SortableItem key={image.name}>
                 <Box
                   className="item"
@@ -152,7 +146,7 @@ const General = ({
               variant="outlined"
               color="primary"
               component="label"
-              disabled={secondaryImages.length >= 10}
+              disabled={images.length >= 10}
             >
               <input
                 hidden
@@ -183,12 +177,7 @@ const General = ({
         <Button
           variant="contained"
           color="primary"
-          disabled={
-            !disciplineName ||
-            !disciplineDescription ||
-            secondaryImages.length < 1 ||
-            secondaryImages.length > 10
-          }
+          disabled={!name || !description || images.length < 1 || images.length > 10}
           onClick={() => {
             setTabValue(`schedule`)
           }}

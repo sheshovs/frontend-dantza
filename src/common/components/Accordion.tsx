@@ -1,4 +1,3 @@
-import { DisciplineSchedule, InitialState } from '@/modules/Dashboard/Disciplines'
 import {
   Collapse,
   FormControlLabel,
@@ -16,6 +15,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import Icon from './Icon'
+import { Discipline, DisciplineSchedule } from '../types/discipline'
 
 const CustomSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -69,7 +69,7 @@ interface AccordionProps {
   schedule: DisciplineSchedule
   isExpanded: boolean
   setExpanded: (value: string) => void
-  setState: React.Dispatch<React.SetStateAction<InitialState>>
+  setState: React.Dispatch<React.SetStateAction<Discipline>>
   handleChange: (panel: string) => void
 }
 
@@ -109,7 +109,7 @@ const Accordion = ({
                   }
                   setState((prevState) => ({
                     ...prevState,
-                    disciplineSchedule: prevState.disciplineSchedule.map((item) => {
+                    schedule: prevState.schedule.map((item) => {
                       if (item.label === schedule.label) {
                         return { ...item, isActive: e.target.checked }
                       }
@@ -186,7 +186,7 @@ const Accordion = ({
                     if (!date) return
                     setState((prevState) => ({
                       ...prevState,
-                      disciplineSchedule: prevState.disciplineSchedule.map((discipline) => {
+                      schedule: prevState.schedule.map((discipline) => {
                         if (discipline.label === schedule.label) {
                           return {
                             ...discipline,
@@ -222,7 +222,7 @@ const Accordion = ({
                     if (!date) return
                     setState((prevState) => ({
                       ...prevState,
-                      disciplineSchedule: prevState.disciplineSchedule.map((discipline) => {
+                      schedule: prevState.schedule.map((discipline) => {
                         if (discipline.label === schedule.label) {
                           return {
                             ...discipline,
@@ -263,7 +263,7 @@ const Accordion = ({
                     onClick={() => {
                       setState((prevState) => ({
                         ...prevState,
-                        disciplineSchedule: prevState.disciplineSchedule.map((discipline) => {
+                        schedule: prevState.schedule.map((discipline) => {
                           if (discipline.label === schedule.label) {
                             return {
                               ...discipline,
@@ -293,7 +293,7 @@ const Accordion = ({
                     onClick={() => {
                       setState((prevState) => ({
                         ...prevState,
-                        disciplineSchedule: prevState.disciplineSchedule.map((discipline) => {
+                        schedule: prevState.schedule.map((discipline) => {
                           if (discipline.label === schedule.label) {
                             return {
                               ...discipline,

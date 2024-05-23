@@ -1,120 +1,57 @@
 import { Button, Drawer, Grid, Tab, Tabs, Typography } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
 import Layout from '../components/Layout'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { arrayMoveImmutable } from 'array-move'
 import General from './Tabs/General'
 import Schedule from './Tabs/Schedule'
+import { useMutation } from '@tanstack/react-query'
+import API from '@/common/api'
+import { Discipline, weekDays } from '@/common/types/discipline'
+import { useSnackbar } from 'notistack'
+import { useDisciplineQuery } from '@/common/querys/useDisciplineQuery'
 
-const weekDays: DisciplineSchedule[] = [
-  {
-    label: `Lunes`,
-    isActive: false,
-    schedule: [
-      {
-        id: 1,
-        start: ``,
-        end: ``,
-      },
-    ],
-  },
-  {
-    label: `Martes`,
-    isActive: false,
-    schedule: [
-      {
-        id: 1,
-        start: ``,
-        end: ``,
-      },
-    ],
-  },
-  {
-    label: `Miércoles`,
-    isActive: false,
-    schedule: [
-      {
-        id: 1,
-        start: ``,
-        end: ``,
-      },
-    ],
-  },
-  {
-    label: `Jueves`,
-    isActive: false,
-    schedule: [
-      {
-        id: 1,
-        start: ``,
-        end: ``,
-      },
-    ],
-  },
-  {
-    label: `Viernes`,
-    isActive: false,
-    schedule: [
-      {
-        id: 1,
-        start: ``,
-        end: ``,
-      },
-    ],
-  },
-  {
-    label: `Sábado`,
-    isActive: false,
-    schedule: [
-      {
-        id: 1,
-        start: ``,
-        end: ``,
-      },
-    ],
-  },
-  {
-    label: `Domingo`,
-    isActive: false,
-    schedule: [
-      {
-        id: 1,
-        start: ``,
-        end: ``,
-      },
-    ],
-  },
-]
-
-export interface DisciplineSchedule {
-  label: string
-  isActive: boolean
-  schedule: {
-    id: number
-    start: string
-    end: string
-  }[]
-}
-
-export interface InitialState {
-  disciplineName: string
-  mainImage: File | null
-  secondaryImages: File[]
-  disciplineDescription: string
-  disciplineSchedule: DisciplineSchedule[]
+const initialState = {
+  name: ``,
+  images: [],
+  description: ``,
+  schedule: weekDays,
 }
 
 const Disciplines = (): JSX.Element => {
+  const { enqueueSnackbar } = useSnackbar()
   const [tabValue, setTabValue] = useState(`general`)
   const [open, setOpen] = useState(false)
-  const [state, setState] = useState<InitialState>({
-    disciplineName: ``,
-    mainImage: null,
-    secondaryImages: [],
-    disciplineDescription: ``,
-    disciplineSchedule: weekDays,
-  })
+  const [state, setState] = useState<Discipline>(initialState)
+  const { name, images, description, schedule } = state
+  const { data: disciplinesQuery } = useDisciplineQuery()
 
-  const { disciplineName, secondaryImages, disciplineDescription, disciplineSchedule } = state
+  const { columns, rows } = useMemo(() => {
+    if (!disciplinesQuery?.data) {
+      return { columns: [], rows: [] }
+    }
+
+    const columns = [
+      { field: `name`, headerName: `Nombre`, width: 200 },
+      { field: `description`, headerName: `Descripción`, width: 400 },
+      { field: `schedule`, headerName: `Horario`, width: 200 },
+    ]
+
+    const rows = disciplinesQuery.data.map((discipline) => {
+      return {
+        id: discipline.uuid,
+        name: discipline.name,
+        description: discipline.description,
+        schedule: discipline.schedule
+          .map((day) => {
+            return day.label
+          })
+          .join(`, `),
+      }
+    })
+
+    return { columns, rows }
+  }, [disciplinesQuery])
 
   const handleOpenDrawer = (): void => {
     setOpen(true)
@@ -124,26 +61,25 @@ const Disciplines = (): JSX.Element => {
     setOpen(false)
   }
 
-  const onSortEnd = (oldIndex: number, newIndex: number) => {
-    const newArray = arrayMoveImmutable(secondaryImages, oldIndex, newIndex)
-    const newMainImage = newArray[0] || null
-    setState({ ...state, secondaryImages: newArray, mainImage: newMainImage })
+  const onSortEnd = (oldIndex: number, newIndex: number): void => {
+    const newArray = arrayMoveImmutable(images, oldIndex, newIndex)
+    setState({ ...state, images: newArray })
   }
 
   const handleDeleteImage = (name: string): void => {
-    const newArray = secondaryImages.filter((image) => image.name !== name)
-    setState({ ...state, secondaryImages: newArray })
+    const newArray = images.filter((image) => image.name !== name)
+    setState({ ...state, images: newArray })
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { files } = event.target
 
-    if (secondaryImages !== null) {
-      const filesToUploadNames = secondaryImages.map((file) => file.name)
+    if (images !== null) {
+      const filesToUploadNames = images.map((file) => file.name)
       let newFiles = Array.from(files || [])
       newFiles = newFiles.filter((newFile) => !filesToUploadNames.includes(newFile.name))
-      const newArray = secondaryImages.concat(newFiles)
-      setState({ ...state, secondaryImages: newArray })
+      const newArray = images.concat(newFiles)
+      setState({ ...state, images: newArray })
     }
     event.target.value = ``
   }
@@ -156,6 +92,30 @@ const Disciplines = (): JSX.Element => {
   const handleTabChange = (_: React.SyntheticEvent, newValue: string): void => {
     setTabValue(newValue)
   }
+
+  const handleSubmit = (): void => {
+    const payload: Discipline = {
+      name,
+      description,
+      images,
+      schedule: schedule.filter((day) => day.isActive),
+    }
+
+    createDiscipline(payload)
+  }
+
+  const { mutate: createDiscipline, isPending: isCreatingDiscipline } = useMutation({
+    mutationFn: (payload: Discipline) => API.discipline.create(payload),
+    onSuccess: () => {
+      handleCloseDrawer()
+      enqueueSnackbar(`Disciplina creada correctamente`, { variant: `success` })
+      setState(initialState)
+    },
+    onError: (error) => {
+      console.error(error)
+      enqueueSnackbar(`Error al crear la disciplina`, { variant: `error` })
+    },
+  })
 
   return (
     <>
@@ -170,9 +130,9 @@ const Disciplines = (): JSX.Element => {
 
           {tabValue === `general` ? (
             <General
-              disciplineName={disciplineName}
-              disciplineDescription={disciplineDescription}
-              secondaryImages={secondaryImages}
+              name={name}
+              description={description}
+              images={images}
               onSortEnd={onSortEnd}
               handleDeleteImage={handleDeleteImage}
               handleChange={handleChange}
@@ -181,16 +141,39 @@ const Disciplines = (): JSX.Element => {
             />
           ) : null}
           {tabValue === `schedule` ? (
-            <Schedule disciplineSchedule={disciplineSchedule} setState={setState} />
+            <Schedule
+              schedule={schedule}
+              isCreatingDiscipline={isCreatingDiscipline}
+              setState={setState}
+              handleSubmit={handleSubmit}
+            />
           ) : null}
         </Grid>
       </Drawer>
       <Layout>
-        <Grid container gap={4}>
+        <Grid container gap={4} marginBottom={4}>
           <Typography variant="h4">Disciplinas</Typography>
           <Button variant="contained" color="primary" onClick={handleOpenDrawer}>
             Agregar disciplina
           </Button>
+        </Grid>
+        <Grid container>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 8,
+                },
+              },
+            }}
+            pageSizeOptions={[8]}
+            disableRowSelectionOnClick
+            localeText={{
+              noRowsLabel: `No hay disciplinas`,
+            }}
+          />
         </Grid>
       </Layout>
     </>

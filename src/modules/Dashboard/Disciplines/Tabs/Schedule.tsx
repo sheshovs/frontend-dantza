@@ -1,14 +1,22 @@
-import { Button, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import React, { useState } from 'react'
-import { DisciplineSchedule, InitialState } from '..'
 import Accordion from '@/common/components/Accordion'
+import { Discipline, DisciplineSchedule } from '@/common/types/discipline'
+import { LoadingButton } from '@mui/lab'
 
 interface ScheduleProps {
-  disciplineSchedule: DisciplineSchedule[]
-  setState: React.Dispatch<React.SetStateAction<InitialState>>
+  schedule: DisciplineSchedule[]
+  isCreatingDiscipline: boolean
+  setState: React.Dispatch<React.SetStateAction<Discipline>>
+  handleSubmit: () => void
 }
 
-const Schedule = ({ disciplineSchedule, setState }: ScheduleProps): JSX.Element => {
+const Schedule = ({
+  schedule,
+  isCreatingDiscipline,
+  setState,
+  handleSubmit,
+}: ScheduleProps): JSX.Element => {
   const [expanded, setExpanded] = useState<string>(``)
 
   const handleChange = (panel: string): void => {
@@ -16,11 +24,11 @@ const Schedule = ({ disciplineSchedule, setState }: ScheduleProps): JSX.Element 
   }
   return (
     <Grid container item xs gap={2} flexDirection="column">
-      {disciplineSchedule.map((schedule) => (
+      {schedule.map((scheduleItem) => (
         <Accordion
-          key={schedule.label}
-          schedule={schedule}
-          isExpanded={expanded === schedule.label}
+          key={scheduleItem.label}
+          schedule={scheduleItem}
+          isExpanded={expanded === scheduleItem.label}
           handleChange={handleChange}
           setExpanded={setExpanded}
           setState={setState}
@@ -28,9 +36,14 @@ const Schedule = ({ disciplineSchedule, setState }: ScheduleProps): JSX.Element 
       ))}
 
       <Grid container item xs justifyContent="flex-end">
-        <Button variant="contained" color="primary">
+        <LoadingButton
+          loading={isCreatingDiscipline}
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+        >
           Crear disciplina
-        </Button>
+        </LoadingButton>
       </Grid>
     </Grid>
   )
