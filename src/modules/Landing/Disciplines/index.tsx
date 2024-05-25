@@ -1,30 +1,30 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material'
 import Container from '../../../common/components/Container'
-
-const disciplinesLabels = [
-  `Lorem`,
-  `Ipsum`,
-  `Dolor`,
-  `Sit`,
-  `Amet`,
-  `Consectetur`,
-  `Adipisicing`,
-  `Elit`,
-  `Sunt`,
-  `Non`,
-  `Lorem`,
-  `Ipsum`,
-  `Dolor`,
-  `Sit`,
-  `Amet`,
-  `Consectetur`,
-  `Adipisicing`,
-  `Elit`,
-  `Sunt`,
-  `Non`,
-]
+import { useDisciplineQuery } from '@/common/querys/useDisciplineQuery'
+import { useMemo } from 'react'
 
 const Disciplines = (): JSX.Element => {
+  const { data: disciplinesQuery } = useDisciplineQuery()
+
+  const { disciplinesLinks, disciplines } = useMemo(() => {
+    if (!disciplinesQuery?.data) {
+      return { disciplinesLinks: [], disciplines: [] }
+    }
+
+    const disciplinesLinks = disciplinesQuery.data.map((discipline) => ({
+      name: discipline.name,
+      uuid: discipline.uuid,
+    }))
+
+    const disciplines = disciplinesQuery.data.slice(0, 4).map((discipline) => ({
+      uuid: discipline.uuid,
+      name: discipline.name,
+      images: discipline.images,
+    }))
+
+    return { disciplinesLinks, disciplines }
+  }, [disciplinesQuery])
+
   return (
     <Grid
       id="disciplines"
@@ -77,18 +77,18 @@ const Disciplines = (): JSX.Element => {
             gap={3}
             marginBottom={8}
           >
-            {disciplinesLabels.map((label, index) => {
-              if (index === disciplinesLabels.length - 1) {
+            {disciplinesLinks.map((discipline, index) => {
+              if (index === disciplinesLinks.length - 1) {
                 return (
-                  <Typography key={label} variant="body1" color="primary">
-                    {label}
+                  <Typography key={discipline.uuid} variant="body1" color="primary">
+                    {discipline.name}
                   </Typography>
                 )
               }
               return (
                 <>
-                  <Typography key={label} variant="body1" color="primary">
-                    {label}
+                  <Typography key={discipline.uuid} variant="body1" color="primary">
+                    {discipline.name}
                   </Typography>
                   <Box
                     sx={{
@@ -104,61 +104,39 @@ const Disciplines = (): JSX.Element => {
           </Grid>
           <Grid
             container
-            justifyContent={{ md: `space-between`, xs: `center` }}
-            gap={{ md: 0, xs: 5 }}
+            justifyContent={{ md: `flex-start`, xs: `center` }}
+            gap={{ md: 4, xs: 5 }}
           >
-            <Grid
-              container
-              item
-              width="fit-content"
-              flexDirection="column"
-              gap={{ md: 4, xs: 2 }}
-              marginBottom={{ md: 4, xs: 0 }}
-            >
-              <img src="https://placehold.co/220x350" alt="placeholder" />
-              <Typography variant="h5" fontWeight={700}>
-                Lorem
-              </Typography>
-            </Grid>
-            <Grid
-              container
-              item
-              width="fit-content"
-              flexDirection="column"
-              gap={{ md: 4, xs: 2 }}
-              marginBottom={{ md: 4, xs: 0 }}
-            >
-              <img src="https://placehold.co/220x350" alt="placeholder" />
-              <Typography variant="h5" fontWeight={700}>
-                Ipsum
-              </Typography>
-            </Grid>
-            <Grid
-              container
-              item
-              width="fit-content"
-              flexDirection="column"
-              gap={{ md: 4, xs: 2 }}
-              marginBottom={{ md: 4, xs: 0 }}
-            >
-              <img src="https://placehold.co/220x350" alt="placeholder" />
-              <Typography variant="h5" fontWeight={700}>
-                Dolor
-              </Typography>
-            </Grid>
-            <Grid
-              container
-              item
-              width="fit-content"
-              flexDirection="column"
-              gap={{ md: 4, xs: 2 }}
-              marginBottom={{ md: 4, xs: 0 }}
-            >
-              <img src="https://placehold.co/220x350" alt="placeholder" />
-              <Typography variant="h5" fontWeight={700}>
-                Sit
-              </Typography>
-            </Grid>
+            {disciplines.map((discipline) => {
+              const mainPicture = discipline.images.find((image) => image.isMain)
+              return (
+                <Grid
+                  key={discipline.uuid}
+                  container
+                  item
+                  width="fit-content"
+                  flexDirection="column"
+                  gap={{ md: 4, xs: 2 }}
+                  marginBottom={{ md: 4, xs: 0 }}
+                >
+                  <img
+                    src={mainPicture?.url}
+                    alt={`Foto de la disciplina ${discipline.name}`}
+                    width={220}
+                    height={350}
+                    style={{
+                      objectFit: `cover`,
+                      objectPosition: `center`,
+                      imageOrientation: `from-image`,
+                    }}
+                  />
+                  <Typography variant="h5" fontWeight={700}>
+                    {discipline.name}
+                  </Typography>
+                </Grid>
+              )
+            })}
+
             <Grid container item width="fit-content" marginBottom={{ md: 4, xs: 0 }}>
               <Button
                 variant="outlined"

@@ -1,17 +1,30 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material'
 import Container from '../../../common/components/Container'
 import Icon from '../../../common/components/Icon'
-
-const teachersNames = [
-  `Charlie Brown`,
-  `Jakub Fran`,
-  `Karl Hadwen`,
-  `Lee Robinson`,
-  `Maggie Appleton`,
-  `Monica Powell`,
-]
+import { useTeacherQuery } from '@/common/querys/useTeacherQuery'
+import { useMemo } from 'react'
 
 const Teachers = (): JSX.Element => {
+  const { data: teachersQuery } = useTeacherQuery()
+
+  const { teachersLinks, teachers } = useMemo(() => {
+    if (!teachersQuery?.data) {
+      return { teachersLinks: [], teachers: [] }
+    }
+
+    const teachersLinks = teachersQuery.data.map((teacher) => ({
+      name: teacher.name,
+      uuid: teacher.uuid,
+    }))
+
+    const teachers = teachersQuery.data.slice(0, 4).map((teacher) => ({
+      uuid: teacher.uuid,
+      name: teacher.name,
+      images: teacher.images,
+    }))
+
+    return { teachersLinks, teachers }
+  }, [teachersQuery])
   return (
     <Grid
       id="teachers"
@@ -64,18 +77,18 @@ const Teachers = (): JSX.Element => {
             gap={3}
             marginBottom={8}
           >
-            {teachersNames.map((name, index) => {
-              if (index === teachersNames.length - 1) {
+            {teachersLinks.map((teacher, index) => {
+              if (index === teachersLinks.length - 1) {
                 return (
-                  <Typography key={name} variant="body1" color="primary">
-                    {name}
+                  <Typography key={teacher.uuid} variant="body1" color="primary">
+                    {teacher.name}
                   </Typography>
                 )
               }
               return (
                 <>
-                  <Typography key={name} variant="body1" color="primary">
-                    {name}
+                  <Typography key={teacher.uuid} variant="body1" color="primary">
+                    {teacher.name}
                   </Typography>
                   <Box
                     sx={{
@@ -91,125 +104,54 @@ const Teachers = (): JSX.Element => {
           </Grid>
           <Grid
             container
-            justifyContent={{ md: `space-between`, xs: `center` }}
-            gap={{ md: 0, xs: 5 }}
+            justifyContent={{ md: `flex-start`, xs: `center` }}
+            gap={{ md: 4, xs: 5 }}
           >
-            <Grid
-              container
-              item
-              width="fit-content"
-              flexDirection="column"
-              gap={{ md: 4, xs: 2 }}
-              marginBottom={{ md: 4, xs: 0 }}
-            >
-              <img src="https://placehold.co/220x350" alt="placeholder" />
-              <Grid container flexDirection="column" gap={1}>
-                <Typography variant="h5" fontWeight={700}>
-                  Charlie Brown
-                </Typography>
-                <Grid container alignItems="center" gap={1}>
-                  <Divider
-                    sx={{
-                      width: `50px`,
-                      height: `2px`,
-                      backgroundColor: `primary.main`,
-                      borderRadius: `5px`,
+            {teachers.map((teacher) => {
+              const mainPicture = teacher.images.find((image) => image.isMain)
+              return (
+                <Grid
+                  key={teacher.uuid}
+                  container
+                  item
+                  width="fit-content"
+                  flexDirection="column"
+                  gap={{ md: 4, xs: 2 }}
+                  marginBottom={{ md: 4, xs: 0 }}
+                >
+                  <img
+                    src={mainPicture?.url}
+                    alt={`Foto de ${teacher.name}`}
+                    width={220}
+                    height={350}
+                    style={{
+                      objectFit: `cover`,
+                      objectPosition: `center`,
+                      imageOrientation: `from-image`,
                     }}
                   />
-                  <Typography variant="body1" color="primary">
-                    Saber más
-                  </Typography>
-                  <Icon icon="arrowForward" color="primary" />
+                  <Grid container flexDirection="column" gap={1}>
+                    <Typography variant="h5" fontWeight={700}>
+                      {teacher.name}
+                    </Typography>
+                    <Grid container alignItems="center" gap={1}>
+                      <Divider
+                        sx={{
+                          width: `50px`,
+                          height: `2px`,
+                          backgroundColor: `primary.main`,
+                          borderRadius: `5px`,
+                        }}
+                      />
+                      <Typography variant="body1" color="primary">
+                        Saber más
+                      </Typography>
+                      <Icon icon="arrowForward" color="primary" />
+                    </Grid>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              item
-              width="fit-content"
-              flexDirection="column"
-              gap={{ md: 4, xs: 2 }}
-              marginBottom={{ md: 4, xs: 0 }}
-            >
-              <img src="https://placehold.co/220x350" alt="placeholder" />
-              <Grid container flexDirection="column" gap={1}>
-                <Typography variant="h5" fontWeight={700}>
-                  Jakub Fran
-                </Typography>
-                <Grid container alignItems="center" gap={1}>
-                  <Divider
-                    sx={{
-                      width: `50px`,
-                      height: `2px`,
-                      backgroundColor: `primary.main`,
-                      borderRadius: `5px`,
-                    }}
-                  />
-                  <Typography variant="body1" color="primary">
-                    Saber más
-                  </Typography>
-                  <Icon icon="arrowForward" color="primary" />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              item
-              width="fit-content"
-              flexDirection="column"
-              gap={{ md: 4, xs: 2 }}
-              marginBottom={{ md: 4, xs: 0 }}
-            >
-              <img src="https://placehold.co/220x350" alt="placeholder" />
-              <Grid container flexDirection="column" gap={1}>
-                <Typography variant="h5" fontWeight={700}>
-                  Karl Hadwen
-                </Typography>
-                <Grid container alignItems="center" gap={1}>
-                  <Divider
-                    sx={{
-                      width: `50px`,
-                      height: `2px`,
-                      backgroundColor: `primary.main`,
-                      borderRadius: `5px`,
-                    }}
-                  />
-                  <Typography variant="body1" color="primary">
-                    Saber más
-                  </Typography>
-                  <Icon icon="arrowForward" color="primary" />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              item
-              width="fit-content"
-              flexDirection="column"
-              gap={{ md: 4, xs: 2 }}
-              marginBottom={{ md: 4, xs: 0 }}
-            >
-              <img src="https://placehold.co/220x350" alt="placeholder" />
-              <Grid container flexDirection="column" gap={1}>
-                <Typography variant="h5" fontWeight={700}>
-                  Lee Robinson
-                </Typography>
-                <Grid container alignItems="center" gap={1}>
-                  <Divider
-                    sx={{
-                      width: `50px`,
-                      height: `2px`,
-                      backgroundColor: `primary.main`,
-                      borderRadius: `5px`,
-                    }}
-                  />
-                  <Typography variant="body1" color="primary">
-                    Saber más
-                  </Typography>
-                  <Icon icon="arrowForward" color="primary" />
-                </Grid>
-              </Grid>
-            </Grid>
+              )
+            })}
             <Grid container item width="fit-content" marginBottom={{ md: 4, xs: 0 }}>
               <Button
                 variant="outlined"

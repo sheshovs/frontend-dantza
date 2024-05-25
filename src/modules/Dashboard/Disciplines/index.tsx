@@ -173,6 +173,9 @@ const Disciplines = (): JSX.Element => {
             localeText={{
               noRowsLabel: `No hay disciplinas`,
             }}
+            sx={{
+              minHeight: `500px`,
+            }}
           />
         </Grid>
       </Layout>

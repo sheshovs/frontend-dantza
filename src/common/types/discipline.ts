@@ -1,3 +1,5 @@
+import { Image } from './image'
+
 export interface DisciplineSchedule {
   label: string
   isActive: boolean
@@ -15,8 +17,9 @@ export interface Discipline {
   schedule: DisciplineSchedule[]
 }
 
-export interface DisciplineReturn extends Discipline {
+export interface DisciplineReturn extends Omit<Discipline, `images`> {
   uuid: string
+  images: Image[]
 }
 
 export const weekDays: DisciplineSchedule[] = [
