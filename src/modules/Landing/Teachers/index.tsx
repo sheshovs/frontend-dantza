@@ -128,10 +128,11 @@ const Teachers = (): JSX.Element => {
                       objectFit: `cover`,
                       objectPosition: `center`,
                       imageOrientation: `from-image`,
+                      borderRadius: `4px`,
                     }}
                   />
                   <Grid container flexDirection="column" gap={1}>
-                    <Typography variant="h5" fontWeight={700}>
+                    <Typography variant="h6" fontWeight={700}>
                       {teacher.name}
                     </Typography>
                     <Grid container alignItems="center" gap={1}>

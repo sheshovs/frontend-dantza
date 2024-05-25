@@ -128,6 +128,7 @@ const Disciplines = (): JSX.Element => {
                       objectFit: `cover`,
                       objectPosition: `center`,
                       imageOrientation: `from-image`,
+                      borderRadius: `4px`,
                     }}
                   />
                   <Typography variant="h5" fontWeight={700}>
