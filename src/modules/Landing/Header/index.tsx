@@ -1,4 +1,4 @@
-import { Button, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Button, Grid, Link, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { HEADER_BG } from '../../../assets'
 import Icon from '../../../common/components/Icon'
 import Container from '../../../common/components/Container'
@@ -119,18 +119,20 @@ const Header = (): JSX.Element => {
                 </Typography>
               </Grid>
               <Grid container item xs={12} justifyContent="flex-end">
-                <Button
-                  fullWidth={widthAboveLg ? false : true}
-                  variant="contained"
-                  color="primary"
-                  endIcon={<Icon icon="arrowRight" />}
-                  sx={{
-                    paddingY: widthAboveLg ? 2.5 : 1.5,
-                    paddingX: widthAboveLg ? 4 : 1,
-                  }}
-                >
-                  Explorar disciplinas
-                </Button>
+                <Link href="#disciplines" underline="none">
+                  <Button
+                    fullWidth={widthAboveLg ? false : true}
+                    variant="contained"
+                    color="primary"
+                    endIcon={<Icon icon="arrowRight" />}
+                    sx={{
+                      paddingY: widthAboveLg ? 2.5 : 1.5,
+                      paddingX: widthAboveLg ? 4 : 1,
+                    }}
+                  >
+                    Explorar disciplinas
+                  </Button>
+                </Link>
               </Grid>
             </Grid>
           </animated.div>
