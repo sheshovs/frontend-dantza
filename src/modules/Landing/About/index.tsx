@@ -1,5 +1,6 @@
 import { Divider, Grid, List, Typography } from '@mui/material'
 import Container from '../../../common/components/Container'
+import { ABOUT_IMG } from '@/assets'
 
 const About = (): JSX.Element => {
   return (
@@ -22,94 +23,98 @@ const About = (): JSX.Element => {
         <Grid container gap={8} minHeight="60vh">
           <Grid container item xs={12} md={4} flexDirection="column" justifyContent="space-between">
             <Typography variant="h3" textTransform="uppercase" marginBottom={4}>
-              Lorem ipsum dolor sit amet
+              Acerca de Dantza Estudio
             </Typography>
-            <img src="https://placehold.co/400x250" alt="placeholder" width="100%" />
+            <img
+              src={ABOUT_IMG}
+              alt={`Foto de Danitza González, directora de Dantza Estudio`}
+              width="100%"
+              style={{
+                objectFit: `cover`,
+                objectPosition: `center`,
+                imageOrientation: `from-image`,
+                borderRadius: `4px`,
+                boxShadow: `5px 5px 5px 0px rgba(0,0,0,0.3)`,
+              }}
+            />
           </Grid>
-          <Grid container item xs flexDirection="column">
-            <Grid container alignItems="center" gap={3} marginBottom={2}>
-              <Divider
-                sx={{
-                  width: `50px`,
-                  height: `2px`,
-                  backgroundColor: `common.black`,
-                  borderRadius: `5px`,
-                }}
-              />
-              <Typography variant="h4">Lorem ipsum dolor sit</Typography>
+          <Grid container item xs flexDirection="column" gap={3}>
+            <Grid container gap={1}>
+              <Grid container alignItems="center" gap={3}>
+                <Divider
+                  sx={{
+                    width: `50px`,
+                    height: `2px`,
+                    backgroundColor: `common.black`,
+                    borderRadius: `5px`,
+                  }}
+                />
+                <Typography variant="h4">Nuestra historia</Typography>
+              </Grid>
+              <Grid item paddingLeft={2}>
+                <Typography variant="body1">
+                  El Estudio Dantza llega a concretar y proyectar en cierta medida una vida ligada
+                  al arte y el gusto por cultivar los sueños, que cualquier persona pueda tener, de
+                  expresar lo que siente. De este modo, <b>Danitza González</b>, la directora del
+                  estudio, el año 2020 decide iniciar un proyecto que tuvo sus primeras experiencias
+                  de clases de danza de manera online; para luego volver a su casa, la cual cobijó
+                  sus sueños de niña, y comenzar a darle vida a este espacio que intenta canalizar
+                  de forma amorosa los deseos artísticos de quienes lo integran.
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item paddingLeft={2}>
-              <List
-                sx={{
-                  listStyle: `initial`,
-                }}
-              >
-                <li
-                  style={{
-                    marginBottom: `16px`,
+            <Grid container gap={1}>
+              <Grid container alignItems="center" gap={3}>
+                <Divider
+                  sx={{
+                    width: `50px`,
+                    height: `2px`,
+                    backgroundColor: `common.black`,
+                    borderRadius: `5px`,
+                  }}
+                />
+                <Typography variant="h4">Nuestros desafios</Typography>
+              </Grid>
+              <Grid item paddingLeft={2}>
+                <List
+                  sx={{
+                    listStyle: `initial`,
+                    gap: `16px`,
+                    display: `flex`,
+                    flexDirection: `column`,
                   }}
                 >
-                  Lorem ipsum dolor sit amet consectetur.
-                </li>
-                <li
-                  style={{
-                    marginBottom: `16px`,
+                  <li>Nos comprometemos a ofrecer una educación artística de excelencia.</li>
+                  <li>Queremos llegar a la mayor variedad de personas posible.</li>
+                  <li>Contamos con un equipo altamente capacitado de profesionales.</li>
+                  <li>Ofrecemos una amplia gama de disciplinas artísticas.</li>
+                  <li>Promovemos el respeto por el cuerpo y sus diferentes movimientos.</li>
+                  <li>
+                    Ayudamos a que cada miembro de nuestra comunidad pueda expresar sus deseos
+                    artísticos.
+                  </li>
+                </List>
+              </Grid>
+            </Grid>
+            <Grid container gap={1}>
+              <Grid container alignItems="center" gap={3}>
+                <Divider
+                  sx={{
+                    width: `50px`,
+                    height: `2px`,
+                    backgroundColor: `common.black`,
+                    borderRadius: `5px`,
                   }}
-                >
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque minus corporis
-                  autem praesentium eligendi?
-                </li>
-                <li
-                  style={{
-                    marginBottom: `16px`,
-                  }}
-                >
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, non?
-                </li>
-                <li
-                  style={{
-                    marginBottom: `16px`,
-                  }}
-                >
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestias doloremque
-                  deleniti debitis.
-                </li>
-                <li
-                  style={{
-                    marginBottom: `16px`,
-                  }}
-                >
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                </li>
-                <li
-                  style={{
-                    marginBottom: `16px`,
-                  }}
-                >
-                  Lorem ipsum dolor sit amet.
-                </li>
-                <li
-                  style={{
-                    marginBottom: `16px`,
-                  }}
-                >
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, eaque!
-                </li>
-                <li
-                  style={{
-                    marginBottom: `16px`,
-                  }}
-                >
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                </li>
-                <li
-                  style={{
-                    marginBottom: `16px`,
-                  }}
-                >
-                  Lorem ipsum dolor sit amet, consectetur adipisicing.
-                </li>
-              </List>
+                />
+                <Typography variant="h4">Nuestros sueños</Typography>
+              </Grid>
+              <Grid item paddingLeft={2}>
+                <Typography variant="body1">
+                  Ser un estudio de danzas y otras artes pionero en potenciar el desarrollo
+                  artístico y humano de quienes lo integran, aportando de forma amorosa y respetuosa
+                  la autorrealización personal y colectiva a través de las artes.
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

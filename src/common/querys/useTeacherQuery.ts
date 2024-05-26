@@ -8,3 +8,12 @@ export const useTeacherQuery = (): UseQueryResult<{ data: TeacherReturn[] }, unk
     queryKey: API_QUERY_KEYS.allTeachers,
     queryFn: API.teacher.getAll,
   })
+
+export const useTeacherByIdQuery = (
+  teacherId: string,
+): UseQueryResult<{ data: TeacherReturn }, unknown> =>
+  useQuery({
+    queryKey: API_QUERY_KEYS.teacher(teacherId),
+    queryFn: () => API.teacher.getById(teacherId),
+    enabled: !!teacherId,
+  })

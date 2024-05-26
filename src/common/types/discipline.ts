@@ -1,4 +1,5 @@
 import { Image } from './image'
+import { TeacherReturn } from './teacher'
 
 export interface DisciplineSchedule {
   label: string
@@ -20,6 +21,10 @@ export interface Discipline {
 export interface DisciplineReturn extends Omit<Discipline, `images`> {
   uuid: string
   images: Image[]
+}
+
+export interface DisciplineOneReturn extends DisciplineReturn {
+  teachers: TeacherReturn[]
 }
 
 export const weekDays: DisciplineSchedule[] = [

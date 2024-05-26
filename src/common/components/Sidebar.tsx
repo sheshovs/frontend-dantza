@@ -84,15 +84,27 @@ const Sidebar = ({ isActive }: { isActive: string }): JSX.Element => {
         </Grid>
 
         <Grid container item flexDirection="column" gap={2}>
-          <animated.span style={{ ...iconStyles, transition: `color 0.3s`, cursor: `pointer` }}>
+          <animated.a
+            style={{ ...iconStyles, transition: `color 0.3s`, cursor: `pointer` }}
+            href="https://www.instagram.com/dantzaestudio"
+            target="_blank"
+          >
             <FaInstagram size={20} />
-          </animated.span>
-          <animated.span style={{ ...iconStyles, transition: `color 0.3s`, cursor: `pointer` }}>
+          </animated.a>
+          <animated.a
+            style={{ ...iconStyles, transition: `color 0.3s`, cursor: `pointer` }}
+            href="https://wa.me/56979640980"
+            target="_blank"
+          >
             <FaWhatsapp size={20} />
-          </animated.span>
-          <animated.span style={{ ...iconStyles, transition: `color 0.3s`, cursor: `pointer` }}>
+          </animated.a>
+          <animated.a
+            style={{ ...iconStyles, transition: `color 0.3s`, cursor: `pointer` }}
+            href="https://web.facebook.com/profile.php?id=100065174723983"
+            target="_blank"
+          >
             <FaFacebookF size={20} />
-          </animated.span>
+          </animated.a>
         </Grid>
       </Grid>
     </animated.div>

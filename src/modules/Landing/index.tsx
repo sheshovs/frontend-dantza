@@ -1,5 +1,5 @@
 import { Grid, useMediaQuery, useTheme } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Navbar from '../../common/components/Navbar'
 import Sidebar from '../../common/components/Sidebar'
 import Header from './Header'
@@ -8,6 +8,7 @@ import Disciplines from './Disciplines'
 import UpcomingEvents from './UpcomingEvents'
 import Teachers from './Teachers'
 import Footer from './Footer'
+import { useDisciplineQuery } from '@/common/querys/useDisciplineQuery'
 
 interface ScrollState {
   isActive: string
@@ -19,11 +20,28 @@ const initialScrollState = {
   offset: 0,
 }
 
-function Landing() {
+function Landing(): JSX.Element {
   const { breakpoints } = useTheme()
   const widthAboveLg = useMediaQuery(breakpoints.up(900))
   const [scrollState, setScrollState] = useState<ScrollState>(initialScrollState)
   const { isActive, offset } = scrollState
+
+  const { data: disciplinesQuery } = useDisciplineQuery()
+
+  const { disciplinesLinks, disciplines } = useMemo(() => {
+    if (!disciplinesQuery?.data) {
+      return { disciplinesLinks: [], disciplines: [] }
+    }
+
+    const disciplinesLinks = disciplinesQuery.data.map((discipline) => ({
+      name: discipline.name,
+      uuid: discipline.uuid,
+    }))
+
+    const disciplines = disciplinesQuery.data
+
+    return { disciplinesLinks, disciplines }
+  }, [disciplinesQuery])
 
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -89,10 +107,10 @@ function Landing() {
       )}
       <Header />
       <About />
-      <Disciplines />
+      <Disciplines disciplinesLinks={disciplinesLinks} disciplines={disciplines} />
       <UpcomingEvents />
       <Teachers />
-      <Footer />
+      <Footer disciplinesLinks={disciplinesLinks} />
     </Grid>
   )
 }

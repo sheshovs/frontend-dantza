@@ -63,23 +63,21 @@ const Header = (): JSX.Element => {
               color="rgba(0,0,0,0)"
               fontWeight={700}
               sx={{
-                WebkitTextStroke: `0.2px white`,
-                fontFamily: `Poppins, sans-serif`,
+                WebkitTextStroke: `0.1px white`,
                 textTransform: `uppercase`,
               }}
             >
-              Lorem ipsum dolor sit amet consectetur
+              Explora tu Pasión Artística en Dantza
             </Typography>
             <Typography
               variant="h1"
               color="white"
               fontWeight={700}
               sx={{
-                fontFamily: `Poppins, sans-serif`,
                 textTransform: `uppercase`,
               }}
             >
-              adipisicing elit. Qui, amet.
+              Estudio: Arte, Sueños y Crecimiento
             </Typography>
           </animated.div>
           <animated.div
@@ -105,11 +103,11 @@ const Header = (): JSX.Element => {
               alignItems={widthAboveLg ? `flex-end` : `flex-start`}
             >
               <Grid>
-                <Typography variant="body1" color="white">
-                  +569 8765 4321
+                <Typography variant={widthAboveLg ? `h6` : `body1`} color="white">
+                  +569 7964 0980
                 </Typography>
-                <Typography variant="body2" color="primary.light">
-                  Lorem ipsum
+                <Typography variant={widthAboveLg ? `h6` : `body1`} color="primary.light">
+                  Contáctanos
                 </Typography>
               </Grid>
             </Grid>
@@ -117,7 +115,7 @@ const Header = (): JSX.Element => {
             <Grid container item justifyContent="flex-end" gap={widthAboveLg ? 5 : 2}>
               <Grid container item xs={widthAboveLg ? 6 : 12}>
                 <Typography variant="body1" color="white">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Descubre la pasión por el arte en cada movimiento
                 </Typography>
               </Grid>
               <Grid container item xs={12} justifyContent="flex-end">
@@ -128,10 +126,10 @@ const Header = (): JSX.Element => {
                   endIcon={<Icon icon="arrowRight" />}
                   sx={{
                     paddingY: widthAboveLg ? 2.5 : 1.5,
-                    paddingX: widthAboveLg ? 6 : 2,
+                    paddingX: widthAboveLg ? 4 : 1,
                   }}
                 >
-                  Lorem ipsum
+                  Explorar disciplinas
                 </Button>
               </Grid>
             </Grid>

@@ -1,31 +1,12 @@
-import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Grid, Link, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { FaInstagram, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
 import { LOGO_COLOR } from '../../../assets'
 
-const disciplinesLabels = [
-  `Lorem`,
-  `Ipsum`,
-  `Dolor`,
-  `Sit`,
-  `Amet`,
-  `Consectetur`,
-  `Adipisicing`,
-  `Elit`,
-  `Sunt`,
-  `Non`,
-  `Lorem`,
-  `Ipsum`,
-  `Dolor`,
-  `Sit`,
-  `Amet`,
-  `Consectetur`,
-  `Adipisicing`,
-  `Elit`,
-  `Sunt`,
-  `Non`,
-]
+interface FooterProps {
+  disciplinesLinks: { name: string; uuid: string }[]
+}
 
-const Footer = (): JSX.Element => {
+const Footer = ({ disciplinesLinks }: FooterProps): JSX.Element => {
   const { breakpoints } = useTheme()
   const widthAboveLg = useMediaQuery(breakpoints.up(900))
   return (
@@ -83,9 +64,9 @@ const Footer = (): JSX.Element => {
               }
           }
         >
-          {disciplinesLabels.map((label, index) => (
-            <Typography key={index} variant="body1" color="primary">
-              {label}
+          {disciplinesLinks.map((discipline) => (
+            <Typography key={discipline.uuid} variant="body1" color="primary">
+              {discipline.name}
             </Typography>
           ))}
         </Grid>
@@ -104,19 +85,24 @@ const Footer = (): JSX.Element => {
             alignItems={{ xs: `center`, md: `flex-start` }}
           >
             <Typography variant="body1" sx={{ color: `white` }}>
-              Lorem ipsum dolor sit amet
+              +569 7964 0980
+            </Typography>
+            <Typography
+              component="a"
+              variant="body1"
+              sx={{
+                textDecoration: `none`,
+                color: `primary.main`,
+                '&:hover': {
+                  textDecoration: `underline`,
+                },
+              }}
+              href="mailto:contacto@dantzaestudio.com"
+            >
+              contacto@dantzaestudio.com
             </Typography>
             <Typography variant="body1" sx={{ color: `white` }}>
-              Lorem ipsum dolor sit amet
-            </Typography>
-            <Typography variant="body1" sx={{ color: `white` }}>
-              Lorem ipsum dolor sit amet
-            </Typography>
-            <Typography variant="body1" sx={{ color: `white` }}>
-              Lorem ipsum dolor sit amet
-            </Typography>
-            <Typography variant="body1" sx={{ color: `white` }}>
-              Lorem ipsum dolor sit amet
+              Ramón Liborio Carvallo N°5, San Bernardo
             </Typography>
           </Grid>
           <Grid
@@ -127,9 +113,42 @@ const Footer = (): JSX.Element => {
           >
             {widthAboveLg ? (
               <>
-                <FaInstagram size={20} />
-                <FaWhatsapp size={20} />
-                <FaFacebookF size={20} />
+                <Link
+                  href="https://www.instagram.com/dantzaestudio"
+                  target="_blank"
+                  sx={{
+                    color: `white`,
+                    '&:hover': {
+                      color: `#f5f5f5`,
+                    },
+                  }}
+                >
+                  <FaInstagram size={20} />
+                </Link>
+                <Link
+                  href="https://wa.me/56979640980"
+                  target="_blank"
+                  sx={{
+                    color: `white`,
+                    '&:hover': {
+                      color: `#f5f5f5`,
+                    },
+                  }}
+                >
+                  <FaWhatsapp size={20} />
+                </Link>
+                <Link
+                  href="https://web.facebook.com/profile.php?id=100065174723983"
+                  target="_blank"
+                  sx={{
+                    color: `white`,
+                    '&:hover': {
+                      color: `#f5f5f5`,
+                    },
+                  }}
+                >
+                  <FaFacebookF size={20} />
+                </Link>
               </>
             ) : (
               <>

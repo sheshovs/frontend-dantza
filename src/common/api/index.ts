@@ -1,5 +1,5 @@
 import { getAxiosInstance } from '@/config/axios'
-import { Teacher, Discipline, DisciplineReturn, TeacherReturn } from '../types'
+import { Teacher, Discipline, DisciplineReturn, TeacherReturn, DisciplineOneReturn } from '../types'
 
 const axiosInstance = getAxiosInstance(import.meta.env.VITE_BACKEND_URL)
 
@@ -25,6 +25,9 @@ const API = {
     getAll: (): Promise<{ data: DisciplineReturn[] }> => {
       return axiosInstance.get(`/discipline`)
     },
+    getById: (uuid: string): Promise<{ data: DisciplineOneReturn }> => {
+      return axiosInstance.get(`/discipline/${uuid}`)
+    },
   },
   teacher: {
     create: (data: Teacher) => {
@@ -42,6 +45,9 @@ const API = {
     },
     getAll: (): Promise<{ data: TeacherReturn[] }> => {
       return axiosInstance.get(`/teacher`)
+    },
+    getById: (uuid: string): Promise<{ data: TeacherReturn }> => {
+      return axiosInstance.get(`/teacher/${uuid}`)
     },
   },
 }

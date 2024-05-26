@@ -21,7 +21,7 @@ export const routes = [
   },
   {
     id: `teachers`,
-    label: `Profesores`,
+    label: `Profesoras`,
     route: `#teachers`,
   },
 ]
