@@ -1,6 +1,6 @@
+import { LOGO_WHITE } from '@/assets'
 import { Grid, Link, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { FaInstagram, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
-import { LOGO_COLOR } from '../../../assets'
 
 interface FooterProps {
   disciplinesLinks: { name: string; uuid: string }[]
@@ -35,7 +35,7 @@ const Footer = ({ disciplinesLinks }: FooterProps): JSX.Element => {
           alignItems={{ xs: `center`, md: `flex-start` }}
           flexDirection="column"
         >
-          <img src={LOGO_COLOR} width={130} height="auto" alt="Logo Dantza" />
+          <img src={LOGO_WHITE} width={130} height="auto" alt="Logo Dantza" />
 
           {widthAboveLg ? (
             <Grid container>
