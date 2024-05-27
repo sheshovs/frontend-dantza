@@ -1,3 +1,5 @@
 export * from './user'
 export * from './discipline'
 export * from './teacher'
+export * from './event'
+export * from './image'

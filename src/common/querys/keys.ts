@@ -5,6 +5,8 @@ export const API_QUERY_KEYS = {
   discipline: (uuid: string) => [`discipline`, uuid],
   allTeachers: [`allTeachers`],
   teacher: (uuid: string) => [`teacher`, uuid],
+  allEvents: [`allEvents`],
+  allNextEvents: [`allNextEvents`],
 }
 
 export type QueryOptions<T, V extends QueryKey = string[], K = T> = Omit<

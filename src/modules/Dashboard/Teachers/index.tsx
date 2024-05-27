@@ -81,21 +81,18 @@ const Teachers = (): JSX.Element => {
   const handleOpenDrawer = (): void => {
     setOpen(true)
   }
-
   const handleCloseDrawer = (): void => {
     setOpen(false)
+    setState(initialState)
   }
-
   const onSortEnd = (oldIndex: number, newIndex: number): void => {
     const newArray = arrayMoveImmutable(images, oldIndex, newIndex)
     setState({ ...state, images: newArray })
   }
-
   const handleDeleteImage = (name: string): void => {
     const newArray = images.filter((image) => image.name !== name)
     setState({ ...state, images: newArray })
   }
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { files } = event.target
 
@@ -108,12 +105,10 @@ const Teachers = (): JSX.Element => {
     }
     event.target.value = ``
   }
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target
     setState({ ...state, [name]: value })
   }
-
   const handleSubmit = (): void => {
     const payload: Teacher = {
       name,
@@ -124,20 +119,17 @@ const Teachers = (): JSX.Element => {
 
     createTeacher(payload)
   }
-
   const onMouseEnter = (name: string): void => {
     setIsHover(name)
   }
   const onMouseLeave = (): void => {
     setIsHover(``)
   }
-
   const { mutate: createTeacher, isPending: isCreatingTeacher } = useMutation({
     mutationFn: (payload: Teacher) => API.teacher.create(payload),
     onSuccess: () => {
       handleCloseDrawer()
       enqueueSnackbar(`Profesor creado correctamente`, { variant: `success` })
-      setState(initialState)
     },
     onError: (error) => {
       console.error(error)

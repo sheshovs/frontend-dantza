@@ -62,11 +62,23 @@ const typography = {
   h3: {
     lineHeight: 1.167,
     fontSize: pxToRem(48),
+    ...responsiveFontSizes({
+      xs: 30,
+      sm: 36,
+      md: 42,
+      lg: 48,
+    }),
   },
   h4: {
     lineHeight: 1.235,
     fontSize: pxToRem(34),
     letterSpacing: pxToRem(0.5),
+    ...responsiveFontSizes({
+      xs: 24,
+      sm: 28,
+      md: 32,
+      lg: 34,
+    }),
   },
   h5: {
     lineHeight: 1.334,

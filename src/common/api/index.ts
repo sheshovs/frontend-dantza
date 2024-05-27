@@ -1,5 +1,13 @@
 import { getAxiosInstance } from '@/config/axios'
-import { Teacher, Discipline, DisciplineReturn, TeacherReturn, DisciplineOneReturn } from '../types'
+import {
+  Teacher,
+  Discipline,
+  DisciplineReturn,
+  TeacherReturn,
+  DisciplineOneReturn,
+  Event,
+  EventReturn,
+} from '../types'
 
 const axiosInstance = getAxiosInstance(import.meta.env.VITE_BACKEND_URL)
 
@@ -48,6 +56,26 @@ const API = {
     },
     getById: (uuid: string): Promise<{ data: TeacherReturn }> => {
       return axiosInstance.get(`/teacher/${uuid}`)
+    },
+  },
+  event: {
+    create: (data: Event) => {
+      const formData = new FormData()
+      formData.append(`name`, data.name)
+      formData.append(`description`, data.description)
+      formData.append(`date`, data.date?.format(`YYYY-MM-DD HH:mm`) || ``)
+      formData.append(`location`, data.location)
+      data.images.forEach((image) => {
+        formData.append(`images`, image)
+      })
+
+      return axiosInstance.post(`/event`, formData)
+    },
+    getAll: (): Promise<{ data: EventReturn[] }> => {
+      return axiosInstance.get(`/event`)
+    },
+    getAllNext: (): Promise<{ data: EventReturn[] }> => {
+      return axiosInstance.get(`/event/next`)
     },
   },
 }

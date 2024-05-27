@@ -84,7 +84,11 @@ const Footer = ({ disciplinesLinks }: FooterProps): JSX.Element => {
             gap={{ xs: 2, md: 1 }}
             alignItems={{ xs: `center`, md: `flex-start` }}
           >
-            <Typography variant="body1" sx={{ color: `white` }}>
+            <Typography
+              variant="body1"
+              sx={{ color: `white` }}
+              textAlign={widthAboveLg ? `left` : `center`}
+            >
               +569 7964 0980
             </Typography>
             <Typography
@@ -98,10 +102,15 @@ const Footer = ({ disciplinesLinks }: FooterProps): JSX.Element => {
                 },
               }}
               href="mailto:contacto@dantzaestudio.com"
+              textAlign={widthAboveLg ? `left` : `center`}
             >
               contacto@dantzaestudio.com
             </Typography>
-            <Typography variant="body1" sx={{ color: `white` }}>
+            <Typography
+              variant="body1"
+              sx={{ color: `white` }}
+              textAlign={widthAboveLg ? `left` : `center`}
+            >
               Ramón Liborio Carvallo N°5, San Bernardo
             </Typography>
           </Grid>

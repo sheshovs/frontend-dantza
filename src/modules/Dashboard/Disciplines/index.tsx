@@ -59,6 +59,7 @@ const Disciplines = (): JSX.Element => {
 
   const handleCloseDrawer = (): void => {
     setOpen(false)
+    setState(initialState)
   }
 
   const onSortEnd = (oldIndex: number, newIndex: number): void => {
@@ -109,7 +110,6 @@ const Disciplines = (): JSX.Element => {
     onSuccess: () => {
       handleCloseDrawer()
       enqueueSnackbar(`Disciplina creada correctamente`, { variant: `success` })
-      setState(initialState)
     },
     onError: (error) => {
       console.error(error)

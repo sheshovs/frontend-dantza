@@ -3,30 +3,8 @@ import Container from '../../../common/components/Container'
 import { EVENT_BG } from '../../../assets'
 import Countdown, { zeroPad } from 'react-countdown'
 import dayjs from 'dayjs'
-
-const upcomingEventsMock = [
-  {
-    id: 1,
-    title: `Lorem ipsum dolor sit amet`,
-    date: `06/12/2024 10:00`,
-    location: `Lorem ipsum dolor sit amet`,
-    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore dolorum assumenda recusandae nobis accusantium modi unde pariatur aliquid fugiat repellendus.`,
-  },
-  {
-    id: 2,
-    title: `Lorem ipsum dolor sit amet`,
-    date: `07/23/2024 12:00`,
-    location: `Lorem ipsum dolor sit amet`,
-    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore dolorum assumenda recusandae nobis accusantium modi unde pariatur aliquid fugiat repellendus.`,
-  },
-  {
-    id: 3,
-    title: `Lorem ipsum dolor sit amet`,
-    date: `08/15/2024 16:00`,
-    location: `Lorem ipsum dolor sit amet`,
-    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore dolorum assumenda recusandae nobis accusantium modi unde pariatur aliquid fugiat repellendus.`,
-  },
-]
+import { useNextEventsQuery } from '@/common/querys/useEventQuery'
+import { useMemo } from 'react'
 
 const CountdownRendererLarge = ({ days, hours, minutes, seconds }: any): JSX.Element => {
   return (
@@ -242,6 +220,16 @@ const UpcomingEvents = (): JSX.Element => {
     breakpoints,
   } = useTheme()
   const widthAboveLg = useMediaQuery(breakpoints.up(900))
+  const { data: eventsQuery } = useNextEventsQuery()
+
+  const nextEvents = useMemo(() => {
+    if (!eventsQuery?.data) {
+      return []
+    }
+
+    return eventsQuery.data
+  }, [eventsQuery])
+
   return (
     <Grid
       id="upcoming-events"
@@ -279,47 +267,77 @@ const UpcomingEvents = (): JSX.Element => {
               Próximos eventos
             </Typography>
           </Grid>
-          <Grid container gap={8}>
-            {upcomingEventsMock.map((event) => (
-              <Grid
-                container
-                item
-                xs={12}
-                gap={4}
-                key={event.id}
-                paddingY={3}
-                paddingLeft={{ md: 4, xs: 3 }}
-                paddingRight={{ md: 8, xs: 3 }}
-                sx={{
-                  backgroundColor: `rgba(0,0,0,0.6)`,
-                  border: `1px solid rgba(255,255,255,0.4)`,
-                  borderRadius: 4,
-                }}
-              >
-                <Grid container item xs gap={2}>
-                  <Grid item>
-                    <Typography variant="h4" color="common.white">
-                      {event.title}
-                    </Typography>
-                    <Typography variant="body1" color={`${common.white}99`}>
-                      {event.location} - {dayjs(event.date).format(`DD/MM/YYYY HH:mm`)}
-                    </Typography>
+          {nextEvents.length > 0 ? (
+            <Grid container gap={8}>
+              {nextEvents.slice(0, 3).map((event) => (
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  gap={4}
+                  key={event.uuid}
+                  paddingY={3}
+                  paddingLeft={{ md: 4, xs: 3 }}
+                  paddingRight={{ md: 8, xs: 3 }}
+                  sx={{
+                    backgroundColor: `rgba(0,0,0,0.6)`,
+                    border: `1px solid rgba(255,255,255,0.4)`,
+                    borderRadius: 4,
+                  }}
+                >
+                  <Grid container item xs gap={2}>
+                    <Grid item>
+                      <Typography variant="h4" color="common.white" marginBottom={0.5}>
+                        {event.name}
+                      </Typography>
+                      <Typography variant="body1" color={`${common.white}99`}>
+                        {event.location} - {dayjs(event.date).format(`DD/MM/YYYY HH:mm`)}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={11}>
+                      <Typography variant="body1" color={`${common.white}99`}>
+                        {event.description}
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12} md={11}>
-                    <Typography variant="body1" color={`${common.white}99`}>
-                      {event.description}
-                    </Typography>
+                  <Grid container item xs={12} md={5} color="common.white">
+                    <Countdown
+                      date={dayjs(event.date).toDate()}
+                      renderer={widthAboveLg ? CountdownRendererLarge : CountdownRendererSmall}
+                    />
                   </Grid>
                 </Grid>
-                <Grid container item xs={12} md={5} color="common.white">
-                  <Countdown
-                    date={dayjs(event.date).toDate()}
-                    renderer={widthAboveLg ? CountdownRendererLarge : CountdownRendererSmall}
+              ))}
+            </Grid>
+          ) : (
+            <Grid container gap={8}>
+              <Grid container item xs flexDirection="column" gap={2}>
+                <Typography variant="h4" color="common.white">
+                  No hay eventos próximos
+                </Typography>
+                <Typography variant="body1" color={`${common.white}CC`}>
+                  Actualmente no tenemos eventos programados, pero estamos trabajando en nuevas y
+                  emocionantes actividades para ti. ¡Mantente atento a nuestras actualizaciones y no
+                  te pierdas la oportunidad de ser parte de nuestros futuros eventos! Síguenos en
+                  nuestras redes sociales para ser el primero en enterarte de todas las novedades y
+                  oportunidades para explorar tu pasión artística con Estudio Dantza.
+                </Typography>
+              </Grid>
+              <Grid container item xs>
+                <Grid width="500px" height="auto" justifyContent="center" alignItems="center">
+                  <img
+                    src={EVENT_BG}
+                    style={{
+                      width: `100%`,
+                      height: `auto`,
+                      borderRadius: 4,
+                      boxShadow: `0px 0px 15px 0px rgba(255,255,255,0.4)`,
+                    }}
                   />
                 </Grid>
               </Grid>
-            ))}
-          </Grid>
+            </Grid>
+          )}
         </Grid>
       </Container>
     </Grid>

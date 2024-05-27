@@ -119,7 +119,13 @@ const Header = (): JSX.Element => {
                 </Typography>
               </Grid>
               <Grid container item xs={12} justifyContent="flex-end">
-                <Link href="#disciplines" underline="none">
+                <Link
+                  href="#disciplines"
+                  underline="none"
+                  sx={{
+                    width: widthAboveLg ? `fit-content` : `100%`,
+                  }}
+                >
                   <Button
                     fullWidth={widthAboveLg ? false : true}
                     variant="contained"

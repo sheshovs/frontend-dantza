@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Typography } from '@mui/material'
+import { Box, Button, Divider, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import Container from '../../../common/components/Container'
 import { useTeacherByIdQuery, useTeacherQuery } from '@/common/querys/useTeacherQuery'
 import { useMemo, useState } from 'react'
@@ -6,6 +6,8 @@ import DrawerTeachers from './components/DrawerTeacher'
 import CardTeacher from './components/CardTeacher'
 
 const Teachers = (): JSX.Element => {
+  const { breakpoints } = useTheme()
+  const widthAboveLg = useMediaQuery(breakpoints.up(900))
   const [openAllTeachers, setOpenAllTeachers] = useState(false)
   const [selectedTeacherId, setSelectedTeacherId] = useState<string | undefined>(undefined)
   const { data: teachersQuery } = useTeacherQuery()
@@ -84,22 +86,19 @@ const Teachers = (): JSX.Element => {
 
               <Grid container item xs={12} md={7} flexDirection="column">
                 <Grid container alignItems="center" gap={3} marginBottom={2}>
-                  <Grid container item width="fit-content">
-                    <Divider
-                      sx={{
-                        width: `50px`,
-                        height: `2px`,
-                        backgroundColor: `common.black`,
-                        borderRadius: `5px`,
-                      }}
-                    />
-                  </Grid>
-                  <Grid container item xs>
-                    <Typography variant="h4">Conoce a nuestro equipo de profesionales</Typography>
-                  </Grid>
+                  <Divider
+                    sx={{
+                      width: `50px`,
+                      height: `2px`,
+                      backgroundColor: `common.black`,
+                      borderRadius: `5px`,
+                    }}
+                  />
+
+                  <Typography variant="h4">Conoce a nuestro equipo de profesionales</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="body1" paddingLeft={2}>
+                  <Typography variant="body1" paddingLeft={widthAboveLg ? 2 : 0}>
                     Nuestras profesoras son profesionales en el ámbito de la danza, con años de
                     experiencia y formación en distintas disciplinas. Conócelas y descubre todo lo
                     que pueden ofrecerte.

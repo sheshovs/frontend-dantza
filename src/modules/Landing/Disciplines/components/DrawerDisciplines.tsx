@@ -7,6 +7,7 @@ import {
   ImageListItem,
   Modal,
   Typography,
+  useMediaQuery,
   useTheme,
 } from '@mui/material'
 import CardDiscipline from './CardDiscipline'
@@ -33,7 +34,9 @@ const DrawerDisciplines = ({
 }: DrawerDisciplinesProps): JSX.Element => {
   const {
     palette: { primary, common },
+    breakpoints,
   } = useTheme()
+  const widthAboveLg = useMediaQuery(breakpoints.up(900))
   const [selectedPhotoIndex, setSelectedIndexPhoto] = useState(0)
   const [openModal, setOpenModal] = useState(false)
 
@@ -51,7 +54,7 @@ const DrawerDisciplines = ({
       anchor="right"
       sx={{
         '& .MuiDrawer-paper': {
-          width: `97%`,
+          width: widthAboveLg ? `97%` : `100%`,
         },
       }}
     >
@@ -121,7 +124,11 @@ const DrawerDisciplines = ({
               Volver
             </Button>
           </Grid>
-          <Grid container gap={10}>
+          <Grid
+            container
+            flexDirection={widthAboveLg ? `row` : `column`}
+            gap={widthAboveLg ? 10 : 2}
+          >
             <Grid container item xs gap={4}>
               <Grid container gap={2}>
                 <Typography variant="h4">{discipline.name}</Typography>
@@ -130,7 +137,11 @@ const DrawerDisciplines = ({
 
               <Grid container flexDirection="column" gap={2}>
                 <Typography variant="h4">Fotos</Typography>
-                <ImageList sx={{ width: `100%`, height: 200 }} cols={6} rowHeight={200}>
+                <ImageList
+                  sx={{ width: `100%`, height: 200 }}
+                  cols={widthAboveLg ? 6 : 2}
+                  rowHeight={200}
+                >
                   {discipline.images.map((item, index) => (
                     <ImageListItem key={item.uuid}>
                       <img
@@ -164,7 +175,7 @@ const DrawerDisciplines = ({
                 </Grid>
               ) : null}
             </Grid>
-            <Grid container item xs={4} flexDirection="column">
+            <Grid container item xs md={4} flexDirection="column">
               <Grid container gap={2}>
                 <Typography variant="h5">Horario</Typography>
                 <Grid container gap={2}>
@@ -206,7 +217,7 @@ const DrawerDisciplines = ({
         <Grid container padding={6} gap={4}>
           <Typography variant="h4">Todas las disciplinas</Typography>
 
-          <Grid container gap={3}>
+          <Grid container gap={3} justifyContent={widthAboveLg ? `flex-start` : `center`}>
             {disciplines.map((discipline) => (
               <CardDiscipline
                 key={discipline.uuid}
