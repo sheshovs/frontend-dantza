@@ -34,7 +34,7 @@ const Schedule = ({
   }
 
   const handleChangeCategory =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
       setExpandedCategory(isExpanded ? panel : false)
     }
 
