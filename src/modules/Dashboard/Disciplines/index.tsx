@@ -113,11 +113,17 @@ const Disciplines = (): JSX.Element => {
   }
 
   const handleSubmit = (): void => {
+    const scheduleFiltered: Record<string, DisciplineSchedule[]> = {}
+
+    Object.keys(categorySchedule).forEach((category) => {
+      scheduleFiltered[category] = categorySchedule[category].filter((day) => day.isActive)
+    })
+
     const payload: Discipline = {
       name,
       description,
       images,
-      categorySchedule,
+      categorySchedule: scheduleFiltered,
     }
     createDiscipline(payload)
   }
