@@ -1,5 +1,14 @@
 import Icon from '@/common/components/Icon'
-import { Alert, Box, Button, Grid, IconButton, TextField, Typography } from '@mui/material'
+import {
+  Alert,
+  Autocomplete,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  TextField,
+  Typography,
+} from '@mui/material'
 import React, { useState } from 'react'
 import SortableList, { SortableItem } from 'react-easy-sort'
 
@@ -7,22 +16,26 @@ interface GeneralProps {
   name: string
   description: string
   images: File[]
+  categories: string[]
   setTabValue: (value: string) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   onSortEnd: (oldIndex: number, newIndex: number) => void
   handleDeleteImage: (name: string) => void
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handleCategoryChange: (values: string[]) => void
 }
 
 const General = ({
   name,
   description,
   images,
+  categories,
   setTabValue,
   handleInputChange,
   onSortEnd,
   handleDeleteImage,
   handleChange,
+  handleCategoryChange,
 }: GeneralProps): JSX.Element => {
   const [isHover, setIsHover] = useState(``)
 
@@ -55,6 +68,43 @@ const General = ({
             name="description"
             value={description}
             onChange={handleInputChange}
+          />
+        </Grid>
+      </Grid>
+
+      <Grid container item xs gap={1}>
+        <Grid container item xs={12} alignItems="center" gap={0.5}>
+          <Typography variant="body1" width="fit-content">
+            Categorias
+          </Typography>
+          <Typography
+            variant="body2"
+            width="fit-content"
+            sx={{ color: `text.secondary`, fontSize: `13px !important` }}
+          >
+            (opcional)
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Autocomplete
+            multiple
+            options={[]}
+            freeSolo
+            value={categories}
+            onChange={(_, value) => {
+              handleCategoryChange(value)
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                sx={{
+                  '& .MuiAutocomplete-inputRoot': {
+                    paddingY: 0.5,
+                    paddingX: 1,
+                  },
+                }}
+              />
+            )}
           />
         </Grid>
       </Grid>

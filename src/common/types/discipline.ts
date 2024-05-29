@@ -4,7 +4,7 @@ import { TeacherReturn } from './teacher'
 export interface DisciplineSchedule {
   label: string
   isActive: boolean
-  schedule: {
+  daySchedule: {
     id: number
     start: string
     end: string
@@ -15,12 +15,17 @@ export interface Discipline {
   name: string
   images: File[]
   description: string
-  schedule: DisciplineSchedule[]
+  categorySchedule: Record<string, DisciplineSchedule[]>
 }
 
-export interface DisciplineReturn extends Omit<Discipline, `images`> {
+export interface DisciplineState extends Discipline {
+  categories: string[]
+}
+
+export interface DisciplineReturn extends Omit<Discipline, `images` | `categorySchedule`> {
   uuid: string
   images: Image[]
+  schedule: Record<string, DisciplineSchedule[]>
 }
 
 export interface DisciplineOneReturn extends DisciplineReturn {
@@ -31,7 +36,7 @@ export const weekDays: DisciplineSchedule[] = [
   {
     label: `Lunes`,
     isActive: false,
-    schedule: [
+    daySchedule: [
       {
         id: 1,
         start: ``,
@@ -42,7 +47,7 @@ export const weekDays: DisciplineSchedule[] = [
   {
     label: `Martes`,
     isActive: false,
-    schedule: [
+    daySchedule: [
       {
         id: 1,
         start: ``,
@@ -53,7 +58,7 @@ export const weekDays: DisciplineSchedule[] = [
   {
     label: `Miércoles`,
     isActive: false,
-    schedule: [
+    daySchedule: [
       {
         id: 1,
         start: ``,
@@ -64,7 +69,7 @@ export const weekDays: DisciplineSchedule[] = [
   {
     label: `Jueves`,
     isActive: false,
-    schedule: [
+    daySchedule: [
       {
         id: 1,
         start: ``,
@@ -75,7 +80,7 @@ export const weekDays: DisciplineSchedule[] = [
   {
     label: `Viernes`,
     isActive: false,
-    schedule: [
+    daySchedule: [
       {
         id: 1,
         start: ``,
@@ -86,7 +91,7 @@ export const weekDays: DisciplineSchedule[] = [
   {
     label: `Sábado`,
     isActive: false,
-    schedule: [
+    daySchedule: [
       {
         id: 1,
         start: ``,
@@ -97,7 +102,7 @@ export const weekDays: DisciplineSchedule[] = [
   {
     label: `Domingo`,
     isActive: false,
-    schedule: [
+    daySchedule: [
       {
         id: 1,
         start: ``,

@@ -1,39 +1,80 @@
-import { Grid } from '@mui/material'
+import {
+  AccordionDetails,
+  AccordionSummary,
+  Grid,
+  Accordion as MuiAccordion,
+  Typography,
+} from '@mui/material'
 import React, { useState } from 'react'
 import Accordion from '@/common/components/Accordion'
-import { Discipline, DisciplineSchedule } from '@/common/types/discipline'
+import { DisciplineSchedule, DisciplineState } from '@/common/types/discipline'
 import { LoadingButton } from '@mui/lab'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 interface ScheduleProps {
-  schedule: DisciplineSchedule[]
+  categorySchedule: Record<string, DisciplineSchedule[]>
+  categories: string[]
   isCreatingDiscipline: boolean
-  setState: React.Dispatch<React.SetStateAction<Discipline>>
+  setState: React.Dispatch<React.SetStateAction<DisciplineState>>
   handleSubmit: () => void
 }
 
 const Schedule = ({
-  schedule,
+  categorySchedule,
+  categories,
   isCreatingDiscipline,
   setState,
   handleSubmit,
 }: ScheduleProps): JSX.Element => {
   const [expanded, setExpanded] = useState<string>(``)
+  const [expandedCategory, setExpandedCategory] = useState<string | false>(``)
 
   const handleChange = (panel: string): void => {
     setExpanded(panel === expanded ? `` : panel)
   }
+
+  const handleChangeCategory =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpandedCategory(isExpanded ? panel : false)
+    }
+
   return (
     <Grid container item xs gap={2} flexDirection="column">
-      {schedule.map((scheduleItem) => (
-        <Accordion
-          key={scheduleItem.label}
-          schedule={scheduleItem}
-          isExpanded={expanded === scheduleItem.label}
-          handleChange={handleChange}
-          setExpanded={setExpanded}
-          setState={setState}
-        />
-      ))}
+      {categories.length === 0
+        ? categorySchedule[`General`].map((scheduleItem) => (
+          <Accordion
+            key={scheduleItem.label}
+            dayItem={scheduleItem}
+            isExpanded={expanded === scheduleItem.label}
+            handleChange={handleChange}
+            setExpanded={setExpanded}
+            setState={setState}
+          />
+        ))
+        : categories.map((category) => (
+          <MuiAccordion
+            key={category}
+            expanded={expandedCategory === category}
+            onChange={handleChangeCategory(category)}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">{category}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {categorySchedule[category].map((scheduleItem) => (
+                <Accordion
+                  key={scheduleItem.label}
+                  category={category}
+                  dayItem={scheduleItem}
+                  isExpanded={expanded === scheduleItem.label}
+                  handleChange={handleChange}
+                  setExpanded={setExpanded}
+                  setState={setState}
+                />
+              ))}
+            </AccordionDetails>
+          </MuiAccordion>
+        ))}
 
       <Grid container item xs justifyContent="flex-end">
         <LoadingButton

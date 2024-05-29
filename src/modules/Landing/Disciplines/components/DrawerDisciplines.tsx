@@ -13,7 +13,7 @@ import {
 import CardDiscipline from './CardDiscipline'
 import { DisciplineOneReturn, DisciplineReturn } from '@/common/types'
 import Icon from '@/common/components/Icon'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 interface DrawerDisciplinesProps {
   open: boolean
@@ -39,6 +39,14 @@ const DrawerDisciplines = ({
   const widthAboveLg = useMediaQuery(breakpoints.up(900))
   const [selectedPhotoIndex, setSelectedIndexPhoto] = useState(0)
   const [openModal, setOpenModal] = useState(false)
+
+  const disciplineCategories = useMemo(() => {
+    if (!discipline) {
+      return []
+    }
+
+    return Object.keys(discipline.schedule)
+  }, [discipline])
 
   useEffect(() => {
     setSelectedIndexPhoto(0)
@@ -177,35 +185,70 @@ const DrawerDisciplines = ({
             </Grid>
             <Grid container item xs md={4} flexDirection="column">
               <Grid container gap={2}>
-                <Typography variant="h5">Horario</Typography>
-                <Grid container gap={2}>
-                  {discipline.schedule.map((schedule) => (
+                <Typography variant="h5">Horario por categorias</Typography>
+                <Grid container gap={3} flexDirection="column">
+                  {disciplineCategories.map((category) => (
                     <Grid
-                      key={schedule.label}
                       container
-                      gap={1}
-                      flexDirection="column"
+                      key={category}
                       width="fit-content"
+                      sx={{
+                        border: `1px solid ${primary.light}66`,
+                        borderRadius: `4px`,
+                        position: `relative`,
+                      }}
                     >
-                      <Typography variant="body1">{schedule.label}</Typography>
-                      {schedule.schedule.map((hours) => (
-                        <Grid
-                          key={hours.id}
-                          container
-                          width="fit-content"
-                          paddingX={2}
-                          paddingY={1}
-                          sx={{
-                            backgroundColor: `${primary.light}33`,
-                            borderRadius: `4px`,
-                            gap: 1,
-                          }}
-                        >
-                          <Typography key={hours.id} variant="body2">
-                            {hours.start} - {hours.end}
-                          </Typography>
-                        </Grid>
-                      ))}
+                      <Typography
+                        variant="body1"
+                        fontWeight={700}
+                        sx={{
+                          position: `absolute`,
+                          top: -13,
+                          left: 5,
+                          backgroundColor: `${common.white}`,
+                          paddingX: 0.5,
+                        }}
+                      >
+                        {category}
+                      </Typography>
+                      <Grid container gap={2} padding={1} paddingTop={1.5}>
+                        {discipline.schedule[category].map((schedule) => (
+                          <Grid
+                            key={schedule.label}
+                            container
+                            gap={1}
+                            flexDirection="column"
+                            width="fit-content"
+                          >
+                            <Typography
+                              variant="body1"
+                              sx={{
+                                fontSize: `14px !important`,
+                              }}
+                            >
+                              {schedule.label}
+                            </Typography>
+                            {schedule.daySchedule.map((hours) => (
+                              <Grid
+                                key={hours.id}
+                                container
+                                width="fit-content"
+                                paddingX={2}
+                                paddingY={1}
+                                sx={{
+                                  backgroundColor: `${primary.light}33`,
+                                  borderRadius: `4px`,
+                                  gap: 1,
+                                }}
+                              >
+                                <Typography key={hours.id} variant="body2">
+                                  {hours.start} - {hours.end}
+                                </Typography>
+                              </Grid>
+                            ))}
+                          </Grid>
+                        ))}
+                      </Grid>
                     </Grid>
                   ))}
                 </Grid>

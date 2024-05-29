@@ -26,7 +26,7 @@ const API = {
       data.images.forEach((image) => {
         formData.append(`images`, image)
       })
-      formData.append(`schedule`, JSON.stringify(data.schedule))
+      formData.append(`schedule`, JSON.stringify(data.categorySchedule))
 
       return axiosInstance.post(`/discipline`, formData)
     },

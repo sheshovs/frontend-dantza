@@ -15,7 +15,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import Icon from './Icon'
-import { Discipline, DisciplineSchedule } from '../types/discipline'
+import { DisciplineSchedule, DisciplineState } from '../types/discipline'
 
 const CustomSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -66,15 +66,17 @@ const CustomSwitch = styled((props: SwitchProps) => (
 }))
 
 interface AccordionProps {
-  schedule: DisciplineSchedule
+  category?: string
+  dayItem: DisciplineSchedule
   isExpanded: boolean
   setExpanded: (value: string) => void
-  setState: React.Dispatch<React.SetStateAction<Discipline>>
+  setState: React.Dispatch<React.SetStateAction<DisciplineState>>
   handleChange: (panel: string) => void
 }
 
 const Accordion = ({
-  schedule,
+  category,
+  dayItem,
   isExpanded,
   setExpanded,
   setState,
@@ -83,8 +85,253 @@ const Accordion = ({
   const {
     palette: { primary },
   } = useTheme()
+
+  const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (!e.target.checked) {
+      setExpanded(``)
+    }
+
+    if (!category) {
+      return setState((prevState) => ({
+        ...prevState,
+        categorySchedule: {
+          ...prevState.categorySchedule,
+          [`General`]: prevState.categorySchedule[`General`].map((categoryDayItem) => {
+            if (categoryDayItem.label === dayItem.label) {
+              return {
+                ...categoryDayItem,
+                isActive: e.target.checked,
+              }
+            }
+            return categoryDayItem
+          }),
+        },
+      }))
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      categorySchedule: {
+        ...prevState.categorySchedule,
+        [category]: prevState.categorySchedule[category].map((categoryDayItem) => {
+          if (categoryDayItem.label === dayItem.label) {
+            return {
+              ...categoryDayItem,
+              isActive: e.target.checked,
+            }
+          }
+          return categoryDayItem
+        }),
+      },
+    }))
+  }
+
+  const handleStartChange = (
+    date: dayjs.Dayjs,
+    item: {
+      id: number
+      start: string
+      end: string
+    },
+  ): void => {
+    if (!category) {
+      return setState((prevState) => ({
+        ...prevState,
+        categorySchedule: {
+          ...prevState.categorySchedule,
+          [`General`]: prevState.categorySchedule[`General`].map((categoryDayItem) => {
+            if (categoryDayItem.label === dayItem.label) {
+              return {
+                ...categoryDayItem,
+                daySchedule: categoryDayItem.daySchedule.map((day) => {
+                  if (day.id === item.id) {
+                    return {
+                      ...day,
+                      start: date.format(`HH:mm`),
+                    }
+                  }
+                  return day
+                }),
+              }
+            }
+            return categoryDayItem
+          }),
+        },
+      }))
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      categorySchedule: {
+        ...prevState.categorySchedule,
+        [category]: prevState.categorySchedule[category].map((categoryDayItem) => {
+          if (categoryDayItem.label === dayItem.label) {
+            return {
+              ...categoryDayItem,
+              daySchedule: categoryDayItem.daySchedule.map((day) => {
+                if (day.id === item.id) {
+                  return {
+                    ...day,
+                    start: date.format(`HH:mm`),
+                  }
+                }
+                return day
+              }),
+            }
+          }
+          return categoryDayItem
+        }),
+      },
+    }))
+  }
+
+  const handleEndChange = (
+    date: dayjs.Dayjs,
+    item: {
+      id: number
+      start: string
+      end: string
+    },
+  ): void => {
+    if (!category) {
+      return setState((prevState) => ({
+        ...prevState,
+        categorySchedule: {
+          ...prevState.categorySchedule,
+          [`General`]: prevState.categorySchedule[`General`].map((categoryDayItem) => {
+            if (categoryDayItem.label === dayItem.label) {
+              return {
+                ...categoryDayItem,
+                daySchedule: categoryDayItem.daySchedule.map((day) => {
+                  if (day.id === item.id) {
+                    return {
+                      ...day,
+                      end: date.format(`HH:mm`),
+                    }
+                  }
+                  return day
+                }),
+              }
+            }
+            return categoryDayItem
+          }),
+        },
+      }))
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      categorySchedule: {
+        ...prevState.categorySchedule,
+        [category]: prevState.categorySchedule[category].map((categoryDayItem) => {
+          if (categoryDayItem.label === dayItem.label) {
+            return {
+              ...categoryDayItem,
+              daySchedule: categoryDayItem.daySchedule.map((day) => {
+                if (day.id === item.id) {
+                  return {
+                    ...day,
+                    end: date.format(`HH:mm`),
+                  }
+                }
+                return day
+              }),
+            }
+          }
+          return categoryDayItem
+        }),
+      },
+    }))
+  }
+
+  const handleAddSchedule = (): void => {
+    if (!category) {
+      return setState((prevState) => ({
+        ...prevState,
+        categorySchedule: {
+          ...prevState.categorySchedule,
+          [`General`]: prevState.categorySchedule[`General`].map((categoryDayItem) => {
+            if (categoryDayItem.label === dayItem.label) {
+              return {
+                ...categoryDayItem,
+                daySchedule: [
+                  ...categoryDayItem.daySchedule,
+                  {
+                    id: categoryDayItem.daySchedule.length + 1,
+                    start: ``,
+                    end: ``,
+                  },
+                ],
+              }
+            }
+            return categoryDayItem
+          }),
+        },
+      }))
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      categorySchedule: {
+        ...prevState.categorySchedule,
+        [category]: prevState.categorySchedule[category].map((categoryDayItem) => {
+          if (categoryDayItem.label === dayItem.label) {
+            return {
+              ...categoryDayItem,
+              daySchedule: [
+                ...categoryDayItem.daySchedule,
+                {
+                  id: categoryDayItem.daySchedule.length + 1,
+                  start: ``,
+                  end: ``,
+                },
+              ],
+            }
+          }
+          return categoryDayItem
+        }),
+      },
+    }))
+  }
+
+  const handleDeleteSchedule = (itemIndex: number): void => {
+    if (!category) {
+      return setState((prevState) => ({
+        ...prevState,
+        categorySchedule: {
+          ...prevState.categorySchedule,
+          [`General`]: prevState.categorySchedule[`General`].map((categoryDayItem) => {
+            if (categoryDayItem.label === dayItem.label) {
+              return {
+                ...categoryDayItem,
+                daySchedule: categoryDayItem.daySchedule.filter((_, index) => index !== itemIndex),
+              }
+            }
+            return categoryDayItem
+          }),
+        },
+      }))
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      categorySchedule: {
+        ...prevState.categorySchedule,
+        [category]: prevState.categorySchedule[category].map((categoryDayItem) => {
+          if (categoryDayItem.label === dayItem.label) {
+            return {
+              ...categoryDayItem,
+              daySchedule: categoryDayItem.daySchedule.filter((_, index) => index !== itemIndex),
+            }
+          }
+          return categoryDayItem
+        }),
+      },
+    }))
+  }
+
   return (
-    <Grid container key={schedule.label}>
+    <Grid container key={dayItem.label}>
       <Grid
         container
         alignItems="center"
@@ -102,21 +349,8 @@ const Accordion = ({
             control={
               <CustomSwitch
                 sx={{ m: 1 }}
-                checked={schedule.isActive}
-                onChange={(e) => {
-                  if (!e.target.checked) {
-                    setExpanded(``)
-                  }
-                  setState((prevState) => ({
-                    ...prevState,
-                    schedule: prevState.schedule.map((item) => {
-                      if (item.label === schedule.label) {
-                        return { ...item, isActive: e.target.checked }
-                      }
-                      return item
-                    }),
-                  }))
-                }}
+                checked={dayItem.isActive}
+                onChange={handleSwitchChange}
               />
             }
             label=""
@@ -132,11 +366,11 @@ const Accordion = ({
             sx={{
               cursor: `pointer`,
             }}
-            onClick={() => (schedule.isActive ? handleChange(schedule.label) : null)}
+            onClick={() => (dayItem.isActive ? handleChange(dayItem.label) : null)}
           >
             <Grid container item xs alignItems="center" gap={1} flexWrap="nowrap">
               <Typography variant="h6" width="fit-content">
-                {schedule.label}
+                {dayItem.label}
               </Typography>
 
               <Typography
@@ -150,7 +384,7 @@ const Accordion = ({
                   height: `20px`,
                 }}
               >
-                {schedule.schedule.map((item) => {
+                {dayItem.daySchedule.map((item) => {
                   if (item.start && item.end) {
                     return `  ·  ${item.start} - ${item.end}`
                   }
@@ -158,7 +392,7 @@ const Accordion = ({
               </Typography>
             </Grid>
 
-            {schedule.isActive ? (
+            {dayItem.isActive ? (
               <ExpandMoreIcon
                 sx={{
                   transform: isExpanded ? `rotate(180deg)` : `rotate(0deg)`,
@@ -177,33 +411,14 @@ const Accordion = ({
             paddingX: 2,
           }}
         >
-          {schedule.schedule.map((item, index) => (
+          {dayItem.daySchedule.map((item, index) => (
             <Grid key={item.id} container gap={2} alignItems="center" marginY={2}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <TimePicker
                   value={dayjs(item.start)}
                   onChange={(date) => {
                     if (!date) return
-                    setState((prevState) => ({
-                      ...prevState,
-                      schedule: prevState.schedule.map((discipline) => {
-                        if (discipline.label === schedule.label) {
-                          return {
-                            ...discipline,
-                            schedule: discipline.schedule.map((i) => {
-                              if (i.id === item.id) {
-                                return {
-                                  ...i,
-                                  start: date.format(`HH:mm`),
-                                }
-                              }
-                              return i
-                            }),
-                          }
-                        }
-                        return discipline
-                      }),
-                    }))
+                    handleStartChange(date, item)
                   }}
                   format="HH:mm"
                   ampm={false}
@@ -220,26 +435,7 @@ const Accordion = ({
                   value={dayjs(item.end)}
                   onChange={(date) => {
                     if (!date) return
-                    setState((prevState) => ({
-                      ...prevState,
-                      schedule: prevState.schedule.map((discipline) => {
-                        if (discipline.label === schedule.label) {
-                          return {
-                            ...discipline,
-                            schedule: discipline.schedule.map((i) => {
-                              if (i.id === item.id) {
-                                return {
-                                  ...i,
-                                  end: date.format(`HH:mm`),
-                                }
-                              }
-                              return i
-                            }),
-                          }
-                        }
-                        return discipline
-                      }),
-                    }))
+                    handleEndChange(date, item)
                   }}
                   format="HH:mm"
                   ampm={false}
@@ -254,33 +450,13 @@ const Accordion = ({
               </LocalizationProvider>
 
               <Grid container item xs>
-                {index === schedule.schedule.length - 1 ? (
+                {index === dayItem.daySchedule.length - 1 ? (
                   <IconButton
                     sx={{
                       padding: `4px`,
                       borderRadius: `4px`,
                     }}
-                    onClick={() => {
-                      setState((prevState) => ({
-                        ...prevState,
-                        schedule: prevState.schedule.map((discipline) => {
-                          if (discipline.label === schedule.label) {
-                            return {
-                              ...discipline,
-                              schedule: [
-                                ...discipline.schedule,
-                                {
-                                  id: discipline.schedule.length + 1,
-                                  start: ``,
-                                  end: ``,
-                                },
-                              ],
-                            }
-                          }
-                          return discipline
-                        }),
-                      }))
-                    }}
+                    onClick={handleAddSchedule}
                   >
                     <Icon icon="addCircle" color="primary" />
                   </IconButton>
@@ -291,18 +467,7 @@ const Accordion = ({
                       borderRadius: `4px`,
                     }}
                     onClick={() => {
-                      setState((prevState) => ({
-                        ...prevState,
-                        schedule: prevState.schedule.map((discipline) => {
-                          if (discipline.label === schedule.label) {
-                            return {
-                              ...discipline,
-                              schedule: discipline.schedule.filter((_, i) => i !== index),
-                            }
-                          }
-                          return discipline
-                        }),
-                      }))
+                      handleDeleteSchedule(index)
                     }}
                   >
                     <Icon icon="delete" color="error" />

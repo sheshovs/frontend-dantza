@@ -7,7 +7,12 @@ import General from './Tabs/General'
 import Schedule from './Tabs/Schedule'
 import { useMutation } from '@tanstack/react-query'
 import API from '@/common/api'
-import { Discipline, weekDays } from '@/common/types/discipline'
+import {
+  Discipline,
+  DisciplineSchedule,
+  DisciplineState,
+  weekDays,
+} from '@/common/types/discipline'
 import { useSnackbar } from 'notistack'
 import { useDisciplineQuery } from '@/common/querys/useDisciplineQuery'
 
@@ -15,15 +20,18 @@ const initialState = {
   name: ``,
   images: [],
   description: ``,
-  schedule: weekDays,
+  categories: [],
+  categorySchedule: {
+    General: weekDays,
+  },
 }
 
 const Disciplines = (): JSX.Element => {
   const { enqueueSnackbar } = useSnackbar()
   const [tabValue, setTabValue] = useState(`general`)
   const [open, setOpen] = useState(false)
-  const [state, setState] = useState<Discipline>(initialState)
-  const { name, images, description, schedule } = state
+  const [state, setState] = useState<DisciplineState>(initialState)
+  const { name, images, description, categorySchedule } = state
   const { data: disciplinesQuery } = useDisciplineQuery()
 
   const { columns, rows } = useMemo(() => {
@@ -42,10 +50,8 @@ const Disciplines = (): JSX.Element => {
         id: discipline.uuid,
         name: discipline.name,
         description: discipline.description,
-        schedule: discipline.schedule
-          .map((day) => {
-            return day.label
-          })
+        schedule: Object.keys(discipline.schedule)
+          .map((category) => discipline.schedule[category].map((day) => day.label).join(`, `))
           .join(`, `),
       }
     })
@@ -90,6 +96,18 @@ const Disciplines = (): JSX.Element => {
     setState({ ...state, [name]: value })
   }
 
+  const handleCategoryChange = (values: string[]): void => {
+    if (values.length === 0) {
+      return setState({ ...state, categories: values, categorySchedule: { General: weekDays } })
+    }
+    const categorySchedule: Record<string, DisciplineSchedule[]> = {}
+
+    values.forEach((value) => {
+      categorySchedule[value] = weekDays
+    })
+    setState({ ...state, categories: values, categorySchedule })
+  }
+
   const handleTabChange = (_: React.SyntheticEvent, newValue: string): void => {
     setTabValue(newValue)
   }
@@ -99,9 +117,8 @@ const Disciplines = (): JSX.Element => {
       name,
       description,
       images,
-      schedule: schedule.filter((day) => day.isActive),
+      categorySchedule,
     }
-
     createDiscipline(payload)
   }
 
@@ -130,19 +147,18 @@ const Disciplines = (): JSX.Element => {
 
           {tabValue === `general` ? (
             <General
-              name={name}
-              description={description}
-              images={images}
+              {...state}
               onSortEnd={onSortEnd}
               handleDeleteImage={handleDeleteImage}
               handleChange={handleChange}
               handleInputChange={handleInputChange}
               setTabValue={setTabValue}
+              handleCategoryChange={handleCategoryChange}
             />
           ) : null}
           {tabValue === `schedule` ? (
             <Schedule
-              schedule={schedule}
+              {...state}
               isCreatingDiscipline={isCreatingDiscipline}
               setState={setState}
               handleSubmit={handleSubmit}
