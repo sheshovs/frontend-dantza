@@ -13,7 +13,7 @@ const CardDiscipline = ({ discipline, onClick }: CardProps): JSX.Element => {
       key={discipline.uuid}
       container
       item
-      width="fit-content"
+      width="220px"
       flexDirection="column"
       gap={{ md: 3, xs: 2 }}
       marginBottom={{ md: 4, xs: 0 }}
@@ -37,7 +37,7 @@ const CardDiscipline = ({ discipline, onClick }: CardProps): JSX.Element => {
           borderRadius: `4px`,
         }}
       />
-      <Typography variant="h5" fontWeight={700} padding={1}>
+      <Typography variant="h5" fontWeight={700} padding={1} flexWrap="wrap">
         {discipline.name}
       </Typography>
     </Grid>

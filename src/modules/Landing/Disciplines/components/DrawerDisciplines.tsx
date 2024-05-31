@@ -184,7 +184,7 @@ const DrawerDisciplines = ({
               ) : null}
             </Grid>
             <Grid container item xs md={4} flexDirection="column">
-              <Grid container gap={2}>
+              <Grid container gap={4}>
                 <Typography variant="h5">Horario por categorias</Typography>
                 <Grid container gap={3} flexDirection="column">
                   {disciplineCategories.map((category) => (

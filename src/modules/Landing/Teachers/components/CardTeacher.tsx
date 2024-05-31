@@ -14,7 +14,7 @@ const CardTeacher = ({ teacher, onClick }: CardProps): JSX.Element => {
       key={teacher.uuid}
       container
       item
-      width="fit-content"
+      width="220px"
       flexDirection="column"
       gap={{ md: 3, xs: 2 }}
       marginBottom={{ md: 4, xs: 0 }}
