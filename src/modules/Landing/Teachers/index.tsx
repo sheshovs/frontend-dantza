@@ -10,8 +10,10 @@ const Teachers = (): JSX.Element => {
   const widthAboveLg = useMediaQuery(breakpoints.up(900))
   const [openAllTeachers, setOpenAllTeachers] = useState(false)
   const [selectedTeacherId, setSelectedTeacherId] = useState<string | undefined>(undefined)
-  const { data: teachersQuery } = useTeacherQuery()
-  const { data: teacherQuery } = useTeacherByIdQuery(selectedTeacherId!)
+  const { data: teachersQuery, isLoading: isLoadingTeachers } = useTeacherQuery()
+  const { data: teacherQuery, isLoading: isLoadingTeacher } = useTeacherByIdQuery(
+    selectedTeacherId!,
+  )
 
   const { teachersLinks, teachers } = useMemo(() => {
     if (!teachersQuery?.data) {
@@ -56,7 +58,9 @@ const Teachers = (): JSX.Element => {
         open={openAllTeachers}
         onClose={handleCloseAllTeachers}
         teacher={teacher}
+        isLoadingTeacher={isLoadingTeacher}
         teachers={teachers}
+        isLoadingTeachers={isLoadingTeachers}
         handleOpenTeacher={handleOpenTeacher}
         handleCloseTeacher={handleCloseTeacher}
       />

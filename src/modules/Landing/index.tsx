@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Grid, useMediaQuery, useTheme } from '@mui/material'
 import { useEffect, useMemo, useState } from 'react'
 import Navbar from '../../common/components/Navbar'
@@ -26,7 +27,7 @@ function Landing(): JSX.Element {
   const [scrollState, setScrollState] = useState<ScrollState>(initialScrollState)
   const { isActive, offset } = scrollState
 
-  const { data: disciplinesQuery } = useDisciplineQuery()
+  const { data: disciplinesQuery, isPending: isLoadingDisciplines } = useDisciplineQuery()
 
   const { disciplinesLinks, disciplines } = useMemo(() => {
     if (!disciplinesQuery?.data) {
@@ -107,7 +108,11 @@ function Landing(): JSX.Element {
       )}
       <Header />
       <About />
-      <Disciplines disciplinesLinks={disciplinesLinks} disciplines={disciplines} />
+      <Disciplines
+        disciplinesLinks={disciplinesLinks}
+        disciplines={disciplines}
+        isLoadingDisciplines={isLoadingDisciplines}
+      />
       <UpcomingEvents />
       <Teachers />
       <Footer disciplinesLinks={disciplinesLinks} />

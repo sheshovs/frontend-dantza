@@ -134,8 +134,7 @@ const Disciplines = (): JSX.Element => {
       handleCloseDrawer()
       enqueueSnackbar(`Disciplina creada correctamente`, { variant: `success` })
     },
-    onError: (error) => {
-      console.error(error)
+    onError: () => {
       enqueueSnackbar(`Error al crear la disciplina`, { variant: `error` })
     },
   })

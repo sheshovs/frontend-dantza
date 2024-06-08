@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react'
 import CardDiscipline from './components/CardDiscipline'
 import DrawerDisciplines from './components/DrawerDisciplines'
 import { DisciplineReturn } from '@/common/types'
+import CardLoading from '@/common/components/CardLoading'
 
 interface DisciplinesProps {
   disciplinesLinks: {
@@ -12,14 +13,21 @@ interface DisciplinesProps {
     uuid: string
   }[]
   disciplines: DisciplineReturn[]
+  isLoadingDisciplines: boolean
 }
 
-const Disciplines = ({ disciplinesLinks, disciplines }: DisciplinesProps): JSX.Element => {
+const Disciplines = ({
+  disciplinesLinks,
+  disciplines,
+  isLoadingDisciplines,
+}: DisciplinesProps): JSX.Element => {
   const { breakpoints } = useTheme()
   const widthAboveLg = useMediaQuery(breakpoints.up(900))
   const [openAllDisciplines, setOpenAllDisciplines] = useState(false)
   const [selectedDisciplineId, setSelectedDisciplineId] = useState<string | undefined>(undefined)
-  const { data: disciplineQuery } = useDisciplineByIdQuery(selectedDisciplineId!)
+  const { data: disciplineQuery, isLoading: isLoadingDiscipline } = useDisciplineByIdQuery(
+    selectedDisciplineId!,
+  )
 
   const discipline = useMemo(() => {
     if (!disciplineQuery?.data) {
@@ -50,7 +58,9 @@ const Disciplines = ({ disciplinesLinks, disciplines }: DisciplinesProps): JSX.E
         open={openAllDisciplines}
         onClose={handleCloseAllDisciplines}
         discipline={discipline}
+        isLoadingDiscipline={isLoadingDiscipline}
         disciplines={disciplines}
+        isLoadingDisciplines={isLoadingDisciplines}
         handleOpenDiscipline={handleOpenDiscipline}
         handleCloseDiscipline={handleCloseDiscipline}
       />
@@ -159,6 +169,8 @@ const Disciplines = ({ disciplinesLinks, disciplines }: DisciplinesProps): JSX.E
               justifyContent={{ md: `flex-start`, xs: `center` }}
               gap={{ md: 4, xs: 5 }}
             >
+              {isLoadingDisciplines ? <CardLoading /> : null}
+
               {disciplines.slice(0, 4).map((discipline) => (
                 <CardDiscipline
                   key={discipline.uuid}
