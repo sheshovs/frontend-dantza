@@ -1,5 +1,4 @@
 import '@fontsource/poppins'
-import '@fontsource/roboto'
 
 export function pxToRem(value: number): string {
   return `${value / 16}rem`
@@ -36,7 +35,7 @@ function responsiveFontSizes({
 }
 
 const typography = {
-  fontFamily: `Poppins, Roboto, sans-serif`,
+  fontFamily: `Poppins, sans-serif`,
   h1: {
     lineHeight: 1.167,
     fontSize: pxToRem(96),
