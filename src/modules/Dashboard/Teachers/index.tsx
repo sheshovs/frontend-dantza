@@ -34,12 +34,52 @@ const columns: GridColDef[] = [
     sortable: false,
     renderCell: ({ row }: GridRenderCellParams<TeacherReturn>) => {
       const { disciplines } = row
+      const leftDisciplines = disciplines.length - 1
       return (
-        <>
-          {disciplines.map((discipline) => (
-            <Chip key={discipline.uuid} label={discipline.name} size="small" />
+        <Grid>
+          {disciplines.slice(0, 1).map((discipline) => (
+            <Chip
+              key={discipline.uuid}
+              label={discipline.name}
+              size="small"
+              sx={{
+                marginRight: 1,
+              }}
+            />
           ))}
-        </>
+          {leftDisciplines > 0 && <Chip label={`+${leftDisciplines}`} size="small" />}
+        </Grid>
+      )
+    },
+  },
+  {
+    field: `actions`,
+    headerName: `Acciones`,
+    width: 150,
+    sortable: false,
+    renderCell: ({ row }: GridRenderCellParams) => {
+      const actions = row.actions
+      return (
+        <Grid container width="fit-content" height="100%" gap={1} alignItems="center">
+          <IconButton
+            sx={{
+              padding: 0.5,
+              borderRadius: 0.5,
+            }}
+            onClick={actions.edit}
+          >
+            <Icon icon="edit" />
+          </IconButton>
+          <IconButton
+            sx={{
+              padding: 0.5,
+              borderRadius: 0.5,
+            }}
+            onClick={actions.delete}
+          >
+            <Icon icon="delete" />
+          </IconButton>
+        </Grid>
       )
     },
   },
@@ -55,6 +95,7 @@ const initialState = {
 const Teachers = (): JSX.Element => {
   const { enqueueSnackbar } = useSnackbar()
   const [open, setOpen] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
   const [isHover, setIsHover] = useState(``)
   const [state, setState] = useState<Teacher>(initialState)
   const { name, images, description, disciplines } = state
@@ -72,11 +113,26 @@ const Teachers = (): JSX.Element => {
         name: teacher.name,
         description: teacher.description,
         disciplines: teacher.disciplines,
+        actions: {
+          edit: () => handleOnEditClick(teacher),
+          delete: () => console.log(`delete`, teacher.uuid),
+        },
       }
     })
 
     return { rows }
   }, [teachersQuery])
+
+  const handleOnEditClick = (teacher: TeacherReturn): void => {
+    setState({
+      name: teacher.name,
+      images: [],
+      description: teacher.description,
+      disciplines: teacher.disciplines,
+    })
+    setIsEditing(true)
+    setOpen(true)
+  }
 
   const handleOpenDrawer = (): void => {
     setOpen(true)
@@ -110,6 +166,11 @@ const Teachers = (): JSX.Element => {
     setState({ ...state, [name]: value })
   }
   const handleSubmit = (): void => {
+    if (isEditing) {
+      // Update teacher
+      return
+    }
+
     const payload: Teacher = {
       name,
       description,
@@ -141,7 +202,7 @@ const Teachers = (): JSX.Element => {
     <>
       <Drawer open={open} onClose={handleCloseDrawer} anchor="right">
         <Grid container width={700} padding={6} gap={2} flexDirection="column">
-          <Typography variant="h4">Nuevo profesor</Typography>
+          <Typography variant="h4">{isEditing ? `Editar profesor` : `Nuevo profesor`}</Typography>
           <Grid container item xs gap={2} flexDirection="column">
             <Grid container item xs gap={1}>
               <Grid item xs={12}>
@@ -334,7 +395,7 @@ const Teachers = (): JSX.Element => {
                 color="primary"
                 onClick={handleSubmit}
               >
-                Crear profesor
+                {isEditing ? `Actualizar profesor` : `Crear profesor`}
               </LoadingButton>
             </Grid>
           </Grid>
