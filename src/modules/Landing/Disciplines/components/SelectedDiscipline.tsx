@@ -40,7 +40,7 @@ const SelectedDiscipline = ({
     <>
       <ImageModal
         openModal={openModal}
-        imageUrl={discipline?.images[selectedPhotoIndex].url}
+        imageUrl={discipline?.imagesUploaded[selectedPhotoIndex].url}
         imageName={discipline?.name}
         handleCloseModal={handleCloseModal}
       />
@@ -60,7 +60,7 @@ const SelectedDiscipline = ({
             <Grid container flexDirection="column" gap={2}>
               <Typography variant="h4">Fotos</Typography>
               <Grid container gap={0.5}>
-                {discipline.images.map((item, index) => (
+                {discipline.imagesUploaded.map((item, index) => (
                   <img
                     key={item.uuid}
                     srcSet={`${item.url}`}
