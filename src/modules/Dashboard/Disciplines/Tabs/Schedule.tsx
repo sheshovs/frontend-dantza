@@ -15,6 +15,7 @@ interface ScheduleProps {
   categorySchedule: Record<string, DisciplineSchedule[]>
   categories: string[]
   isCreatingDiscipline: boolean
+  isEditing: boolean
   setState: React.Dispatch<React.SetStateAction<DisciplineState>>
   handleSubmit: () => void
 }
@@ -23,6 +24,7 @@ const Schedule = ({
   categorySchedule,
   categories,
   isCreatingDiscipline,
+  isEditing,
   setState,
   handleSubmit,
 }: ScheduleProps): JSX.Element => {
@@ -83,7 +85,7 @@ const Schedule = ({
           color="primary"
           onClick={handleSubmit}
         >
-          Crear disciplina
+          {isEditing ? `Editar disciplina` : `Crear disciplina`}
         </LoadingButton>
       </Grid>
     </Grid>

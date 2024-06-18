@@ -1,4 +1,5 @@
 import Icon from '@/common/components/Icon'
+import { Image } from '@/common/types'
 import {
   Alert,
   Autocomplete,
@@ -16,11 +17,12 @@ interface GeneralProps {
   name: string
   description: string
   images: File[]
+  imagesUploaded: Image[]
   categories: string[]
   setTabValue: (value: string) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   onSortEnd: (oldIndex: number, newIndex: number) => void
-  handleDeleteImage: (name: string) => void
+  handleDeleteImage: (image: File | Image) => void
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   handleCategoryChange: (values: string[]) => void
 }
@@ -29,6 +31,7 @@ const General = ({
   name,
   description,
   images,
+  imagesUploaded,
   categories,
   setTabValue,
   handleInputChange,
@@ -45,6 +48,9 @@ const General = ({
   const onMouseLeave = (): void => {
     setIsHover(``)
   }
+
+  const allImages = [...imagesUploaded, ...images]
+
   return (
     <Grid container item xs gap={2} flexDirection="column">
       <Grid container item xs gap={1}>
@@ -121,17 +127,17 @@ const General = ({
           >
             <span
               style={{
-                color: images.length > 10 ? `red` : ``,
+                color: allImages.length > 10 ? `red` : ``,
               }}
             >
-              Fotos · {images.length}/10
+              Fotos · {allImages.length}/10
             </span>
             {` `}- Puedes agregar un máximo de 10 fotos.
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <SortableList onSortEnd={onSortEnd} className="list" draggedItemClassName="dragged">
-            {images.map((image) => (
+            {allImages.map((image) => (
               <SortableItem key={image.name}>
                 <Box
                   className="item"
@@ -144,7 +150,7 @@ const General = ({
                     onClick={(e) => {
                       e.preventDefault()
                       e.stopPropagation()
-                      handleDeleteImage(image.name)
+                      handleDeleteImage(image)
                     }}
                     sx={{
                       display: isHover === image.name ? `flex` : `none`,
@@ -170,7 +176,7 @@ const General = ({
                     />
                   </IconButton>
                   <img
-                    src={URL.createObjectURL(image)}
+                    src={image instanceof File ? URL.createObjectURL(image) : image.url}
                     alt={image.name}
                     width={100}
                     height={100}
@@ -196,7 +202,7 @@ const General = ({
               variant="outlined"
               color="primary"
               component="label"
-              disabled={images.length >= 10}
+              disabled={allImages.length >= 10}
             >
               <input
                 hidden
@@ -227,7 +233,7 @@ const General = ({
         <Button
           variant="contained"
           color="primary"
-          disabled={!name || !description || images.length < 1 || images.length > 10}
+          disabled={!name || !description || allImages.length < 1 || allImages.length > 10}
           onClick={() => {
             setTabValue(`schedule`)
           }}

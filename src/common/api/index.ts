@@ -30,6 +30,20 @@ const API = {
 
       return axiosInstance.post(`/discipline`, formData)
     },
+    update: (data: Discipline, uuid: string) => {
+      const formData = new FormData()
+      formData.append(`name`, data.name)
+      formData.append(`description`, data.description)
+      data.images.forEach((image) => {
+        formData.append(`images`, image)
+      })
+      data.imagesUploaded.forEach((image) => {
+        formData.append(`imagesUploaded`, image.uuid)
+      })
+      formData.append(`schedule`, JSON.stringify(data.categorySchedule))
+
+      return axiosInstance.patch(`/discipline/${uuid}`, formData)
+    },
     getAll: (): Promise<{ data: DisciplineReturn[] }> => {
       return axiosInstance.get(`/discipline`)
     },

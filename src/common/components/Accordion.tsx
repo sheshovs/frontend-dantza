@@ -13,7 +13,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider/LocalizationProvider'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import dayjs from 'dayjs'
+import dayjs, { isDayjs } from 'dayjs'
 import Icon from './Icon'
 import { DisciplineSchedule, DisciplineState } from '../types/discipline'
 
@@ -415,7 +415,13 @@ const Accordion = ({
             <Grid key={item.id} container gap={2} alignItems="center" marginY={2}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <TimePicker
-                  value={dayjs(item.start)}
+                  value={
+                    isDayjs(item.start)
+                      ? item.start
+                      : dayjs()
+                        .set(`hour`, +item.start.split(`:`)[0])
+                        .set(`minute`, +item.start.split(`:`)[1])
+                  }
                   onChange={(date) => {
                     if (!date) return
                     handleStartChange(date, item)
@@ -432,7 +438,13 @@ const Accordion = ({
                 />
                 a
                 <TimePicker
-                  value={dayjs(item.end)}
+                  value={
+                    isDayjs(item.end)
+                      ? item.end
+                      : dayjs()
+                        .set(`hour`, +item.end.split(`:`)[0])
+                        .set(`minute`, +item.end.split(`:`)[1])
+                  }
                   onChange={(date) => {
                     if (!date) return
                     handleEndChange(date, item)

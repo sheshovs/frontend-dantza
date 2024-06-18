@@ -7,7 +7,7 @@ interface CardProps {
 }
 
 const CardDiscipline = ({ discipline, onClick }: CardProps): JSX.Element => {
-  const mainPicture = discipline.images.find((image) => image.isMain)
+  const mainPicture = discipline.imagesUploaded.find((image) => image.isMain)
   return (
     <Grid
       key={discipline.uuid}
