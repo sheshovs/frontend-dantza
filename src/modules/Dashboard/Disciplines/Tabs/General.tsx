@@ -16,9 +16,9 @@ import SortableList, { SortableItem } from 'react-easy-sort'
 interface GeneralProps {
   name: string
   description: string
-  images: File[]
-  imagesUploaded: Image[]
   categories: string[]
+  allImages: (File | Image)[]
+  disableScheduleTab: boolean
   setTabValue: (value: string) => void
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   onSortEnd: (oldIndex: number, newIndex: number) => void
@@ -30,9 +30,9 @@ interface GeneralProps {
 const General = ({
   name,
   description,
-  images,
-  imagesUploaded,
   categories,
+  allImages,
+  disableScheduleTab,
   setTabValue,
   handleInputChange,
   onSortEnd,
@@ -48,8 +48,6 @@ const General = ({
   const onMouseLeave = (): void => {
     setIsHover(``)
   }
-
-  const allImages = [...imagesUploaded, ...images]
 
   return (
     <Grid container item xs gap={2} flexDirection="column">
@@ -233,7 +231,7 @@ const General = ({
         <Button
           variant="contained"
           color="primary"
-          disabled={!name || !description || allImages.length < 1 || allImages.length > 10}
+          disabled={disableScheduleTab}
           onClick={() => {
             setTabValue(`schedule`)
           }}

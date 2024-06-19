@@ -10,7 +10,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
   return (
     <Grid container height="100vh">
       <Sidebar />
-      <Grid container width="calc(100% - 200px)" padding={4} bgcolor="#ececec">
+      <Grid container width="calc(100% - 200px)" padding={4} paddingLeft={0} bgcolor="#ececec">
         <Paper
           elevation={2}
           sx={{

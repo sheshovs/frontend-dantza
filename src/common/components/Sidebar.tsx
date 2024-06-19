@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material'
+import { Grid, Link, Typography } from '@mui/material'
 import { animated, useScroll, useSpring } from '@react-spring/web'
 import SidebarRoute from './SidebarRoute'
 import { FaInstagram, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
@@ -66,7 +66,7 @@ const Sidebar = ({ isActive }: { isActive: string }): JSX.Element => {
         flexDirection="column"
         alignItems="center"
         justifyContent="space-between"
-        height="80%"
+        height="100%"
       >
         <Grid container item>
           <img src={sidebarLogo} width={137} alt="Logo Dantza" />
@@ -105,6 +105,35 @@ const Sidebar = ({ isActive }: { isActive: string }): JSX.Element => {
           >
             <FaFacebookF size={20} />
           </animated.a>
+        </Grid>
+
+        <Grid container item>
+          <Link
+            href="/login"
+            sx={{
+              textDecoration: `none`,
+            }}
+          >
+            <animated.div
+              style={{
+                ...iconStyles,
+              }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  paddingY: 1,
+                  transition: `color 0.3s`,
+                  '&:hover': {
+                    color: `primary.light`,
+                    cursor: `pointer`,
+                  },
+                }}
+              >
+                Iniciar sesión
+              </Typography>
+            </animated.div>
+          </Link>
         </Grid>
       </Grid>
     </animated.div>

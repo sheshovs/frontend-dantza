@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Landing from './modules/Landing'
 import Login from './modules/Login'
-import Dashboard from './modules/Dashboard'
 import Disciplines from './modules/Dashboard/Disciplines'
 import Teachers from './modules/Dashboard/Teachers'
 import Events from './modules/Dashboard/Events'
@@ -12,7 +11,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/disciplines" element={<Disciplines />} />
         <Route path="/dashboard/teachers" element={<Teachers />} />
         <Route path="/dashboard/events" element={<Events />} />

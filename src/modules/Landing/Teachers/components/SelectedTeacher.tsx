@@ -24,7 +24,7 @@ const SelectedTeacher = ({ teacher, handleCloseTeacher }: SelectedTeacherProps):
     <>
       <ImageModal
         openModal={openModal}
-        imageUrl={teacher?.images[selectedPhotoIndex].url}
+        imageUrl={teacher?.imagesUploaded[selectedPhotoIndex].url}
         imageName={teacher?.name}
         handleCloseModal={handleCloseModal}
       />
@@ -42,7 +42,7 @@ const SelectedTeacher = ({ teacher, handleCloseTeacher }: SelectedTeacherProps):
         <Grid container flexDirection="column" gap={2}>
           <Typography variant="h4">Fotos</Typography>
           <Grid container gap={0.5}>
-            {teacher.images.map((item, index) => (
+            {teacher.imagesUploaded.map((item, index) => (
               <img
                 key={item.uuid}
                 srcSet={`${item.url}`}

@@ -16,6 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs, { isDayjs } from 'dayjs'
 import Icon from './Icon'
 import { DisciplineSchedule, DisciplineState } from '../types/discipline'
+import { useSnackbar } from 'notistack'
 
 const CustomSwitch = styled((props: SwitchProps) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -85,6 +86,7 @@ const Accordion = ({
   const {
     palette: { primary },
   } = useTheme()
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleSwitchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.checked) {
@@ -446,7 +448,20 @@ const Accordion = ({
                         .set(`minute`, +item.end.split(`:`)[1])
                   }
                   onChange={(date) => {
-                    if (!date) return
+                    if (!date) {
+                      return
+                    }
+                    const startTime = dayjs()
+                      .set(`hour`, +item.start.split(`:`)[0])
+                      .set(`minute`, +item.start.split(`:`)[1])
+
+                    if (date.isBefore(startTime)) {
+                      enqueueSnackbar(`La hora de fin no puede ser menor a la de inicio`, {
+                        variant: `warning`,
+                      })
+                      const endTime = startTime.add(1, `minute`)
+                      return handleEndChange(endTime, item)
+                    }
                     handleEndChange(date, item)
                   }}
                   format="HH:mm"

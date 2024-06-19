@@ -14,7 +14,7 @@ const Sidebar = (): JSX.Element => {
       width={200}
       height="100%"
       bgcolor="#ececec"
-      paddingLeft={2}
+      paddingX={2}
       paddingTop={6}
       paddingBottom={10}
     >
@@ -24,27 +24,6 @@ const Sidebar = (): JSX.Element => {
         </Grid>
         <Grid container xs item flexDirection="column" paddingX={2} justifyContent="space-between">
           <Grid item xs flexDirection="column">
-            <Link
-              href={`/dashboard`}
-              sx={{
-                textDecoration: `none`,
-              }}
-            >
-              <MenuItem>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    paddingY: 0.5,
-                    '&:hover': {
-                      color: `primary.light`,
-                      cursor: `pointer`,
-                    },
-                  }}
-                >
-                  Dashboard
-                </Typography>
-              </MenuItem>
-            </Link>
             <Link
               href={`/dashboard/disciplines`}
               sx={{

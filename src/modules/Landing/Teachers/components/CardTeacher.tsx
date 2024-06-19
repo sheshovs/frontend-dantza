@@ -8,7 +8,7 @@ interface CardProps {
 }
 
 const CardTeacher = ({ teacher, onClick }: CardProps): JSX.Element => {
-  const mainPicture = teacher.images.find((image) => image.isMain)
+  const mainPicture = teacher.imagesUploaded.find((image) => image.isMain)
   return (
     <Grid
       key={teacher.uuid}

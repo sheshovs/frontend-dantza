@@ -4,6 +4,7 @@ import { useTeacherByIdQuery, useTeacherQuery } from '@/common/querys/useTeacher
 import { useMemo, useState } from 'react'
 import DrawerTeachers from './components/DrawerTeacher'
 import CardTeacher from './components/CardTeacher'
+import CardLoading from '@/common/components/CardLoading'
 
 const Teachers = (): JSX.Element => {
   const { breakpoints } = useTheme()
@@ -169,6 +170,7 @@ const Teachers = (): JSX.Element => {
               justifyContent={{ md: `flex-start`, xs: `center` }}
               gap={{ md: 4, xs: 5 }}
             >
+              {isLoadingTeachers ? <CardLoading /> : null}
               {teachers.slice(0, 4).map((teacher) => (
                 <CardTeacher key={teacher.uuid} teacher={teacher} onClick={handleOpenTeacher} />
               ))}

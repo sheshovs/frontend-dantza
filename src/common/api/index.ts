@@ -19,7 +19,7 @@ const API = {
     return axiosInstance.get(`/auth/current`)
   },
   discipline: {
-    create: (data: Discipline) => {
+    create: (data: Discipline): Promise<{ data: DisciplineReturn }> => {
       const formData = new FormData()
       formData.append(`name`, data.name)
       formData.append(`description`, data.description)
@@ -30,7 +30,7 @@ const API = {
 
       return axiosInstance.post(`/discipline`, formData)
     },
-    update: (data: Discipline, uuid: string) => {
+    update: (data: Discipline, uuid: string): Promise<{ data: DisciplineReturn }> => {
       const formData = new FormData()
       formData.append(`name`, data.name)
       formData.append(`description`, data.description)
@@ -44,7 +44,10 @@ const API = {
 
       return axiosInstance.patch(`/discipline/${uuid}`, formData)
     },
-    getAll: (): Promise<{ data: DisciplineReturn[] }> => {
+    delete: (uuid: string) => {
+      return axiosInstance.delete(`/discipline/${uuid}`)
+    },
+    getAll: (): Promise<DisciplineReturn[]> => {
       return axiosInstance.get(`/discipline`)
     },
     getById: (uuid: string): Promise<{ data: DisciplineOneReturn }> => {
@@ -64,6 +67,25 @@ const API = {
       })
 
       return axiosInstance.post(`/teacher`, formData)
+    },
+    update: (data: Teacher, uuid: string) => {
+      const formData = new FormData()
+      formData.append(`name`, data.name)
+      formData.append(`description`, data.description)
+      data.images.forEach((image) => {
+        formData.append(`images`, image)
+      })
+      data.imagesUploaded.forEach((image) => {
+        formData.append(`imagesUploaded`, image.uuid)
+      })
+      data.disciplines.forEach((discipline) => {
+        formData.append(`disciplines`, discipline.uuid)
+      })
+
+      return axiosInstance.patch(`/teacher/${uuid}`, formData)
+    },
+    delete: (uuid: string) => {
+      return axiosInstance.delete(`/teacher/${uuid}`)
     },
     getAll: (): Promise<{ data: TeacherReturn[] }> => {
       return axiosInstance.get(`/teacher`)

@@ -3,206 +3,114 @@ import {
   Autocomplete,
   Box,
   Button,
-  Chip,
   Drawer,
   Grid,
   IconButton,
+  Modal,
+  Paper,
   TextField,
   Typography,
 } from '@mui/material'
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { DataGrid } from '@mui/x-data-grid'
 import Layout from '../components/Layout'
-import { useMemo, useState } from 'react'
-import { arrayMoveImmutable } from 'array-move'
-import { useMutation } from '@tanstack/react-query'
-import API from '@/common/api'
-import { useSnackbar } from 'notistack'
-import { Teacher, TeacherReturn } from '@/common/types'
 import SortableList, { SortableItem } from 'react-easy-sort'
 import Icon from '@/common/components/Icon'
 import { LoadingButton } from '@mui/lab'
-import { useTeacherQuery } from '@/common/querys/useTeacherQuery'
-import { useDisciplineQuery } from '@/common/querys/useDisciplineQuery'
-
-const columns: GridColDef[] = [
-  { field: `name`, headerName: `Nombre`, width: 200, sortable: false },
-  { field: `description`, headerName: `Descripción`, flex: 1, sortable: false },
-  {
-    field: `disciplines`,
-    headerName: `Disciplinas`,
-    width: 200,
-    sortable: false,
-    renderCell: ({ row }: GridRenderCellParams<TeacherReturn>) => {
-      const { disciplines } = row
-      const leftDisciplines = disciplines.length - 1
-      return (
-        <Grid>
-          {disciplines.slice(0, 1).map((discipline) => (
-            <Chip
-              key={discipline.uuid}
-              label={discipline.name}
-              size="small"
-              sx={{
-                marginRight: 1,
-              }}
-            />
-          ))}
-          {leftDisciplines > 0 && <Chip label={`+${leftDisciplines}`} size="small" />}
-        </Grid>
-      )
-    },
-  },
-  {
-    field: `actions`,
-    headerName: `Acciones`,
-    width: 150,
-    sortable: false,
-    renderCell: ({ row }: GridRenderCellParams) => {
-      const actions = row.actions
-      return (
-        <Grid container width="fit-content" height="100%" gap={1} alignItems="center">
-          <IconButton
-            sx={{
-              padding: 0.5,
-              borderRadius: 0.5,
-            }}
-            onClick={actions.edit}
-          >
-            <Icon icon="edit" />
-          </IconButton>
-          <IconButton
-            sx={{
-              padding: 0.5,
-              borderRadius: 0.5,
-            }}
-            onClick={actions.delete}
-          >
-            <Icon icon="delete" />
-          </IconButton>
-        </Grid>
-      )
-    },
-  },
-]
-
-const initialState = {
-  name: ``,
-  images: [],
-  description: ``,
-  disciplines: [],
-}
+import useTeachers from './hooks/useTeachers'
 
 const Teachers = (): JSX.Element => {
-  const { enqueueSnackbar } = useSnackbar()
-  const [open, setOpen] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const [isHover, setIsHover] = useState(``)
-  const [state, setState] = useState<Teacher>(initialState)
-  const { name, images, description, disciplines } = state
-  const { data: disciplinesQuery } = useDisciplineQuery()
-  const { data: teachersQuery } = useTeacherQuery()
-
-  const { rows } = useMemo(() => {
-    if (!teachersQuery?.data) {
-      return { rows: [] }
-    }
-
-    const rows = teachersQuery.data.map((teacher) => {
-      return {
-        id: teacher.uuid,
-        name: teacher.name,
-        description: teacher.description,
-        disciplines: teacher.disciplines,
-        actions: {
-          edit: () => handleOnEditClick(teacher),
-          delete: () => console.log(`delete`, teacher.uuid),
-        },
-      }
-    })
-
-    return { rows }
-  }, [teachersQuery])
-
-  const handleOnEditClick = (teacher: TeacherReturn): void => {
-    setState({
-      name: teacher.name,
-      images: [],
-      description: teacher.description,
-      disciplines: teacher.disciplines,
-    })
-    setIsEditing(true)
-    setOpen(true)
-  }
-
-  const handleOpenDrawer = (): void => {
-    setOpen(true)
-  }
-  const handleCloseDrawer = (): void => {
-    setOpen(false)
-    setState(initialState)
-  }
-  const onSortEnd = (oldIndex: number, newIndex: number): void => {
-    const newArray = arrayMoveImmutable(images, oldIndex, newIndex)
-    setState({ ...state, images: newArray })
-  }
-  const handleDeleteImage = (name: string): void => {
-    const newArray = images.filter((image) => image.name !== name)
-    setState({ ...state, images: newArray })
-  }
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const { files } = event.target
-
-    if (images !== null) {
-      const filesToUploadNames = images.map((file) => file.name)
-      let newFiles = Array.from(files || [])
-      newFiles = newFiles.filter((newFile) => !filesToUploadNames.includes(newFile.name))
-      const newArray = images.concat(newFiles)
-      setState({ ...state, images: newArray })
-    }
-    event.target.value = ``
-  }
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = event.target
-    setState({ ...state, [name]: value })
-  }
-  const handleSubmit = (): void => {
-    if (isEditing) {
-      // Update teacher
-      return
-    }
-
-    const payload: Teacher = {
-      name,
-      description,
-      images,
-      disciplines,
-    }
-
-    createTeacher(payload)
-  }
-  const onMouseEnter = (name: string): void => {
-    setIsHover(name)
-  }
-  const onMouseLeave = (): void => {
-    setIsHover(``)
-  }
-  const { mutate: createTeacher, isPending: isCreatingTeacher } = useMutation({
-    mutationFn: (payload: Teacher) => API.teacher.create(payload),
-    onSuccess: () => {
-      handleCloseDrawer()
-      enqueueSnackbar(`Profesor creado correctamente`, { variant: `success` })
-    },
-    onError: (error) => {
-      console.error(error)
-      enqueueSnackbar(`Error al crear profesor`, { variant: `error` })
-    },
-  })
-
+  const {
+    open,
+    openDelete,
+    state,
+    editingTeacher,
+    isHover,
+    isCreatingOrUpdating,
+    isDeletingTeacher,
+    disableSubmitButton,
+    disciplinesQuery,
+    allImages,
+    rows,
+    columns,
+    handleOpenDrawer,
+    handleCloseDrawer,
+    onSortEnd,
+    handleDeleteImage,
+    handleChange,
+    handleInputChange,
+    handleSubmit,
+    onMouseEnter,
+    onMouseLeave,
+    setState,
+    handleCloseDeleteModal,
+    handleDeleteSubmit,
+  } = useTeachers()
+  const { name, description, disciplines } = state
   return (
     <>
+      <Modal
+        open={openDelete !== null}
+        onClose={handleCloseDeleteModal}
+        sx={{
+          display: `flex`,
+          alignItems: `center`,
+          justifyContent: `center`,
+        }}
+      >
+        <Paper
+          elevation={4}
+          sx={{
+            paddingY: 6,
+            paddingX: 4,
+            width: 500,
+            display: `flex`,
+            alignItems: `center`,
+            flexDirection: `column`,
+            gap: 3,
+          }}
+        >
+          <Icon
+            icon="delete"
+            color="error"
+            sx={{
+              fontSize: 64,
+            }}
+          />
+          <Typography variant="h5" textAlign="center">
+            ¿Estás seguro de que quieres eliminar esta profesor?
+          </Typography>
+          <Grid container gap={2} justifyContent="center">
+            <Button
+              size="large"
+              variant="outlined"
+              color="primary"
+              onClick={handleCloseDeleteModal}
+              sx={{
+                width: 150,
+              }}
+            >
+              Cancelar
+            </Button>
+            <LoadingButton
+              size="large"
+              loading={isDeletingTeacher}
+              variant="contained"
+              color="error"
+              onClick={handleDeleteSubmit}
+              sx={{
+                width: 150,
+              }}
+            >
+              Eliminar
+            </LoadingButton>
+          </Grid>
+        </Paper>
+      </Modal>
       <Drawer open={open} onClose={handleCloseDrawer} anchor="right">
         <Grid container width={700} padding={6} gap={2} flexDirection="column">
-          <Typography variant="h4">{isEditing ? `Editar profesor` : `Nuevo profesor`}</Typography>
+          <Typography variant="h4">
+            {editingTeacher ? `Editar profesor` : `Nuevo profesor`}
+          </Typography>
           <Grid container item xs gap={2} flexDirection="column">
             <Grid container item xs gap={1}>
               <Grid item xs={12}>
@@ -247,17 +155,17 @@ const Teachers = (): JSX.Element => {
                 >
                   <span
                     style={{
-                      color: images.length > 10 ? `red` : ``,
+                      color: allImages.length > 10 ? `red` : ``,
                     }}
                   >
-                    Fotos · {images.length}/10
+                    Fotos · {allImages.length}/10
                   </span>
                   {` `}- Puedes agregar un máximo de 10 fotos.
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <SortableList onSortEnd={onSortEnd} className="list" draggedItemClassName="dragged">
-                  {images.map((image) => (
+                  {allImages.map((image) => (
                     <SortableItem key={image.name}>
                       <Box
                         className="item"
@@ -270,7 +178,7 @@ const Teachers = (): JSX.Element => {
                           onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
-                            handleDeleteImage(image.name)
+                            handleDeleteImage(image)
                           }}
                           sx={{
                             display: isHover === image.name ? `flex` : `none`,
@@ -296,7 +204,7 @@ const Teachers = (): JSX.Element => {
                           />
                         </IconButton>
                         <img
-                          src={URL.createObjectURL(image)}
+                          src={image instanceof File ? URL.createObjectURL(image) : image.url}
                           alt={image.name}
                           width={100}
                           height={100}
@@ -322,7 +230,7 @@ const Teachers = (): JSX.Element => {
                     variant="outlined"
                     color="primary"
                     component="label"
-                    disabled={images.length >= 10}
+                    disabled={allImages.length >= 10}
                   >
                     <input
                       hidden
@@ -389,20 +297,20 @@ const Teachers = (): JSX.Element => {
             </Grid>
             <Grid container item xs gap={1} justifyContent="flex-end">
               <LoadingButton
-                loading={isCreatingTeacher}
-                disabled={!name || !description || images.length < 1 || images.length > 10}
+                loading={isCreatingOrUpdating}
+                disabled={disableSubmitButton}
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
               >
-                {isEditing ? `Actualizar profesor` : `Crear profesor`}
+                {editingTeacher ? `Actualizar profesor` : `Crear profesor`}
               </LoadingButton>
             </Grid>
           </Grid>
         </Grid>
       </Drawer>
       <Layout>
-        <Grid container gap={4} marginBottom={4}>
+        <Grid container gap={4} marginBottom={4} alignItems="center">
           <Typography variant="h4">Profesores</Typography>
           <Button variant="contained" color="primary" onClick={handleOpenDrawer}>
             Agregar profesor
@@ -421,6 +329,10 @@ const Teachers = (): JSX.Element => {
             }}
             pageSizeOptions={[8]}
             disableRowSelectionOnClick
+            disableColumnSorting
+            disableColumnMenu
+            disableColumnResize
+            disableColumnSelector
             localeText={{
               noRowsLabel: `No hay profesores`,
             }}
