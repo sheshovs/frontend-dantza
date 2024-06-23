@@ -107,6 +107,24 @@ const API = {
 
       return axiosInstance.post(`/event`, formData)
     },
+    update: (data: Event, uuid: string) => {
+      const formData = new FormData()
+      formData.append(`name`, data.name)
+      formData.append(`description`, data.description)
+      formData.append(`date`, data.date?.format(`YYYY-MM-DD HH:mm`) || ``)
+      formData.append(`location`, data.location)
+      data.images.forEach((image) => {
+        formData.append(`images`, image)
+      })
+      data.imagesUploaded.forEach((image) => {
+        formData.append(`imagesUploaded`, image.uuid)
+      })
+
+      return axiosInstance.patch(`/event/${uuid}`, formData)
+    },
+    delete: (uuid: string) => {
+      return axiosInstance.delete(`/event/${uuid}`)
+    },
     getAll: (): Promise<{ data: EventReturn[] }> => {
       return axiosInstance.get(`/event`)
     },

@@ -6,6 +6,7 @@ import CardDiscipline from './components/CardDiscipline'
 import DrawerDisciplines from './components/DrawerDisciplines'
 import { DisciplineReturn } from '@/common/types'
 import CardLoading from '@/common/components/CardLoading'
+import CalendarDisciplines from './components/CalendarDisciplines'
 
 interface DisciplinesProps {
   disciplinesLinks: {
@@ -81,7 +82,7 @@ const Disciplines = ({
       >
         <Container>
           <Grid container>
-            <Grid container item xs={12} gap={4} marginBottom={{ md: 10, xs: 8 }}>
+            <Grid container item xs={12} gap={4} marginBottom={{ md: 8, xs: 6 }}>
               <Grid container item xs={12} md={4}>
                 <Typography variant="h3" textTransform="uppercase">
                   Disciplinas Artísticas
@@ -115,7 +116,7 @@ const Disciplines = ({
               justifyContent={{ xs: `center`, md: `flex-start` }}
               alignItems="center"
               gap={3}
-              marginBottom={8}
+              marginBottom={6}
             >
               {disciplinesLinks.map((discipline, index) => {
                 if (index === disciplinesLinks.length - 1) {
@@ -194,6 +195,10 @@ const Disciplines = ({
               </Grid>
             </Grid>
           </Grid>
+          <CalendarDisciplines
+            disciplines={disciplines}
+            handleOpenDiscipline={handleOpenDiscipline}
+          />
         </Container>
       </Grid>
     </>

@@ -7,9 +7,9 @@ export interface Event {
   date: Dayjs | undefined
   location: string
   images: File[]
+  imagesUploaded: Image[]
 }
 
-export interface EventReturn extends Omit<Event, `images`> {
+export interface EventReturn extends Event {
   uuid: string
-  images: Image[]
 }

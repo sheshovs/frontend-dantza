@@ -168,20 +168,6 @@ const useTeachers = () => {
     setState({ ...state, [name]: value })
   }
   const handleSubmit = (): void => {
-    if (editingTeacher) {
-      // Update teacher
-      const payload: Teacher = {
-        name,
-        description,
-        images,
-        imagesUploaded,
-        disciplines,
-      }
-
-      updateTeacher({ payload, editingTeacher })
-      return
-    }
-
     const payload: Teacher = {
       name,
       description,
@@ -189,7 +175,10 @@ const useTeachers = () => {
       imagesUploaded,
       disciplines,
     }
-
+    if (editingTeacher) {
+      updateTeacher({ payload, editingTeacher })
+      return
+    }
     createTeacher(payload)
   }
   const handleDeleteSubmit = (): void => {

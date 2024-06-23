@@ -5,6 +5,7 @@ import Countdown, { zeroPad } from 'react-countdown'
 import dayjs from 'dayjs'
 import { useNextEventsQuery } from '@/common/querys/useEventQuery'
 import { useMemo } from 'react'
+import Icon from '@/common/components/Icon'
 
 const CountdownRendererLarge = ({ days, hours, minutes, seconds }: any): JSX.Element => {
   return (
@@ -268,7 +269,7 @@ const UpcomingEvents = (): JSX.Element => {
             </Typography>
           </Grid>
           {nextEvents.length > 0 ? (
-            <Grid container gap={8}>
+            <Grid container gap={4}>
               {nextEvents.slice(0, 3).map((event) => (
                 <Grid
                   container
@@ -290,8 +291,30 @@ const UpcomingEvents = (): JSX.Element => {
                       <Typography variant="h4" color="common.white" marginBottom={0.5}>
                         {event.name}
                       </Typography>
-                      <Typography variant="body1" color={`${common.white}99`}>
-                        {event.location} - {dayjs(event.date).format(`DD/MM/YYYY HH:mm`)}
+                      <Typography
+                        variant="body1"
+                        color={`${common.white}99`}
+                        sx={{
+                          display: `flex`,
+                          alignItems: `center`,
+                          gap: 1,
+                          lineHeight: `1 !important`,
+                        }}
+                      >
+                        <Icon
+                          icon="location"
+                          sx={{
+                            fontSize: 20,
+                          }}
+                        />
+                        {event.location} -
+                        <Icon
+                          icon="datetime"
+                          sx={{
+                            fontSize: 20,
+                          }}
+                        />
+                        {dayjs(event.date).format(`DD/MM/YYYY HH:mm`)}
                       </Typography>
                     </Grid>
                     <Grid item xs={12} md={11}>

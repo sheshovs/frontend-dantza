@@ -1,4 +1,15 @@
-import { Alert, Box, Button, Drawer, Grid, IconButton, TextField, Typography } from '@mui/material'
+import {
+  Alert,
+  Box,
+  Button,
+  Drawer,
+  Grid,
+  IconButton,
+  Modal,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material'
 import Layout from '../components/Layout'
 import SortableList, { SortableItem } from 'react-easy-sort'
 import Icon from '@/common/components/Icon'
@@ -14,11 +25,16 @@ import useEvents from './hooks/useEvents'
 const Events = (): JSX.Element => {
   const {
     open,
+    openDelete,
     state,
+    allImages,
+    editingEvent,
     rows,
     columns,
     isHover,
-    isCreatingEvent,
+    isCreatingOrUpdating,
+    isDeletingEvent,
+    disableSubmit,
     handleInputChange,
     handleOpenDrawer,
     handleCloseDrawer,
@@ -29,14 +45,74 @@ const Events = (): JSX.Element => {
     handleChange,
     handleDateTimeChange,
     handleSubmit,
+    handleCloseDeleteModal,
+    handleDeleteSubmit,
   } = useEvents()
-  const { name, images, description, location, date } = state
+  const { name, description, location, date } = state
 
   return (
     <>
+      <Modal
+        open={openDelete !== null}
+        onClose={handleCloseDeleteModal}
+        sx={{
+          display: `flex`,
+          alignItems: `center`,
+          justifyContent: `center`,
+        }}
+      >
+        <Paper
+          elevation={4}
+          sx={{
+            paddingY: 6,
+            paddingX: 4,
+            width: 500,
+            display: `flex`,
+            alignItems: `center`,
+            flexDirection: `column`,
+            gap: 3,
+          }}
+        >
+          <Icon
+            icon="delete"
+            color="error"
+            sx={{
+              fontSize: 64,
+            }}
+          />
+          <Typography variant="h5" textAlign="center">
+            ¿Estás seguro de que quieres eliminar este evento?
+          </Typography>
+          <Grid container gap={2} justifyContent="center">
+            <Button
+              size="large"
+              variant="outlined"
+              color="primary"
+              onClick={handleCloseDeleteModal}
+              sx={{
+                width: 150,
+              }}
+            >
+              Cancelar
+            </Button>
+            <LoadingButton
+              size="large"
+              loading={isDeletingEvent}
+              variant="contained"
+              color="error"
+              onClick={handleDeleteSubmit}
+              sx={{
+                width: 150,
+              }}
+            >
+              Eliminar
+            </LoadingButton>
+          </Grid>
+        </Paper>
+      </Modal>
       <Drawer open={open} onClose={handleCloseDrawer} anchor="right">
         <Grid container width={700} padding={6} gap={2} flexDirection="column">
-          <Typography variant="h4">Nuevo evento</Typography>
+          <Typography variant="h4">{editingEvent ? `Editar evento` : `Nuevo evento`}</Typography>
           <Grid container item xs gap={2} flexDirection="column">
             <Grid container item xs gap={1}>
               <Grid item xs={12}>
@@ -119,17 +195,17 @@ const Events = (): JSX.Element => {
                 >
                   <span
                     style={{
-                      color: images.length > 20 ? `red` : ``,
+                      color: allImages.length > 20 ? `red` : ``,
                     }}
                   >
-                    Fotos · {images.length}/20
+                    Fotos · {allImages.length}/20
                   </span>
                   {` `}- Puedes agregar un máximo de 20 fotos.
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <SortableList onSortEnd={onSortEnd} className="list" draggedItemClassName="dragged">
-                  {images.map((image) => (
+                  {allImages.map((image) => (
                     <SortableItem key={image.name}>
                       <Box
                         className="item"
@@ -142,7 +218,7 @@ const Events = (): JSX.Element => {
                           onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
-                            handleDeleteImage(image.name)
+                            handleDeleteImage(image)
                           }}
                           sx={{
                             display: isHover === image.name ? `flex` : `none`,
@@ -168,7 +244,7 @@ const Events = (): JSX.Element => {
                           />
                         </IconButton>
                         <img
-                          src={URL.createObjectURL(image)}
+                          src={image instanceof File ? URL.createObjectURL(image) : image.url}
                           alt={image.name}
                           width={100}
                           height={100}
@@ -194,7 +270,7 @@ const Events = (): JSX.Element => {
                     variant="outlined"
                     color="primary"
                     component="label"
-                    disabled={images.length >= 20}
+                    disabled={allImages.length >= 20}
                   >
                     <input
                       hidden
@@ -226,13 +302,13 @@ const Events = (): JSX.Element => {
 
             <Grid container item xs gap={1} justifyContent="flex-end">
               <LoadingButton
-                loading={isCreatingEvent}
-                disabled={!name || !description || !location || !date}
+                loading={isCreatingOrUpdating}
+                disabled={disableSubmit}
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
               >
-                Crear evento
+                {editingEvent ? `Editar evento` : `Crear evento`}
               </LoadingButton>
             </Grid>
           </Grid>
@@ -264,11 +340,12 @@ const Events = (): JSX.Element => {
             disableColumnResize
             disableColumnSelector
             localeText={{
-              noRowsLabel: `No hay profesores`,
+              noRowsLabel: `No hay eventos`,
             }}
             sx={{
               minHeight: `500px`,
             }}
+            getRowId={(row) => row.id}
           />
         </Grid>
       </Layout>

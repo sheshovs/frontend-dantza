@@ -82,6 +82,7 @@ const About = (): JSX.Element => {
                     gap: `16px`,
                     display: `flex`,
                     flexDirection: `column`,
+                    fontFamily: `Poppins`,
                   }}
                 >
                   <li>Nos comprometemos a ofrecer una educación artística de excelencia.</li>

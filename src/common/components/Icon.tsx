@@ -9,6 +9,8 @@ import {
   CloseRounded,
   DeleteRounded,
   EditRounded,
+  EventRounded,
+  LocationOnRounded,
   MenuRounded,
 } from '@mui/icons-material'
 export const icons = {
@@ -22,6 +24,8 @@ export const icons = {
   add: AddRounded,
   addCircle: AddCircleOutlineRounded,
   edit: EditRounded,
+  location: LocationOnRounded,
+  datetime: EventRounded,
 }
 interface IconProps extends SvgIconProps {
   icon: keyof typeof icons
