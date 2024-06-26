@@ -1,27 +1,13 @@
 import { Box, Button, Divider, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import Container from '../../../common/components/Container'
-import { useDisciplineByIdQuery } from '@/common/querys/useDisciplineQuery'
+import { useDisciplineByIdQuery, useDisciplineQuery } from '@/common/querys/useDisciplineQuery'
 import { useMemo, useState } from 'react'
 import CardDiscipline from './components/CardDiscipline'
 import DrawerDisciplines from './components/DrawerDisciplines'
-import { DisciplineReturn } from '@/common/types'
 import CardLoading from '@/common/components/CardLoading'
 import CalendarDisciplines from './components/CalendarDisciplines'
 
-interface DisciplinesProps {
-  disciplinesLinks: {
-    name: string
-    uuid: string
-  }[]
-  disciplines: DisciplineReturn[]
-  isLoadingDisciplines: boolean
-}
-
-const Disciplines = ({
-  disciplinesLinks,
-  disciplines,
-  isLoadingDisciplines,
-}: DisciplinesProps): JSX.Element => {
+const Disciplines = (): JSX.Element => {
   const { breakpoints } = useTheme()
   const widthAboveLg = useMediaQuery(breakpoints.up(900))
   const [openAllDisciplines, setOpenAllDisciplines] = useState(false)
@@ -29,6 +15,23 @@ const Disciplines = ({
   const { data: disciplineQuery, isLoading: isLoadingDiscipline } = useDisciplineByIdQuery(
     selectedDisciplineId!,
   )
+
+  const { data: disciplinesQuery, isPending: isLoadingDisciplines } = useDisciplineQuery()
+
+  const { disciplinesLinks, disciplines } = useMemo(() => {
+    if (!disciplinesQuery?.data) {
+      return { disciplinesLinks: [], disciplines: [] }
+    }
+
+    const disciplinesLinks = disciplinesQuery.data.map((discipline) => ({
+      name: discipline.name,
+      uuid: discipline.uuid,
+    }))
+
+    const disciplines = disciplinesQuery.data
+
+    return { disciplinesLinks, disciplines }
+  }, [disciplinesQuery])
 
   const discipline = useMemo(() => {
     if (!disciplineQuery?.data) {
@@ -100,13 +103,13 @@ const Disciplines = ({
                     }}
                   />
 
-                  <Typography variant="h4">Explora la variedad de artes que ofrecemos</Typography>
+                  <Typography variant="h4">Explora la variedad de cursos que ofrecemos</Typography>
                 </Grid>
                 <Grid item>
                   <Typography variant="body1" paddingLeft={widthAboveLg ? 2 : 0}>
-                    En Dantza, ofrecemos una amplia gama de disciplinas artísticas para todos los
-                    niveles y edades. Únete a nosotros y descubre la pasión por el arte en cada
-                    movimiento.
+                    Contamos con una amplia gama de disciplinas artísticas y de bienestar para
+                    distintas edades, niveles e intereses. Súmate y vive la experiencia de ser parte
+                    de la comunidad Dantza.
                   </Typography>
                 </Grid>
               </Grid>

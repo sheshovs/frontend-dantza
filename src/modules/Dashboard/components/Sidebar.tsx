@@ -62,7 +62,7 @@ const Sidebar = (): JSX.Element => {
                     },
                   }}
                 >
-                  Profesores
+                  Profesoras
                 </Typography>
               </MenuItem>
             </Link>

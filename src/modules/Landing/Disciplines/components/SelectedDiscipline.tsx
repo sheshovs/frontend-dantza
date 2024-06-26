@@ -85,7 +85,9 @@ const SelectedDiscipline = ({
 
             {discipline.teachers.length > 0 ? (
               <Grid container gap={1}>
-                <Typography variant="h5">Profesores</Typography>
+                <Typography variant="h5">
+                  {discipline.teachers.length > 1 ? `Profesoras` : `Profesora`}
+                </Typography>
                 <Grid container gap={2}>
                   {discipline.teachers.map((teacher) => (
                     <Typography key={teacher.uuid} variant="body1" color="primary">

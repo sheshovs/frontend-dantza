@@ -1,18 +1,18 @@
-import { Divider, Grid, IconButton, Link, Slide, Zoom, useTheme } from '@mui/material'
+import { Divider, Grid, IconButton, Link, Slide, Typography, Zoom, useTheme } from '@mui/material'
 import { LOGO_COLOR } from '../../assets'
 import Icon from './Icon'
 import { routes } from './routes'
 import SidebarRoute from './SidebarRoute'
 import { useSpring, animated } from '@react-spring/web'
+import { FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa6'
 
 interface NavbarProps {
-  isActive: string
   menuOpen: boolean
   handleMenu: () => void
   handleCloseMenu: () => void
 }
 
-const Navbar = ({ isActive, menuOpen, handleMenu, handleCloseMenu }: NavbarProps): JSX.Element => {
+const Navbar = ({ menuOpen, handleMenu, handleCloseMenu }: NavbarProps): JSX.Element => {
   const {
     palette: { common, primary },
   } = useTheme()
@@ -102,7 +102,6 @@ const Navbar = ({ isActive, menuOpen, handleMenu, handleCloseMenu }: NavbarProps
                 <SidebarRoute
                   key={route.id}
                   label={route.label}
-                  isActive={isActive === route.id}
                   route={route.route}
                   color="common.black"
                   onClick={handleCloseMenu}
@@ -114,6 +113,52 @@ const Navbar = ({ isActive, menuOpen, handleMenu, handleCloseMenu }: NavbarProps
                 />
               </>
             ))}
+          </Grid>
+          <Grid container justifyContent="center">
+            <Typography variant="body1" color="common.black" textAlign="center" marginBottom={2}>
+              Redes sociales
+            </Typography>
+            <Grid container item gap={4} justifyContent="center" marginBottom={4}>
+              <Link
+                href="https://www.instagram.com/dantzaestudio"
+                target="_blank"
+                sx={{
+                  borderRadius: `50%`,
+                  backgroundColor: primary.main,
+                  color: common.white,
+                  height: 48,
+                  padding: 1.5,
+                }}
+              >
+                <FaInstagram size={24} />
+              </Link>
+              <Link
+                href="https://wa.me/56979640980"
+                target="_blank"
+                sx={{
+                  borderRadius: `50%`,
+                  backgroundColor: primary.main,
+                  color: common.white,
+                  height: 48,
+                  padding: 1.5,
+                }}
+              >
+                <FaWhatsapp size={24} />
+              </Link>
+              <Link
+                href="https://web.facebook.com/profile.php?id=100065174723983"
+                target="_blank"
+                sx={{
+                  borderRadius: `50%`,
+                  backgroundColor: primary.main,
+                  color: common.white,
+                  height: 48,
+                  padding: 1.5,
+                }}
+              >
+                <FaFacebookF size={24} />
+              </Link>
+            </Grid>
           </Grid>
         </Grid>
       </Slide>

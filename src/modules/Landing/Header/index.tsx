@@ -3,6 +3,7 @@ import { HEADER_BG } from '../../../assets'
 import Icon from '../../../common/components/Icon'
 import Container from '../../../common/components/Container'
 import { useSpring, animated } from '@react-spring/web'
+import { FaWhatsapp } from 'react-icons/fa6'
 
 const Header = (): JSX.Element => {
   const { breakpoints } = useTheme()
@@ -67,7 +68,7 @@ const Header = (): JSX.Element => {
                 textTransform: `uppercase`,
               }}
             >
-              Explora tu Pasión Artística en Dantza
+              Estudio de danza
             </Typography>
             <Typography
               variant="h1"
@@ -77,7 +78,7 @@ const Header = (): JSX.Element => {
                 textTransform: `uppercase`,
               }}
             >
-              Estudio: Arte, Sueños y Crecimiento
+              y otras artes
             </Typography>
           </animated.div>
           <animated.div
@@ -103,12 +104,19 @@ const Header = (): JSX.Element => {
               alignItems={widthAboveLg ? `flex-end` : `flex-start`}
             >
               <Grid>
-                <Typography variant={widthAboveLg ? `h6` : `body1`} color="white">
-                  +569 7964 0980
-                </Typography>
-                <Typography variant={widthAboveLg ? `h6` : `body1`} color="primary.light">
-                  Contáctanos
-                </Typography>
+                <Button variant="contained" startIcon={<FaWhatsapp size={20} />}>
+                  <Link
+                    href="https://wa.me/56979640980"
+                    target="_blank"
+                    sx={{
+                      textDecoration: `none`,
+                      color: `white`,
+                      fontWeight: 700,
+                    }}
+                  >
+                    Contáctanos
+                  </Link>
+                </Button>
               </Grid>
             </Grid>
 

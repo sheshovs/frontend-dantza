@@ -53,13 +53,13 @@ const About = (): JSX.Element => {
               </Grid>
               <Grid item paddingLeft={2}>
                 <Typography variant="body1">
-                  El Estudio Dantza llega a concretar y proyectar en cierta medida una vida ligada
-                  al arte y el gusto por cultivar los sueños, que cualquier persona pueda tener, de
-                  expresar lo que siente. De este modo, <b>Danitza González</b>, la directora del
+                  El Estudio Dantza llega a concretar y proyectar una vida ligada al arte y el gusto
+                  por cultivar los sueños. De este modo, <b>Danitza González</b>, la directora del
                   estudio, el año 2020 decide iniciar un proyecto que tuvo sus primeras experiencias
                   de clases de danza de manera online; para luego volver a su casa, la cual cobijó
                   sus sueños de niña, y comenzar a darle vida a este espacio que intenta canalizar
-                  de forma amorosa los deseos artísticos de quienes lo integran.
+                  de forma amorosa y respetuosa el bienestar personal y los deseos artísticos de
+                  quienes lo integran.
                 </Typography>
               </Grid>
             </Grid>
@@ -85,13 +85,13 @@ const About = (): JSX.Element => {
                     fontFamily: `Poppins`,
                   }}
                 >
-                  <li>Nos comprometemos a ofrecer una educación artística de excelencia.</li>
-                  <li>Queremos llegar a la mayor variedad de personas posible.</li>
-                  <li>Contamos con un equipo altamente capacitado de profesionales.</li>
-                  <li>Ofrecemos una amplia gama de disciplinas artísticas.</li>
-                  <li>Promovemos el respeto por el cuerpo y sus diferentes movimientos.</li>
+                  <li>Ofrecer una educación artística de excelencia.</li>
+                  <li>Llegar a la mayor variedad de personas posible.</li>
+                  <li>Contar con un equipo altamente capacitado de profesionales.</li>
+                  <li>Ofrecer una amplia gama de disciplinas artísticas.</li>
+                  <li>Promover el respeto por el cuerpo y sus diferentes movimientos.</li>
                   <li>
-                    Ayudamos a que cada miembro de nuestra comunidad pueda expresar sus deseos
+                    Favorecer a que cada miembro de nuestra comunidad pueda expresar sus deseos
                     artísticos.
                   </li>
                 </List>

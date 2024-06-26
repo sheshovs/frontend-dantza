@@ -77,7 +77,7 @@ const Teachers = (): JSX.Element => {
             }}
           />
           <Typography variant="h5" textAlign="center">
-            ¿Estás seguro de que quieres eliminar esta profesor?
+            ¿Estás seguro de que quieres eliminar esta profesora?
           </Typography>
           <Grid container gap={2} justifyContent="center">
             <Button
@@ -109,7 +109,7 @@ const Teachers = (): JSX.Element => {
       <Drawer open={open} onClose={handleCloseDrawer} anchor="right">
         <Grid container width={700} padding={6} gap={2} flexDirection="column">
           <Typography variant="h4">
-            {editingTeacher ? `Editar profesor` : `Nuevo profesor`}
+            {editingTeacher ? `Editar profesora` : `Nuevo profesora`}
           </Typography>
           <Grid container item xs gap={2} flexDirection="column">
             <Grid container item xs gap={1}>
@@ -252,7 +252,7 @@ const Teachers = (): JSX.Element => {
               <Grid item xs={12} marginTop={2}>
                 <Alert severity="info">
                   <Typography variant="body2">
-                    La primera imagen será la principal del profesor.
+                    La primera imagen será la principal de la profesora.
                   </Typography>
                 </Alert>
               </Grid>
@@ -267,7 +267,7 @@ const Teachers = (): JSX.Element => {
                     fontSize: `13px !important`,
                   }}
                 >
-                  Selecciona las disciplinas que imparte el profesor.
+                  Selecciona las disciplinas que imparte el profesora.
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -303,7 +303,7 @@ const Teachers = (): JSX.Element => {
                 color="primary"
                 onClick={handleSubmit}
               >
-                {editingTeacher ? `Actualizar profesor` : `Crear profesor`}
+                {editingTeacher ? `Actualizar profesora` : `Crear profesora`}
               </LoadingButton>
             </Grid>
           </Grid>
@@ -311,9 +311,9 @@ const Teachers = (): JSX.Element => {
       </Drawer>
       <Layout>
         <Grid container gap={4} marginBottom={4} alignItems="center">
-          <Typography variant="h4">Profesores</Typography>
+          <Typography variant="h4">Profesoras</Typography>
           <Button variant="contained" color="primary" onClick={handleOpenDrawer}>
-            Agregar profesor
+            Agregar profesora
           </Button>
         </Grid>
         <Grid container>
@@ -334,7 +334,7 @@ const Teachers = (): JSX.Element => {
             disableColumnResize
             disableColumnSelector
             localeText={{
-              noRowsLabel: `No hay profesores`,
+              noRowsLabel: `No hay profesoras`,
             }}
             sx={{
               minHeight: `500px`,

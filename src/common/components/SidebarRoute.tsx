@@ -4,18 +4,11 @@ import { useSpring, animated, useScroll } from '@react-spring/web'
 interface SidebarRouteProps {
   label: string
   route: string
-  isActive: boolean
   color?: string
   onClick?: () => void
 }
 
-const SidebarRoute = ({
-  label,
-  route,
-  isActive,
-  color,
-  onClick,
-}: SidebarRouteProps): JSX.Element => {
+const SidebarRoute = ({ label, color, route, onClick }: SidebarRouteProps): JSX.Element => {
   const [sidebarItemStyles, sidebarItemApi] = useSpring(() => ({
     from: { color: `black` },
     to: { color: `white` },
@@ -49,7 +42,7 @@ const SidebarRoute = ({
           sx={{
             paddingY: 1,
             transition: `color 0.3s`,
-            color: isActive ? `primary.light` : color,
+            color: color,
             '&:hover': {
               color: `primary.light`,
               cursor: `pointer`,

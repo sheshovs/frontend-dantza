@@ -6,7 +6,7 @@ import { LOGO_COLOR, LOGO_WHITE } from '../../assets'
 import { useState } from 'react'
 import { routes } from './routes'
 
-const Sidebar = ({ isActive }: { isActive: string }): JSX.Element => {
+const Sidebar = (): JSX.Element => {
   const [sidebarStyles, sidebarApi] = useSpring(() => ({
     from: {
       opacity: 0,
@@ -74,12 +74,7 @@ const Sidebar = ({ isActive }: { isActive: string }): JSX.Element => {
 
         <Grid container item flexDirection="column">
           {routes.map((route) => (
-            <SidebarRoute
-              key={route.id}
-              label={route.label}
-              route={route.route}
-              isActive={isActive === route.id.toLowerCase()}
-            />
+            <SidebarRoute key={route.id} label={route.label} route={route.route} />
           ))}
         </Grid>
 

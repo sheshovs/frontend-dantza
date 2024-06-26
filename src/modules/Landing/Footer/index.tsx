@@ -2,11 +2,7 @@ import { LOGO_WHITE } from '@/assets'
 import { Grid, Link, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { FaInstagram, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
 
-interface FooterProps {
-  disciplinesLinks: { name: string; uuid: string }[]
-}
-
-const Footer = ({ disciplinesLinks }: FooterProps): JSX.Element => {
+const Footer = (): JSX.Element => {
   const { breakpoints } = useTheme()
   const widthAboveLg = useMediaQuery(breakpoints.up(900))
   return (
@@ -25,6 +21,7 @@ const Footer = ({ disciplinesLinks }: FooterProps): JSX.Element => {
         minHeight={200}
         gap={{ md: 4, xs: 6 }}
         flexDirection={{ xs: `column`, md: `row` }}
+        justifyContent="space-between"
       >
         <Grid
           item
@@ -45,31 +42,7 @@ const Footer = ({ disciplinesLinks }: FooterProps): JSX.Element => {
             </Grid>
           ) : null}
         </Grid>
-        <Grid
-          item
-          xs={12}
-          md
-          sx={
-            widthAboveLg
-              ? {
-                display: `grid`,
-                gridTemplateColumns: `repeat(5, auto)`,
-                gridTemplateRows: `repeat(4, 35px)`,
-              }
-              : {
-                display: `flex`,
-                flexWrap: `wrap`,
-                justifyContent: `space-between`,
-                gap: 3,
-              }
-          }
-        >
-          {disciplinesLinks.map((discipline) => (
-            <Typography key={discipline.uuid} variant="body1" color="primary">
-              {discipline.name}
-            </Typography>
-          ))}
-        </Grid>
+
         <Grid
           item
           width={{ xs: `100%`, md: `fit-content` }}

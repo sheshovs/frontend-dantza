@@ -15,6 +15,11 @@ export const routes = [
     route: `#disciplines`,
   },
   {
+    id: `schedule`,
+    label: `Horario`,
+    route: `#schedule`,
+  },
+  {
     id: `upcoming-events`,
     label: `Eventos`,
     route: `#upcoming-events`,
