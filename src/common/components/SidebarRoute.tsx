@@ -1,4 +1,4 @@
-import { Link, Typography } from '@mui/material'
+import { Link, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useSpring, animated, useScroll } from '@react-spring/web'
 
 interface SidebarRouteProps {
@@ -9,6 +9,8 @@ interface SidebarRouteProps {
 }
 
 const SidebarRoute = ({ label, color, route, onClick }: SidebarRouteProps): JSX.Element => {
+  const { breakpoints } = useTheme()
+  const widthAboveLg = useMediaQuery(breakpoints.up(900))
   const [sidebarItemStyles, sidebarItemApi] = useSpring(() => ({
     from: { color: `black` },
     to: { color: `white` },
@@ -40,7 +42,7 @@ const SidebarRoute = ({ label, color, route, onClick }: SidebarRouteProps): JSX.
         <Typography
           variant="body1"
           sx={{
-            paddingY: 1,
+            paddingY: widthAboveLg ? 1 : 1.5,
             transition: `color 0.3s`,
             color: color,
             '&:hover': {

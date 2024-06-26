@@ -157,7 +157,7 @@ const CalendarDisciplines = ({
   const maxHour = dayjs().hour(21).minute(0).toDate()
 
   return (
-    <Grid container marginBottom={2} height="100%" id="schedule">
+    <Grid container marginY={2} height="100%" id="schedule" overflow="scroll">
       <Typography variant="h3" textTransform="uppercase" marginBottom={2}>
         Horario dantza
       </Typography>
@@ -166,7 +166,7 @@ const CalendarDisciplines = ({
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ width: `100%` }}
+        style={{ width: `100%`, minWidth: `600px` }}
         step={60}
         timeslots={1}
         view="week"

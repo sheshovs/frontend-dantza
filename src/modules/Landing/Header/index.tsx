@@ -64,7 +64,7 @@ const Header = (): JSX.Element => {
               color="rgba(0,0,0,0)"
               fontWeight={700}
               sx={{
-                WebkitTextStroke: `0.1px white`,
+                WebkitTextStroke: widthAboveLg ? `0.1px white` : `0.6px white`,
                 textTransform: `uppercase`,
               }}
             >
