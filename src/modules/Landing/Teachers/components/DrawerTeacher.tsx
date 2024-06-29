@@ -1,6 +1,6 @@
 import {
+  Box,
   CircularProgress,
-  Drawer,
   Grid,
   IconButton,
   Typography,
@@ -66,29 +66,58 @@ const DrawerTeachers = ({
   }
 
   return (
-    <Drawer
-      open={open}
-      onClose={onClose}
-      anchor="right"
-      sx={{
-        '& .MuiDrawer-paper': {
-          width: `97%`,
-        },
-      }}
+    <Grid
+      container
+      minHeight="100vh"
+      position="absolute"
+      top={0}
+      bottom={0}
+      right={0}
+      width={open ? `100%` : 0}
     >
-      <IconButton
+      <Grid
+        container
+        height="100%"
+        sx={{
+          position: `absolute`,
+          right: 0,
+          display: `flex`,
+          flexDirection: `column`,
+          // eslint-disable-next-line no-nested-ternary
+          width: open ? (teacher ? `45%` : `97%`) : 0,
+          transition: `width 0.3s ease-in-out`,
+          backgroundColor: `white`,
+          zIndex: 1002,
+          boxShadow: `0px 0px 10px 0px rgba(0,0,0,0.2)`,
+          overflowY: `auto`,
+          flexWrap: `wrap`,
+        }}
+      >
+        <IconButton
+          onClick={onClose}
+          sx={{
+            position: `absolute`,
+            top: 20,
+            right: 20,
+            borderRadius: 0.5,
+          }}
+        >
+          <Icon icon="close" />
+        </IconButton>
+        {handleDrawerContent()}
+      </Grid>
+      <Box
         onClick={onClose}
         sx={{
           position: `absolute`,
-          top: 20,
-          right: 20,
-          borderRadius: 0.5,
+          right: 0,
+          width: open ? `100%` : 0,
+          height: `100%`,
+          backgroundColor: `rgba(0,0,0,0.5)`,
+          zIndex: 1001,
         }}
-      >
-        <Icon icon="close" />
-      </IconButton>
-      {handleDrawerContent()}
-    </Drawer>
+      />
+    </Grid>
   )
 }
 

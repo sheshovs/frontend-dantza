@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Button, Divider, Grid, Typography } from '@mui/material'
 import Container from '../../../common/components/Container'
 import { useDisciplineByIdQuery, useDisciplineQuery } from '@/common/querys/useDisciplineQuery'
 import { useMemo, useState } from 'react'
@@ -8,8 +8,6 @@ import CardLoading from '@/common/components/CardLoading'
 import CalendarDisciplines from './components/CalendarDisciplines'
 
 const Disciplines = (): JSX.Element => {
-  const { breakpoints } = useTheme()
-  const widthAboveLg = useMediaQuery(breakpoints.up(900))
   const [openAllDisciplines, setOpenAllDisciplines] = useState(false)
   const [selectedDisciplineId, setSelectedDisciplineId] = useState<string | undefined>(undefined)
   const { data: disciplineQuery, isLoading: isLoadingDiscipline } = useDisciplineByIdQuery(
@@ -93,20 +91,25 @@ const Disciplines = (): JSX.Element => {
               </Grid>
 
               <Grid container item xs={12} md={7} flexDirection="column">
-                <Grid container alignItems="center" gap={3} marginBottom={2}>
-                  <Divider
-                    sx={{
-                      width: `50px`,
-                      height: `2px`,
-                      backgroundColor: `common.black`,
-                      borderRadius: `5px`,
-                    }}
-                  />
-
-                  <Typography variant="h4">Explora la variedad de cursos que ofrecemos</Typography>
+                <Grid container gap={3} marginBottom={2} alignItems="center">
+                  <Grid container width={50}>
+                    <Divider
+                      sx={{
+                        width: `100%`,
+                        height: `2px`,
+                        backgroundColor: `common.black`,
+                        borderRadius: `5px`,
+                      }}
+                    />
+                  </Grid>
+                  <Grid container xs>
+                    <Typography variant="h4">
+                      Explora la variedad de cursos que ofrecemos
+                    </Typography>
+                  </Grid>
                 </Grid>
                 <Grid item>
-                  <Typography variant="body1" paddingLeft={widthAboveLg ? 2 : 0}>
+                  <Typography variant="body1">
                     Contamos con una amplia gama de disciplinas artísticas y de bienestar para
                     distintas edades, niveles e intereses. Súmate y vive la experiencia de ser parte
                     de la comunidad Dantza.

@@ -120,22 +120,22 @@ const Header = (): JSX.Element => {
               </Grid>
             </Grid>
 
-            <Grid container item justifyContent="flex-end" gap={widthAboveLg ? 5 : 2}>
-              <Grid container item xs={widthAboveLg ? 6 : 12}>
+            <Grid container item justifyContent="flex-end" gap={widthAboveLg ? 3 : 2}>
+              <Grid container item xs={10}>
                 <Typography variant="body1" color="white">
                   Descubre la pasión por el arte en cada movimiento
                 </Typography>
               </Grid>
-              <Grid container item xs={12} justifyContent="flex-end">
+              <Grid container item xs={10} justifyContent="flex-end">
                 <Link
                   href="#disciplines"
                   underline="none"
                   sx={{
-                    width: widthAboveLg ? `fit-content` : `100%`,
+                    width: `100%`,
                   }}
                 >
                   <Button
-                    fullWidth={widthAboveLg ? false : true}
+                    fullWidth
                     variant="contained"
                     color="primary"
                     endIcon={<Icon icon="arrowRight" />}

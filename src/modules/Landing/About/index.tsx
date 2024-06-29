@@ -51,7 +51,7 @@ const About = (): JSX.Element => {
                 />
                 <Typography variant="h4">Nuestra historia</Typography>
               </Grid>
-              <Grid item paddingLeft={2}>
+              <Grid item>
                 <Typography variant="body1">
                   El Estudio Dantza llega a concretar y proyectar una vida ligada al arte y el gusto
                   por cultivar los sueños. De este modo, <b>Danitza González</b>, la directora del
@@ -109,7 +109,7 @@ const About = (): JSX.Element => {
                 />
                 <Typography variant="h4">Nuestros sueños</Typography>
               </Grid>
-              <Grid item paddingLeft={2}>
+              <Grid item>
                 <Typography variant="body1">
                   Ser un estudio de danzas y otras artes pionero en potenciar el desarrollo
                   artístico y humano de quienes lo integran, aportando de forma amorosa y respetuosa
