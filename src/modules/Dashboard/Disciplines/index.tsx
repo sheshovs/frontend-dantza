@@ -20,10 +20,9 @@ const Disciplines = (): JSX.Element => {
     isCreatingOrUpdating,
     isDeletingDiscipline,
     disableScheduleTab,
-    isScheduleCorrect,
+    disableUpdateButton,
     handleOpenDrawer,
     handleCloseDrawer,
-    onSortEnd,
     handleDeleteImage,
     handleChange,
     handleInputChange,
@@ -34,6 +33,7 @@ const Disciplines = (): JSX.Element => {
     setState,
     handleCloseDeleteModal,
     handleDeleteSubmit,
+    handleClickMainImage,
   } = useDiscipline()
 
   return (
@@ -112,18 +112,18 @@ const Disciplines = (): JSX.Element => {
               {...state}
               allImages={allImages}
               disableScheduleTab={disableScheduleTab}
-              onSortEnd={onSortEnd}
               handleDeleteImage={handleDeleteImage}
               handleChange={handleChange}
               handleInputChange={handleInputChange}
               setTabValue={setTabValue}
               handleCategoryChange={handleCategoryChange}
+              handleClickMainImage={handleClickMainImage}
             />
           ) : null}
           {tabValue === `schedule` ? (
             <Schedule
               {...state}
-              isScheduleCorrect={isScheduleCorrect}
+              disableUpdateButton={disableUpdateButton}
               isCreatingDiscipline={isCreatingOrUpdating}
               isEditing={editingDiscipline !== null}
               setState={setState}

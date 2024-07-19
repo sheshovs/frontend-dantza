@@ -1,7 +1,7 @@
 import {
   Alert,
-  Box,
   Button,
+  Chip,
   Drawer,
   Grid,
   IconButton,
@@ -11,7 +11,6 @@ import {
   Typography,
 } from '@mui/material'
 import Layout from '../components/Layout'
-import SortableList, { SortableItem } from 'react-easy-sort'
 import Icon from '@/common/components/Icon'
 import { LoadingButton } from '@mui/lab'
 import dayjs from 'dayjs'
@@ -21,6 +20,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import 'dayjs/locale/es'
 import { DataGrid } from '@mui/x-data-grid'
 import useEvents from './hooks/useEvents'
+import { formatFileName } from '@/common/utils/format'
 
 const Events = (): JSX.Element => {
   const {
@@ -31,24 +31,21 @@ const Events = (): JSX.Element => {
     editingEvent,
     rows,
     columns,
-    isHover,
     isCreatingOrUpdating,
     isDeletingEvent,
     disableSubmit,
     handleInputChange,
     handleOpenDrawer,
     handleCloseDrawer,
-    onMouseEnter,
-    onMouseLeave,
-    onSortEnd,
     handleDeleteImage,
     handleChange,
     handleDateTimeChange,
     handleSubmit,
     handleCloseDeleteModal,
     handleDeleteSubmit,
+    handleClickMainImage,
   } = useEvents()
-  const { name, description, location, date } = state
+  const { name, description, location, date, mainImageName } = state
 
   return (
     <>
@@ -193,108 +190,141 @@ const Events = (): JSX.Element => {
                     fontSize: `13px !important`,
                   }}
                 >
+                  Puedes agregar un máximo de 20 imágenes ·{` `}
                   <span
                     style={{
                       color: allImages.length > 20 ? `red` : ``,
                     }}
                   >
-                    Fotos · {allImages.length}/20
+                    {allImages.length}/20
                   </span>
-                  {` `}- Puedes agregar un máximo de 20 fotos.
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
-                <SortableList onSortEnd={onSortEnd} className="list" draggedItemClassName="dragged">
-                  {allImages.map((image) => (
-                    <SortableItem key={image.name}>
-                      <Box
-                        className="item"
-                        onMouseEnter={() => {
-                          onMouseEnter(image.name)
-                        }}
-                        onMouseLeave={onMouseLeave}
-                      >
-                        <IconButton
-                          onClick={(e) => {
-                            e.preventDefault()
-                            e.stopPropagation()
-                            handleDeleteImage(image)
-                          }}
+              <Grid container item xs={12} gap={2}>
+                <Button
+                  fullWidth
+                  sx={{
+                    height: `75px`,
+                    textTransform: `none`,
+                    flexDirection: `column`,
+                    fontSize: `12px`,
+                    alignItems: `center`,
+                    padding: `0`,
+                  }}
+                  variant="outlined"
+                  color="primary"
+                  component="label"
+                  disabled={allImages.length >= 20}
+                >
+                  <input
+                    hidden
+                    multiple
+                    type="file"
+                    accept=".jpg,.jpeg,.png,.webp"
+                    onChange={handleChange}
+                  />
+                  <Icon
+                    icon="addPhotos"
+                    sx={{
+                      fontSize: `20px`,
+                    }}
+                  />
+                  Agregar imágenes
+                </Button>
+                {allImages.length > 0 ? (
+                  <Grid
+                    item
+                    xs
+                    maxHeight={180}
+                    sx={{
+                      borderRadius: `5px`,
+                      border: `1px solid rgba(0, 0, 0, 0.2)`,
+                      overflowY: `auto`,
+                      '&::-webkit-scrollbar': {
+                        width: `0.4em`,
+                      },
+                      '&::-webkit-scrollbar-thumb': {
+                        backgroundColor: `rgba(0, 0, 0, 0.2)`,
+                        borderRadius: `5px`,
+                      },
+                    }}
+                  >
+                    {allImages.map((image, index) => {
+                      const isMainImage = image.name === mainImageName
+                      const isLastImage = index === allImages.length - 1
+                      return (
+                        <Grid
+                          container
+                          key={image.name}
+                          padding={1}
+                          gap={2}
+                          alignItems="center"
                           sx={{
-                            display: isHover === image.name ? `flex` : `none`,
-                            position: `absolute`,
-                            top: 0,
-                            right: 0,
-                            zIndex: 1,
-                            padding: 0,
-                            borderRadius: `0 0 0 5px`,
-                            width: `20px`,
-                            height: `20px`,
-                            backgroundColor: `common.white`,
+                            borderBottom: isLastImage ? `` : `1px solid rgba(0, 0, 0, 0.12)`,
+                            backgroundColor: isMainImage ? `#c8e6c9` : ``,
                             '&:hover': {
-                              backgroundColor: `#ffffffe6`,
+                              backgroundColor: isMainImage ? `` : `rgba(0, 0, 0, 0.03)`,
+                              cursor: `pointer`,
                             },
                           }}
-                        >
-                          <Icon
-                            icon="close"
-                            sx={{
-                              fontSize: `16px`,
-                            }}
-                          />
-                        </IconButton>
-                        <img
-                          src={image instanceof File ? URL.createObjectURL(image) : image.url}
-                          alt={image.name}
-                          width={100}
-                          height={100}
-                          style={{
-                            objectFit: `cover`,
-                            borderRadius: `5px`,
-                            pointerEvents: `none`,
+                          onClick={() => {
+                            handleClickMainImage(image.name)
                           }}
-                        />
-                      </Box>
-                    </SortableItem>
-                  ))}
-                  <Button
-                    sx={{
-                      width: `100px`,
-                      height: `100px`,
-                      textTransform: `none`,
-                      flexDirection: `column`,
-                      fontSize: `12px`,
-                      alignItems: `center`,
-                      padding: `0`,
-                    }}
-                    variant="outlined"
-                    color="primary"
-                    component="label"
-                    disabled={allImages.length >= 20}
-                  >
-                    <input
-                      hidden
-                      multiple
-                      type="file"
-                      accept=".jpg,.jpeg,.png,.webp"
-                      onChange={handleChange}
-                    />
-                    <Icon
-                      icon="addPhotos"
-                      sx={{
-                        fontSize: `20px`,
-                      }}
-                    />
-                    Agregar foto
-                  </Button>
-                </SortableList>
+                        >
+                          <Grid container item xs alignItems="center" gap={1}>
+                            <img
+                              src={image instanceof File ? URL.createObjectURL(image) : image.url}
+                              alt={image.name}
+                              width={50}
+                              height={50}
+                              style={{
+                                objectFit: `cover`,
+                                borderRadius: `3px`,
+                                pointerEvents: `none`,
+                              }}
+                            />
+                            <Typography variant="body2" sx={{ marginLeft: 1 }}>
+                              {formatFileName(image.name, 30)}
+                            </Typography>
+                          </Grid>
+                          {isMainImage ? (
+                            <Chip
+                              label="Principal"
+                              size="small"
+                              sx={{ marginLeft: 1 }}
+                              color="primary"
+                            />
+                          ) : null}
+                          <IconButton
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              handleDeleteImage(image)
+                            }}
+                            sx={{
+                              width: `20px`,
+                              height: `20px`,
+                              borderRadius: `5px`,
+                              padding: 2,
+                            }}
+                          >
+                            <Icon
+                              icon="close"
+                              sx={{
+                                fontSize: `24px`,
+                              }}
+                            />
+                          </IconButton>
+                        </Grid>
+                      )
+                    })}
+                  </Grid>
+                ) : null}
               </Grid>
               <Grid item xs={12} marginTop={2}>
                 <Alert severity="info">
                   <Typography variant="body2">
-                    La primera imagen será la principal del evento. <br />
-                    Puedes agregar imágenes en cualquier momento, incluso cuando haya pasado el
-                    evento.
+                    Haz clic en una imagen para seleccionarla como principal
                   </Typography>
                 </Alert>
               </Grid>

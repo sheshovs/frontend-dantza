@@ -7,7 +7,6 @@ import { Image, Teacher, TeacherReturn } from '@/common/types'
 import { Chip, Grid, IconButton } from '@mui/material'
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { arrayMoveImmutable } from 'array-move'
 import { useSnackbar } from 'notistack'
 import { useMemo, useState } from 'react'
 
@@ -72,6 +71,7 @@ const columns: GridColDef[] = [
 
 const initialState = {
   name: ``,
+  mainImageName: ``,
   images: [],
   imagesUploaded: [],
   description: ``,
@@ -83,9 +83,8 @@ const useTeachers = () => {
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState<string | null>(null)
   const [editingTeacher, setEditingTeacher] = useState<string | null>(null)
-  const [isHover, setIsHover] = useState(``)
   const [state, setState] = useState<Teacher>(initialState)
-  const { name, images, imagesUploaded, description, disciplines } = state
+  const { name, images, imagesUploaded, description, disciplines, mainImageName } = state
   const { data: disciplinesQuery } = useDisciplineQuery()
   const { data: teachersQuery } = useTeacherQuery()
 
@@ -113,6 +112,7 @@ const useTeachers = () => {
   const handleOnEditClick = (teacher: TeacherReturn): void => {
     setState({
       name: teacher.name,
+      mainImageName: teacher.imagesUploaded.find((image) => image.isMain)?.name || ``,
       images: [],
       imagesUploaded: teacher.imagesUploaded,
       description: teacher.description,
@@ -137,9 +137,8 @@ const useTeachers = () => {
     setOpen(false)
     setState(initialState)
   }
-  const onSortEnd = (oldIndex: number, newIndex: number): void => {
-    const newArray = arrayMoveImmutable(images, oldIndex, newIndex)
-    setState({ ...state, images: newArray })
+  const handleClickMainImage = (name: string): void => {
+    setState({ ...state, mainImageName: name })
   }
   const handleDeleteImage = (image: File | Image): void => {
     if (image instanceof File) {
@@ -159,7 +158,7 @@ const useTeachers = () => {
       let newFiles = Array.from(files || [])
       newFiles = newFiles.filter((newFile) => !filesToUploadNames.includes(newFile.name))
       const newArray = images.concat(newFiles)
-      setState({ ...state, images: newArray })
+      setState({ ...state, images: newArray, mainImageName: newArray[0].name })
     }
     event.target.value = ``
   }
@@ -174,6 +173,7 @@ const useTeachers = () => {
       images,
       imagesUploaded,
       disciplines,
+      mainImageName,
     }
     if (editingTeacher) {
       updateTeacher({ payload, editingTeacher })
@@ -185,12 +185,6 @@ const useTeachers = () => {
     if (openDelete) {
       deleteTeacher(openDelete)
     }
-  }
-  const onMouseEnter = (name: string): void => {
-    setIsHover(name)
-  }
-  const onMouseLeave = (): void => {
-    setIsHover(``)
   }
 
   const queryClient = useQueryClient()
@@ -272,7 +266,8 @@ const useTeachers = () => {
 
   const isCreatingOrUpdating = isCreatingTeacher || isUpdatingTeacher
   const allImages = [...imagesUploaded, ...images]
-  const disableSubmitButton = !name || !description || allImages.length < 1 || allImages.length > 10
+  const disableSubmitButton =
+    !name || !description || allImages.length < 1 || allImages.length > 10 || !mainImageName
 
   return {
     columns,
@@ -280,7 +275,6 @@ const useTeachers = () => {
     open,
     openDelete,
     editingTeacher,
-    isHover,
     state,
     allImages,
     disciplinesQuery,
@@ -289,16 +283,14 @@ const useTeachers = () => {
     disableSubmitButton,
     handleOpenDrawer,
     handleCloseDrawer,
-    onSortEnd,
     handleDeleteImage,
     handleChange,
     handleInputChange,
     handleSubmit,
-    onMouseEnter,
-    onMouseLeave,
     setState,
     handleCloseDeleteModal,
     handleDeleteSubmit,
+    handleClickMainImage,
   }
 }
 

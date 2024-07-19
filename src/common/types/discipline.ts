@@ -13,6 +13,7 @@ export interface DisciplineSchedule {
 
 export interface Discipline {
   name: string
+  mainImageName: string
   images: File[]
   imagesUploaded: Image[]
   description: string
@@ -23,7 +24,7 @@ export interface DisciplineState extends Discipline {
   categories: string[]
 }
 
-export interface DisciplineReturn extends Omit<Discipline, `categorySchedule`> {
+export interface DisciplineReturn extends Omit<Discipline, `categorySchedule` | `mainImageName`> {
   uuid: string
   schedule: Record<string, DisciplineSchedule[]>
 }

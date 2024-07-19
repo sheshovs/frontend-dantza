@@ -7,7 +7,6 @@ import { Chip, Grid, IconButton } from '@mui/material'
 import { green, red } from '@mui/material/colors'
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { arrayMoveImmutable } from 'array-move'
 import dayjs, { Dayjs } from 'dayjs'
 import { useSnackbar } from 'notistack'
 import { useMemo, useState } from 'react'
@@ -82,6 +81,7 @@ const columns: GridColDef[] = [
 
 const initialState = {
   name: ``,
+  mainImageName: ``,
   images: [],
   imagesUploaded: [],
   description: ``,
@@ -94,8 +94,7 @@ const useEvents = () => {
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState<string | null>(null)
   const [state, setState] = useState<Event>(initialState)
-  const { name, images, imagesUploaded, description, location, date } = state
-  const [isHover, setIsHover] = useState(``)
+  const { name, images, imagesUploaded, description, location, date, mainImageName } = state
   const [editingEvent, setEditingEvent] = useState<string | null>(null)
   const { data: eventsQuery } = useEventQuery()
 
@@ -103,7 +102,6 @@ const useEvents = () => {
     if (!eventsQuery?.data) {
       return { rows: [] }
     }
-    console.log(eventsQuery.data)
     const rows = eventsQuery.data.map((event) => {
       return {
         id: event.uuid,
@@ -124,6 +122,7 @@ const useEvents = () => {
   const handleOnEditClick = (event: EventReturn): void => {
     setState({
       name: event.name,
+      mainImageName: event.imagesUploaded.find((image) => image.isMain)?.name || ``,
       images: [],
       imagesUploaded: event.imagesUploaded,
       description: event.description,
@@ -151,15 +150,8 @@ const useEvents = () => {
     setOpen(false)
     setState(initialState)
   }
-  const onMouseEnter = (name: string): void => {
-    setIsHover(name)
-  }
-  const onMouseLeave = (): void => {
-    setIsHover(``)
-  }
-  const onSortEnd = (oldIndex: number, newIndex: number): void => {
-    const newArray = arrayMoveImmutable(images, oldIndex, newIndex)
-    setState({ ...state, images: newArray })
+  const handleClickMainImage = (name: string): void => {
+    setState({ ...state, mainImageName: name })
   }
   const handleDeleteImage = (image: File | Image): void => {
     if (image instanceof File) {
@@ -175,11 +167,11 @@ const useEvents = () => {
     const { files } = event.target
 
     if (images !== null) {
-      const filesToUploadNames = images.map((file) => file.name)
+      const filesToUploadNames = [...images, ...imagesUploaded].map((file) => file.name)
       let newFiles = Array.from(files || [])
       newFiles = newFiles.filter((newFile) => !filesToUploadNames.includes(newFile.name))
       const newArray = images.concat(newFiles)
-      setState({ ...state, images: newArray })
+      setState({ ...state, images: newArray, mainImageName: newArray[0].name })
     }
     event.target.value = ``
   }
@@ -196,6 +188,7 @@ const useEvents = () => {
       date,
       images,
       imagesUploaded,
+      mainImageName,
     }
 
     if (editingEvent) {
@@ -302,22 +295,19 @@ const useEvents = () => {
     editingEvent,
     rows,
     columns,
-    isHover,
     isCreatingOrUpdating,
     isDeletingEvent,
     disableSubmit,
     handleInputChange,
     handleOpenDrawer,
     handleCloseDrawer,
-    onMouseEnter,
-    onMouseLeave,
-    onSortEnd,
     handleDeleteImage,
     handleChange,
     handleDateTimeChange,
     handleSubmit,
     handleCloseDeleteModal,
     handleDeleteSubmit,
+    handleClickMainImage,
   }
 }
 

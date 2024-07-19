@@ -15,3 +15,7 @@ export const formatDisciplineSchedule = (
 
   return formattedSchedule
 }
+
+export const formatFileName = (fileName: string, length: number): string => {
+  return fileName.length > length ? `${fileName.slice(0, length).trim()}...` : fileName
+}

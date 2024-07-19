@@ -16,7 +16,7 @@ interface ScheduleProps {
   categories: string[]
   isCreatingDiscipline: boolean
   isEditing: boolean
-  isScheduleCorrect: boolean
+  disableUpdateButton: boolean
   setState: React.Dispatch<React.SetStateAction<DisciplineState>>
   handleSubmit: () => void
 }
@@ -26,7 +26,7 @@ const Schedule = ({
   categories,
   isCreatingDiscipline,
   isEditing,
-  isScheduleCorrect,
+  disableUpdateButton,
   setState,
   handleSubmit,
 }: ScheduleProps): JSX.Element => {
@@ -82,7 +82,7 @@ const Schedule = ({
 
       <Grid container item xs justifyContent="flex-end">
         <LoadingButton
-          disabled={!isScheduleCorrect}
+          disabled={disableUpdateButton}
           loading={isCreatingDiscipline}
           variant="contained"
           color="primary"

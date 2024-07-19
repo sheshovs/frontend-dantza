@@ -6,6 +6,7 @@ export interface Event {
   description: string
   date: Dayjs | undefined
   location: string
+  mainImageName: string
   images: File[]
   imagesUploaded: Image[]
 }

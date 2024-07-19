@@ -10,10 +10,9 @@ import {
   weekDays,
 } from '@/common/types'
 import { useSnackbar } from 'notistack'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDisciplineQuery } from '@/common/querys/useDisciplineQuery'
 import { formatDisciplineSchedule } from '@/common/utils/format'
-import { arrayMoveImmutable } from 'array-move'
 import API from '@/common/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { API_QUERY_KEYS } from '@/common/querys/keys'
@@ -73,6 +72,7 @@ const columns: GridColDef[] = [
 
 const initialState = {
   name: ``,
+  mainImageName: ``,
   images: [],
   imagesUploaded: [],
   description: ``,
@@ -89,7 +89,8 @@ const useDiscipline = () => {
   const [openDelete, setOpenDelete] = useState<string | null>(null)
   const [editingDiscipline, setEditingDiscipline] = useState<string | null>(null)
   const [state, setState] = useState<DisciplineState>(initialState)
-  const { name, images, imagesUploaded, description, categorySchedule } = state
+  const { name, images, imagesUploaded, description, categorySchedule, mainImageName } = state
+  const [disableUpdateButton, setDisableUpdateButton] = useState(true)
   const { data: disciplinesQuery } = useDisciplineQuery()
 
   const { rows } = useMemo(() => {
@@ -118,6 +119,7 @@ const useDiscipline = () => {
   const handleOnEditClick = (discipline: DisciplineReturn): void => {
     setState({
       name: discipline.name,
+      mainImageName: discipline.imagesUploaded.find((image) => image.isMain)?.name || ``,
       images: [],
       imagesUploaded: discipline.imagesUploaded,
       description: discipline.description,
@@ -147,9 +149,8 @@ const useDiscipline = () => {
     setEditingDiscipline(null)
   }
 
-  const onSortEnd = (oldIndex: number, newIndex: number): void => {
-    const newArray = arrayMoveImmutable(images, oldIndex, newIndex)
-    setState({ ...state, images: newArray })
+  const handleClickMainImage = (name: string): void => {
+    setState({ ...state, mainImageName: name })
   }
 
   const handleDeleteImage = (image: File | Image): void => {
@@ -170,7 +171,7 @@ const useDiscipline = () => {
       let newFiles = Array.from(files || [])
       newFiles = newFiles.filter((newFile) => !filesToUploadNames.includes(newFile.name))
       const newArray = images.concat(newFiles)
-      setState({ ...state, images: newArray })
+      setState({ ...state, images: newArray, mainImageName: newArray[0].name })
     }
     event.target.value = ``
   }
@@ -211,6 +212,7 @@ const useDiscipline = () => {
         images,
         imagesUploaded,
         categorySchedule: scheduleFiltered,
+        mainImageName,
       }
       updateDiscipline({ payload, editingDiscipline })
       return
@@ -222,6 +224,7 @@ const useDiscipline = () => {
       images,
       imagesUploaded,
       categorySchedule: scheduleFiltered,
+      mainImageName,
     }
     createDiscipline(payload)
   }
@@ -315,9 +318,13 @@ const useDiscipline = () => {
 
   const isCreatingOrUpdating = isCreatingDiscipline || isUpdatingDiscipline
   const allImages = [...imagesUploaded, ...images]
-  const disableScheduleTab = !name || !description || allImages.length < 1 || allImages.length > 10
+  const disableScheduleTab =
+    !name || !description || allImages.length < 1 || allImages.length > 10 || !mainImageName
 
-  const isScheduleCorrect = useMemo(() => {
+  useEffect(() => {
+    if (tabValue !== `schedule`) {
+      return
+    }
     const scheduleCategories = Object.keys(categorySchedule)
     for (const schedule of scheduleCategories) {
       // Verifica si hay al menos un día activo en cada schedule
@@ -325,7 +332,8 @@ const useDiscipline = () => {
 
       // Si no hay días activos, desactiva el botón
       if (activeDays.length === 0) {
-        return false
+        setDisableUpdateButton(true)
+        return
       }
 
       // Verifica si todos los elementos de daySchedule en días activos
@@ -333,15 +341,16 @@ const useDiscipline = () => {
       for (const day of activeDays) {
         for (const scheduleItem of day.daySchedule) {
           if (!isValidTime(scheduleItem.start) || !isValidTime(scheduleItem.end)) {
-            return false
+            setDisableUpdateButton(true)
+            return
           }
         }
       }
     }
 
     // Si todas las validaciones pasan, activa el botón
-    return true
-  }, [categorySchedule])
+    setDisableUpdateButton(false)
+  }, [categorySchedule, tabValue])
 
   return {
     columns,
@@ -355,12 +364,11 @@ const useDiscipline = () => {
     isCreatingOrUpdating,
     isDeletingDiscipline,
     disableScheduleTab,
-    isScheduleCorrect,
+    disableUpdateButton,
     setState,
     setTabValue,
     handleOpenDrawer,
     handleCloseDrawer,
-    onSortEnd,
     handleDeleteImage,
     handleChange,
     handleInputChange,
@@ -369,6 +377,7 @@ const useDiscipline = () => {
     handleSubmit,
     handleCloseDeleteModal,
     handleDeleteSubmit,
+    handleClickMainImage,
   }
 }
 

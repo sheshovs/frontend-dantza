@@ -27,6 +27,7 @@ const API = {
         formData.append(`images`, image)
       })
       formData.append(`schedule`, JSON.stringify(data.categorySchedule))
+      formData.append(`mainImageName`, data.mainImageName)
 
       return axiosInstance.post(`/discipline`, formData)
     },
@@ -40,6 +41,7 @@ const API = {
       data.imagesUploaded.forEach((image) => {
         formData.append(`imagesUploaded`, image.uuid)
       })
+      formData.append(`mainImageName`, data.mainImageName)
       formData.append(`schedule`, JSON.stringify(data.categorySchedule))
 
       return axiosInstance.patch(`/discipline/${uuid}`, formData)
@@ -65,6 +67,7 @@ const API = {
       data.disciplines.forEach((discipline) => {
         formData.append(`disciplines`, discipline.uuid)
       })
+      formData.append(`mainImageName`, data.mainImageName)
 
       return axiosInstance.post(`/teacher`, formData)
     },
@@ -81,6 +84,7 @@ const API = {
       data.disciplines.forEach((discipline) => {
         formData.append(`disciplines`, discipline.uuid)
       })
+      formData.append(`mainImageName`, data.mainImageName)
 
       return axiosInstance.patch(`/teacher/${uuid}`, formData)
     },
@@ -104,6 +108,7 @@ const API = {
       data.images.forEach((image) => {
         formData.append(`images`, image)
       })
+      formData.append(`mainImageName`, data.mainImageName)
 
       return axiosInstance.post(`/event`, formData)
     },
@@ -119,6 +124,7 @@ const API = {
       data.imagesUploaded.forEach((image) => {
         formData.append(`imagesUploaded`, image.uuid)
       })
+      formData.append(`mainImageName`, data.mainImageName)
 
       return axiosInstance.patch(`/event/${uuid}`, formData)
     },

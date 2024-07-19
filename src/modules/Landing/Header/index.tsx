@@ -121,12 +121,12 @@ const Header = (): JSX.Element => {
             </Grid>
 
             <Grid container item justifyContent="flex-end" gap={widthAboveLg ? 3 : 2}>
-              <Grid container item xs={10}>
+              <Grid container item xs={12} md={10}>
                 <Typography variant="body1" color="white">
                   Descubre la pasión por el arte en cada movimiento
                 </Typography>
               </Grid>
-              <Grid container item xs={10} justifyContent="flex-end">
+              <Grid container item xs={12} md={10} justifyContent="flex-end">
                 <Link
                   href="#disciplines"
                   underline="none"
