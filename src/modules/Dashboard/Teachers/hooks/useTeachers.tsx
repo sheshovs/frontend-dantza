@@ -136,6 +136,7 @@ const useTeachers = () => {
   const handleCloseDrawer = (): void => {
     setOpen(false)
     setState(initialState)
+    setEditingTeacher(null)
   }
   const handleClickMainImage = (name: string): void => {
     setState({ ...state, mainImageName: name })

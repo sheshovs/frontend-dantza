@@ -149,6 +149,7 @@ const useEvents = () => {
   const handleCloseDrawer = (): void => {
     setOpen(false)
     setState(initialState)
+    setEditingEvent(null)
   }
   const handleClickMainImage = (name: string): void => {
     setState({ ...state, mainImageName: name })
