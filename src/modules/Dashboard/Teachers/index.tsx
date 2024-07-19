@@ -74,7 +74,7 @@ const Teachers = (): JSX.Element => {
             }}
           />
           <Typography variant="h5" textAlign="center">
-            ¿Estás seguro de que quieres eliminar esta profesora?
+            ¿Estás seguro de que quieres eliminar este profesor?
           </Typography>
           <Grid container gap={2} justifyContent="center">
             <Button
@@ -106,7 +106,7 @@ const Teachers = (): JSX.Element => {
       <Drawer open={open} onClose={handleCloseDrawer} anchor="right">
         <Grid container width={700} padding={6} gap={2} flexDirection="column">
           <Typography variant="h4">
-            {editingTeacher ? `Editar profesora` : `Nuevo profesora`}
+            {editingTeacher ? `Editar profesor` : `Nuevo profesor`}
           </Typography>
           <Grid container item xs gap={2} flexDirection="column">
             <Grid container item xs gap={1}>
@@ -300,7 +300,7 @@ const Teachers = (): JSX.Element => {
                     fontSize: `13px !important`,
                   }}
                 >
-                  Selecciona las disciplinas que imparte el profesora.
+                  Selecciona las disciplinas que imparte el profesor.
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -336,7 +336,7 @@ const Teachers = (): JSX.Element => {
                 color="primary"
                 onClick={handleSubmit}
               >
-                {editingTeacher ? `Actualizar profesora` : `Crear profesora`}
+                {editingTeacher ? `Actualizar profesor` : `Crear profesor`}
               </LoadingButton>
             </Grid>
           </Grid>
@@ -344,9 +344,9 @@ const Teachers = (): JSX.Element => {
       </Drawer>
       <Layout>
         <Grid container gap={4} marginBottom={4} alignItems="center">
-          <Typography variant="h4">Profesoras</Typography>
+          <Typography variant="h4">Profesores</Typography>
           <Button variant="contained" color="primary" onClick={handleOpenDrawer}>
-            Agregar profesora
+            Agregar profesor
           </Button>
         </Grid>
         <Grid container>
@@ -367,7 +367,7 @@ const Teachers = (): JSX.Element => {
             disableColumnResize
             disableColumnSelector
             localeText={{
-              noRowsLabel: `No hay profesoras`,
+              noRowsLabel: `No hay profesores`,
             }}
             sx={{
               minHeight: `500px`,

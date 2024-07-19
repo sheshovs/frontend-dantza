@@ -204,11 +204,11 @@ const useTeachers = () => {
         },
       )
       handleCloseDrawer()
-      enqueueSnackbar(`Profesora creado correctamente`, { variant: `success` })
+      enqueueSnackbar(`Profesor creado correctamente`, { variant: `success` })
     },
     onError: (error) => {
       console.error(error)
-      enqueueSnackbar(`Error al crear profesora`, { variant: `error` })
+      enqueueSnackbar(`Error al crear profesor`, { variant: `error` })
     },
   })
 
@@ -234,11 +234,11 @@ const useTeachers = () => {
         },
       )
       handleCloseDrawer()
-      enqueueSnackbar(`Profesora actualizado correctamente`, { variant: `success` })
+      enqueueSnackbar(`Profesor actualizado correctamente`, { variant: `success` })
     },
     onError: (error) => {
       console.error(error)
-      enqueueSnackbar(`Error al actualizar profesora`, { variant: `error` })
+      enqueueSnackbar(`Error al actualizar profesor`, { variant: `error` })
     },
   })
 

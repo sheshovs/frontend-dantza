@@ -34,7 +34,7 @@ const SelectedTeacher = ({ teacher, handleCloseTeacher }: SelectedTeacherProps):
             Volver
           </Button>
         </Grid>
-        <Grid container gap={2}>
+        <Grid container gap={2} xs={12} md={8}>
           <Typography variant="h4">{teacher.name}</Typography>
           <Typography variant="body1">{teacher.description}</Typography>
         </Grid>

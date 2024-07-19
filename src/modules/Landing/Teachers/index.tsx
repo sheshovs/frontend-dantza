@@ -84,7 +84,7 @@ const Teachers = (): JSX.Element => {
             <Grid container item xs={12} gap={4} marginBottom={{ md: 10, xs: 8 }}>
               <Grid container item xs={12} md={4}>
                 <Typography variant="h3" textTransform="uppercase">
-                  Nuestras profesoras
+                  Nuestros profesores
                 </Typography>
               </Grid>
 
@@ -106,7 +106,7 @@ const Teachers = (): JSX.Element => {
                 </Grid>
                 <Grid item>
                   <Typography variant="body1">
-                    Nuestras profesoras son profesionales en el ámbito de la danza, con años de
+                    Nuestros profesores son profesionales en el ámbito de la danza, con años de
                     experiencia y formación en distintas disciplinas. Conócelas y descubre todo lo
                     que pueden ofrecerte.
                   </Typography>
