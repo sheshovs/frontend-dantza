@@ -12,6 +12,7 @@ const CardTeacher = ({ teacher, onClick }: CardProps): JSX.Element => {
   return (
     <Grid
       key={teacher.uuid}
+      className="card-container"
       container
       item
       width="220px"
@@ -19,25 +20,31 @@ const CardTeacher = ({ teacher, onClick }: CardProps): JSX.Element => {
       gap={{ md: 3, xs: 2 }}
       marginBottom={{ md: 4, xs: 0 }}
       sx={{
-        borderRadius: `4px`,
+        width: `220px`,
+        minHeight: `350px`,
         '&:hover': {
           cursor: `pointer`,
         },
       }}
       onClick={() => onClick(teacher.uuid)}
     >
-      <img
-        src={mainPicture?.url}
-        alt={`Foto de ${teacher.name}`}
-        width={220}
-        height={350}
-        style={{
-          objectFit: `cover`,
-          objectPosition: `center`,
-          imageOrientation: `from-image`,
+      <Grid
+        item
+        sx={{
+          width: `100%`,
+          height: `350px`,
+          overflow: `hidden`,
           borderRadius: `4px`,
         }}
-      />
+      >
+        <img
+          className="card-image"
+          src={mainPicture?.url}
+          alt={`Foto de ${teacher.name}`}
+          width={220}
+          height={350}
+        />
+      </Grid>
       <Grid container flexDirection="column" padding={1}>
         <Typography variant="h6" fontWeight={700}>
           {teacher.name}
