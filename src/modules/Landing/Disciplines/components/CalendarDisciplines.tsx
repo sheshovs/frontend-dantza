@@ -157,7 +157,7 @@ const CalendarDisciplines = ({
   const maxHour = dayjs().hour(21).minute(0).toDate()
 
   return (
-    <Grid container marginY={2} height="100%" id="schedule" overflow="scroll">
+    <Grid container marginY={2} height="100%" id="schedule" overflow="auto">
       <Typography variant="h3" textTransform="uppercase" marginBottom={2}>
         Horario dantza
       </Typography>

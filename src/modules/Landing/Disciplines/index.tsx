@@ -73,7 +73,6 @@ const Disciplines = (): JSX.Element => {
         justifyContent="center"
         alignItems="center"
         sx={{
-          backgroundColor: `common.white`,
           padding: {
             xs: `32px 32px 32px 32px`,
             sm: `48px 48px 48px 48px`,

@@ -1,5 +1,5 @@
 import { LOGO_WHITE } from '@/assets'
-import { Grid, Link, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Divider, Grid, Link, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { FaInstagram, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
 
 const Footer = (): JSX.Element => {
@@ -19,36 +19,39 @@ const Footer = (): JSX.Element => {
       <Grid
         container
         minHeight={200}
-        gap={{ md: 4, xs: 6 }}
+        gap={{ md: 6, xs: 2 }}
         flexDirection={{ xs: `column`, md: `row` }}
-        justifyContent="space-between"
+        justifyContent="center"
       >
         <Grid
           item
           xs={12}
-          md={2}
+          md={4}
           display="flex"
-          justifyContent="space-between"
-          alignItems={{ xs: `center`, md: `flex-start` }}
+          justifyContent="center"
+          alignItems={{ md: `flex-end`, xs: `center` }}
           flexDirection="column"
         >
           <img src={LOGO_WHITE} width={130} height="auto" alt="Logo Dantza" />
+        </Grid>
 
-          {widthAboveLg ? (
-            <Grid container>
-              <Typography variant="body1" textTransform="uppercase" sx={{ color: `white` }}>
-                Dantza Estudio
-              </Typography>
-            </Grid>
-          ) : null}
+        <Grid>
+          <Divider
+            orientation="vertical"
+            sx={{
+              backgroundColor: `common.grey`,
+              height: `100%`,
+            }}
+          />
         </Grid>
 
         <Grid
           item
-          width={{ xs: `100%`, md: `fit-content` }}
+          xs={12}
+          md={4}
           display="flex"
           flexDirection="column"
-          justifyContent="space-between"
+          justifyContent="space-around"
           gap={{ xs: 3, md: 0 }}
         >
           <Grid

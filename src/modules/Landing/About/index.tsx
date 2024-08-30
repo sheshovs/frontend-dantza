@@ -11,7 +11,6 @@ const About = (): JSX.Element => {
       justifyContent="center"
       alignItems="center"
       sx={{
-        backgroundColor: `#f9f7f8`,
         padding: {
           xs: `32px 32px 32px 32px`,
           sm: `48px 48px 48px 48px`,
@@ -52,7 +51,7 @@ const About = (): JSX.Element => {
                 <Typography variant="h4">Nuestra historia</Typography>
               </Grid>
               <Grid item>
-                <Typography variant="body1">
+                <Typography variant="body1" textAlign="justify">
                   El Estudio Dantza llega a concretar y proyectar una vida ligada al arte y el gusto
                   por cultivar los sueños. De este modo, <b>Danitza González</b>, la directora del
                   estudio, el año 2020 decide iniciar un proyecto que tuvo sus primeras experiencias
@@ -110,7 +109,7 @@ const About = (): JSX.Element => {
                 <Typography variant="h4">Nuestros sueños</Typography>
               </Grid>
               <Grid item>
-                <Typography variant="body1">
+                <Typography variant="body1" textAlign="justify">
                   Ser un estudio de danzas y otras artes pionero en potenciar el desarrollo
                   artístico y humano de quienes lo integran, aportando de forma amorosa y respetuosa
                   la autorrealización personal y colectiva a través de las artes.

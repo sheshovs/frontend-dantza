@@ -9,6 +9,7 @@ import Disciplines from './Disciplines'
 import UpcomingEvents from './UpcomingEvents'
 import Teachers from './Teachers'
 import Footer from './Footer'
+import Extension from './Extension'
 
 function Landing(): JSX.Element {
   const { breakpoints } = useTheme()
@@ -27,7 +28,7 @@ function Landing(): JSX.Element {
   return (
     <Grid
       sx={{
-        backgroundColor: `rgba(0,0,0,1)`,
+        background: `linear-gradient(180deg, #f2f2f2 0%, #FFFFFF 50%, #f2f2f2 100%)`,
       }}
     >
       {widthAboveLg ? (
@@ -40,6 +41,7 @@ function Landing(): JSX.Element {
       <Disciplines />
       <UpcomingEvents />
       <Teachers />
+      <Extension />
       <Footer />
     </Grid>
   )

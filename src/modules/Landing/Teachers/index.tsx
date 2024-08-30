@@ -60,7 +60,6 @@ const Teachers = (): JSX.Element => {
         justifyContent="center"
         alignItems="center"
         sx={{
-          backgroundColor: `#f9f7f8`,
           padding: {
             xs: `32px 32px 32px 32px`,
             sm: `48px 48px 48px 48px`,
