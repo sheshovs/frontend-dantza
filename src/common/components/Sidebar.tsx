@@ -29,7 +29,7 @@ const Sidebar = (): JSX.Element => {
 
   useScroll({
     onChange: ({ value: { scrollYProgress } }) => {
-      if ((scrollYProgress > 0.13 && scrollYProgress < 0.62) || scrollYProgress > 0.86) {
+      if ((scrollYProgress > 0.077 && scrollYProgress < 0.5) || scrollYProgress > 0.59) {
         sidebarApi.start({ background: `white` })
         iconApi.start({ color: `black` })
         setSidebarLogo(LOGO_COLOR)
@@ -39,7 +39,7 @@ const Sidebar = (): JSX.Element => {
         setSidebarLogo(LOGO_WHITE)
       }
 
-      if (scrollYProgress > 0.99) {
+      if (scrollYProgress > 0.995) {
         sidebarApi.start({ bottom: 400 })
       } else {
         sidebarApi.start({ bottom: 0 })

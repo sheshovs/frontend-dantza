@@ -1,6 +1,6 @@
 import Container from '@/common/components/Container'
-import { Grid, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Divider, Grid, Typography } from '@mui/material'
+import { HEADER_BG } from '@/assets'
 
 const Extension = (): JSX.Element => {
   return (
@@ -21,11 +21,25 @@ const Extension = (): JSX.Element => {
     >
       <Container>
         <Grid container gap={6} minHeight="60vh">
-          <Grid container flexDirection="column">
-            <Typography variant="h3" textTransform="uppercase" marginBottom={4}>
-              Compañia Dantza
-            </Typography>
-            <Grid container gap={1}>
+          <Grid container item xs={12}>
+            <Grid container item xs={12} xl={10} flexDirection="column">
+              <Grid container gap={3} marginBottom={2} alignItems="center">
+                <Grid container width={50}>
+                  <Divider
+                    sx={{
+                      width: `100%`,
+                      height: `2px`,
+                      backgroundColor: `common.black`,
+                      borderRadius: `5px`,
+                    }}
+                  />
+                </Grid>
+                <Grid container xs>
+                  <Typography variant="h3" textTransform="uppercase">
+                    Compañia Dantza
+                  </Typography>
+                </Grid>
+              </Grid>
               <Grid item>
                 <Typography variant="body1" textAlign="justify">
                   El Estudio Dantza llega a concretar y proyectar una vida ligada al arte y el gusto
@@ -39,39 +53,100 @@ const Extension = (): JSX.Element => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container gap={1.5} maxHeight={412}>
-            <Grid container gap={1.5} width={612}>
-              <Grid container gap={1.5}>
-                <img
-                  src={``}
-                  width={300}
-                  height={200}
-                  style={{
-                    objectFit: `cover`,
-                    objectPosition: `center`,
-                    imageOrientation: `from-image`,
-                    borderRadius: `10px`,
-                    border: `1px solid #00000033`,
-                  }}
-                />
-                <img
-                  src={``}
-                  width={300}
-                  height={200}
-                  style={{
-                    objectFit: `cover`,
-                    objectPosition: `center`,
-                    imageOrientation: `from-image`,
-                    borderRadius: `10px`,
-                    border: `1px solid #00000033`,
-                  }}
-                />
-              </Grid>
 
+          <Grid container gap={1.5}>
+            <Grid
+              container
+              gap={1.5}
+              justifyContent="space-between"
+              maxWidth={{
+                xl: 812,
+                xs: `100%`,
+              }}
+            >
+              <Box
+                sx={{
+                  width: {
+                    xs: `100%`,
+                    lg: `49%`,
+                  },
+                  maxHeight: 250,
+                }}
+              >
+                <img
+                  src={HEADER_BG}
+                  width="100%"
+                  height="100%"
+                  style={{
+                    objectFit: `cover`,
+                    objectPosition: `center`,
+                    imageOrientation: `from-image`,
+                    borderRadius: `10px`,
+                    border: `1px solid #00000033`,
+                  }}
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  width: {
+                    xs: `100%`,
+                    lg: `49%`,
+                  },
+                  maxHeight: 250,
+                }}
+              >
+                <img
+                  src={HEADER_BG}
+                  width="100%"
+                  height="100%"
+                  style={{
+                    objectFit: `cover`,
+                    objectPosition: `center`,
+                    imageOrientation: `from-image`,
+                    borderRadius: `10px`,
+                    border: `1px solid #00000033`,
+                  }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  width: {
+                    xs: `100%`,
+                  },
+                  maxHeight: 250,
+                }}
+              >
+                <img
+                  src={HEADER_BG}
+                  width="100%"
+                  height="100%"
+                  style={{
+                    objectFit: `cover`,
+                    objectPosition: `center`,
+                    imageOrientation: `from-image`,
+                    borderRadius: `10px`,
+                    border: `1px solid #00000033`,
+                  }}
+                />
+              </Box>
+            </Grid>
+            <Box
+              sx={{
+                width: {
+                  xs: `100%`,
+                  xl: 400,
+                },
+                maxHeight: {
+                  xs: 250,
+                  xl: 512,
+                },
+              }}
+            >
               <img
-                src={``}
+                src={HEADER_BG}
                 width="100%"
-                height={200}
+                height="100%"
                 style={{
                   objectFit: `cover`,
                   objectPosition: `center`,
@@ -80,21 +155,7 @@ const Extension = (): JSX.Element => {
                   border: `1px solid #00000033`,
                 }}
               />
-            </Grid>
-            <Grid container width={300}>
-              <img
-                src={``}
-                width="100%"
-                height="412px"
-                style={{
-                  objectFit: `cover`,
-                  objectPosition: `center`,
-                  imageOrientation: `from-image`,
-                  borderRadius: `10px`,
-                  border: `1px solid #00000033`,
-                }}
-              />
-            </Grid>
+            </Box>
           </Grid>
         </Grid>
       </Container>
