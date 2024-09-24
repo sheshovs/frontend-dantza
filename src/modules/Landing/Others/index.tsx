@@ -55,18 +55,21 @@ const Others = (): JSX.Element => {
 
             <CardServices
               title="Clases Particulares y para Novios"
-              description={`Nuestro estudio cuenta en su equipo con bailarinas profesionales que se han
-                especializado en distintas disciplinas, lo cuál nos permite ofrecer una gran
-                variedad de clases particulares, tanto individuales como grupales. También podemos
-                preparar a aquellas parejas que en alguna ceremonia quieran sorprender a sus
-                invitados con algún baile, ya sea el clásico Vals o bien alguna coreografía de algún
-                ritmo de preferencia.`}
+              description={`Nuestro estudio cuenta en su equipo con bailarinas profesionales 
+                que se han especializado en distintas disciplinas, lo cuál nos permite ofrecer 
+                una gran variedad de clases particulares, tanto individuales como grupales.
+                También podemos preparar a aquellas parejas que en alguna ceremonia quieran
+                sorprender a sus invitados con algún baile, ya sea el clásico Vals o bien 
+                alguna coreografía de algún ritmo de preferencia.
+                Cuéntanos tu idea y te ayudaremos para aquel día tan especial.`}
             />
 
             <CardServices
               title="Dantza Store"
-              description={`En nuestro estudio contamos con una gran variedad de uniformes y artículos que te
-                acompañarán en la experiencia Dantza.`}
+              description={`En nuestro estudio contamos con una gran variedad de
+                uniformes y artículos que te acompañarán en la experiencia Dantza,
+                cada uno de ellos está pensado con el cariño que nos caracteriza.
+                Consulta por valores en el Estudio.`}
             />
           </Grid>
         </Grid>

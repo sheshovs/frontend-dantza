@@ -42,13 +42,18 @@ const Extension = (): JSX.Element => {
               </Grid>
               <Grid item>
                 <Typography variant="body1" textAlign="justify">
-                  El Estudio Dantza llega a concretar y proyectar una vida ligada al arte y el gusto
-                  por cultivar los sueños. De este modo, <b>Danitza González</b>, la directora del
-                  estudio, el año 2020 decide iniciar un proyecto que tuvo sus primeras experiencias
-                  de clases de danza de manera online; para luego volver a su casa, la cual cobijó
-                  sus sueños de niña, y comenzar a darle vida a este espacio que intenta canalizar
-                  de forma amorosa y respetuosa el bienestar personal y los deseos artísticos de
-                  quienes lo integran.
+                  La Compañía Dantza es un espacio dentro de nuestro estudio en donde se potencia a
+                  aquellas estudiantes que en sus clases regulares muestran un talento, interés y
+                  compromiso especial. Estas y otras características las fortalecemos a través de un
+                  entrenamiento semanal guiado por nuestras profesoras, quienes, con un trabajo
+                  planificado, buscan la mejora constante en los aspectos físicos, técnicos,
+                  creativos, expresivos, artísticos y actitudinales.
+                  <br />
+                  <br />
+                  Todo este trabajo tiene como primer objetivo brindar este espacio artístico
+                  profesional dentro del estudio, y también representarnos en distintas competencias
+                  de Danza, actividades en diversas instituciones y también en nuestras Galas de fin
+                  de año.
                 </Typography>
               </Grid>
             </Grid>
