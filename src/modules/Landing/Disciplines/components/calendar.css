@@ -70,3 +70,18 @@
 .rbc-time-content > * + * > * {
   border-left: none;
 }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.events-container {
+  display: flex;
+  gap: 5px;
+}

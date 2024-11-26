@@ -1,8 +1,21 @@
 import { DisciplineReturn } from '@/common/types'
-import { Grid, Typography } from '@mui/material'
+import {
+  Grid,
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  useTheme,
+  useMediaQuery,
+  List,
+  ListItem,
+  ListItemText,
+} from '@mui/material'
 import dayjs from 'dayjs'
-import { Calendar, dayjsLocalizer } from 'react-big-calendar'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './calendar.css'
 import 'dayjs/locale/es'
 import updateLocale from 'dayjs/plugin/updateLocale'
@@ -32,24 +45,6 @@ dayjs.updateLocale(`es`, {
     `Diciembre`,
   ],
 })
-
-const messages = {
-  allDay: `Todo el día`,
-  previous: `Anterior`,
-  next: `Siguiente`,
-  today: `Hoy`,
-  month: `Mes`,
-  week: `Semana`,
-  day: `Día`,
-  agenda: `Agenda`,
-  date: `Fecha`,
-  time: `Hora`,
-  event: `Evento`,
-  noEventsInRange: `No hay eventos en este rango`,
-  showMore: (total: number) => `+ ${total} eventos`,
-}
-
-const localizer = dayjsLocalizer(dayjs)
 
 interface CalendarEvent {
   uuid: string
@@ -110,39 +105,6 @@ const formatEvents = (disciplines: DisciplineReturn[]): CalendarEvent[] => {
   return events
 }
 
-interface ComponentEventProps {
-  event: CalendarEvent
-  handleOpenDiscipline: (disciplineId: string) => void
-}
-
-const ComponentEvent = ({ event, handleOpenDiscipline }: ComponentEventProps): JSX.Element => {
-  return (
-    <Grid container height="100%">
-      <Grid
-        container
-        height="95%"
-        bgcolor="primary.main"
-        onClick={() => {
-          handleOpenDiscipline(event.uuid)
-        }}
-        paddingY={0.25}
-        paddingX={0.625}
-        sx={{
-          borderRadius: 1,
-          border: `1px solid #ffffff33`,
-          flexWrap: `nowrap`,
-          flexDirection: `column`,
-        }}
-      >
-        <Typography variant="subtitle2">{event.title}</Typography>
-        <Typography variant="subtitle2">{`${dayjs(event.start).format(`HH:mm`)} - ${dayjs(
-          event.end,
-        ).format(`HH:mm`)}`}</Typography>
-      </Grid>
-    </Grid>
-  )
-}
-
 interface CalendarDisciplinesProps {
   disciplines: DisciplineReturn[]
   handleOpenDiscipline: (disciplineId: string) => void
@@ -152,40 +114,203 @@ const CalendarDisciplines = ({
   disciplines,
   handleOpenDiscipline,
 }: CalendarDisciplinesProps): JSX.Element => {
+  const {
+    palette: { primary },
+    breakpoints,
+  } = useTheme()
+  const widthAboveLg = useMediaQuery(breakpoints.up(1200))
+
   const events = formatEvents(disciplines)
-  const minHour = dayjs().hour(9).minute(0).toDate()
-  const maxHour = dayjs().hour(21).minute(0).toDate()
+
+  const days = [`Lunes`, `Martes`, `Miércoles`, `Jueves`, `Viernes`, `Sábado`]
+  const schedule = days.map((day) => ({
+    day,
+    slots: events
+      .filter((event) => event.day === day)
+      .map((event) => ({
+        time: {
+          start: `${new Date(event.start).getHours()}:00`,
+          end: `${new Date(event.end).getHours()}:00`,
+        },
+        title: event.title,
+        category: event.category,
+        uuid: event.uuid,
+      })),
+  }))
+
+  const hours = Array.from({ length: 12 }, (_, i) => `${i + 9}:00`)
+
+  const groupedEvents = days.map((day) => ({
+    day,
+    events: events
+      .filter((event) => event.day === day)
+      .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()),
+  }))
+
+  const formatTime = (dateString: string): string => {
+    const date = new Date(dateString)
+    return date.toLocaleTimeString([], { hour: `2-digit`, minute: `2-digit` })
+  }
 
   return (
     <Grid container marginY={2} height="100%" id="schedule" overflow="auto">
       <Typography variant="h3" textTransform="uppercase" marginBottom={2}>
         Horario dantza
       </Typography>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ width: `100%`, minWidth: `600px` }}
-        step={60}
-        timeslots={1}
-        view="week"
-        views={[`week`]}
-        defaultView="week"
-        defaultDate={dayjs().day(1).toDate()}
-        min={minHour}
-        max={maxHour}
-        messages={messages}
-        formats={{
-          dayFormat: (date) => dayjs(date).format(`dddd`),
-        }}
-        components={{
-          event: (event) => (
-            <ComponentEvent event={event.event} handleOpenDiscipline={handleOpenDiscipline} />
-          ),
-          toolbar: () => null,
-        }}
-      />
+      {widthAboveLg ? (
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell
+                  align="center"
+                  style={{ width: `8%`, borderRight: `1px solid ${primary.light}` }}
+                >
+                  <strong>Hora</strong>
+                </TableCell>
+                {days.map((day, index) => (
+                  <TableCell
+                    key={day}
+                    align="center"
+                    style={{
+                      width: `${92 / days.length}%`,
+                      borderLeft: index === 0 ? `none` : `1px solid ${primary.light}`,
+                    }}
+                  >
+                    <strong>{day}</strong>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {hours.map((hour) => (
+                <TableRow key={hour}>
+                  <TableCell
+                    align="center"
+                    style={{
+                      borderRight: `1px solid ${primary.light}`,
+                    }}
+                  >
+                    {hour}
+                  </TableCell>
+                  {schedule.map((daySchedule, index) => {
+                    const eventsAtTime = daySchedule.slots.filter(
+                      (slot) => slot.time.start === hour,
+                    )
+
+                    return (
+                      <TableCell
+                        key={`${daySchedule.day}-${hour}`}
+                        style={{
+                          position: `relative`,
+                          padding: 0,
+                          borderLeft: index === 0 ? `none` : `1px solid ${primary.light}`,
+                        }}
+                      >
+                        <Box
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          justifySelf="center"
+                          height="100%"
+                          width="98%"
+                          style={{
+                            display: `flex`,
+                            gap: `2px`,
+                            flexWrap: `nowrap`,
+                          }}
+                        >
+                          {eventsAtTime.map((event, index) => (
+                            <Box
+                              key={index}
+                              sx={{
+                                flexGrow: 1,
+                                maxWidth: `${100 / eventsAtTime.length}%`,
+                                backgroundColor: `primary.main`,
+                                color: `white`,
+                                padding: `5px`,
+                                textAlign: `center`,
+                                borderRadius: `4px`,
+                                cursor: `pointer`,
+                                transition: `background-color 0.3s`,
+                                '&:hover': {
+                                  backgroundColor: `primary.light`,
+                                },
+                              }}
+                              onClick={() => {
+                                handleOpenDiscipline(event.uuid)
+                              }}
+                            >
+                              <Typography variant="body2" fontWeight={700}>
+                                {event.title}
+                              </Typography>
+                              <Typography variant="caption">
+                                {event.time.start} - {event.time.end}
+                              </Typography>
+                            </Box>
+                          ))}
+                        </Box>
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Grid container flexDirection="column">
+          {groupedEvents.map((group, index) => (
+            <Box key={index} sx={{ marginBottom: `16px` }}>
+              {/* Encabezado del día */}
+              <Typography variant="h6" sx={{ marginBottom: `8px` }}>
+                {group.day}
+              </Typography>
+
+              {group.events.length > 0 ? (
+                <List>
+                  {group.events.map((event) => (
+                    <ListItem
+                      key={event.uuid}
+                      sx={{
+                        display: `flex`,
+                        flexDirection: `column`,
+                        alignItems: `flex-start`,
+                        backgroundColor: `primary.main`,
+                        color: `white`,
+                        borderRadius: `8px`,
+                        marginBottom: `8px`,
+                        padding: `10px`,
+                      }}
+                      onClick={() => {
+                        handleOpenDiscipline(event.uuid)
+                      }}
+                    >
+                      <ListItemText
+                        primary={
+                          <Typography variant="body1" sx={{ fontWeight: `bold` }}>
+                            {event.title}
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography variant="body2">
+                            {formatTime(String(event.start))} - {formatTime(String(event.end))}
+                            {` `}| {event.category}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              ) : (
+                <Typography variant="body2" color="textSecondary">
+                  No hay eventos para este día.
+                </Typography>
+              )}
+            </Box>
+          ))}
+        </Grid>
+      )}
     </Grid>
   )
 }
