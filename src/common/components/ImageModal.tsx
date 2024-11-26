@@ -6,6 +6,8 @@ interface ImageModalProps {
   imageUrl: string
   imageName: string
   handleCloseModal: () => void
+  handlePrev?: () => void
+  handleNext?: () => void
 }
 
 const ImageModal = ({
@@ -13,6 +15,8 @@ const ImageModal = ({
   imageUrl,
   imageName,
   handleCloseModal,
+  handlePrev,
+  handleNext,
 }: ImageModalProps): JSX.Element => {
   const {
     palette: { common },
@@ -25,6 +29,7 @@ const ImageModal = ({
         display: `flex`,
         justifyContent: `center`,
         alignItems: `center`,
+        backgroundColor: `rgba(0,0,0,0.5)`,
       }}
     >
       <Grid
@@ -55,15 +60,46 @@ const ImageModal = ({
             }}
           />
         </IconButton>
-        <img
-          src={imageUrl}
-          alt={`Foto de ${imageName}`}
-          style={{
-            width: `100%`,
-            height: `100%`,
-            objectFit: `contain`,
-          }}
-        />
+        <Grid container justifyContent="center" alignItems="center" gap={4}>
+          <Grid item>
+            <IconButton>
+              <Icon
+                icon="arrowBackIos"
+                sx={{
+                  color: common.white,
+                  fontSize: 40,
+                  cursor: `pointer`,
+                }}
+                onClick={handlePrev}
+              />
+            </IconButton>
+          </Grid>
+
+          <Grid item>
+            <img
+              src={imageUrl}
+              alt={`Foto de ${imageName}`}
+              style={{
+                height: `80vh`,
+                objectFit: `contain`,
+              }}
+            />
+          </Grid>
+
+          <Grid item>
+            <IconButton>
+              <Icon
+                icon="arrowForward"
+                sx={{
+                  color: common.white,
+                  fontSize: 40,
+                  cursor: `pointer`,
+                }}
+                onClick={handleNext}
+              />
+            </IconButton>
+          </Grid>
+        </Grid>
       </Grid>
     </Modal>
   )

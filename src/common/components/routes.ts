@@ -29,4 +29,14 @@ export const routes = [
     label: `Profesores`,
     route: `#teachers`,
   },
+  {
+    id: `extension`,
+    label: `Extensión`,
+    route: `#extension`,
+  },
+  {
+    id: `other-services`,
+    label: `Otros servicios`,
+    route: `#other-services`,
+  },
 ]

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Grid, useMediaQuery, useTheme } from '@mui/material'
+import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useState } from 'react'
 import Navbar from '../../common/components/Navbar'
 import Sidebar from '../../common/components/Sidebar'
@@ -9,6 +9,8 @@ import Disciplines from './Disciplines'
 import UpcomingEvents from './UpcomingEvents'
 import Teachers from './Teachers'
 import Footer from './Footer'
+import Extension from './Extension'
+import Others from './Others'
 
 function Landing(): JSX.Element {
   const { breakpoints } = useTheme()
@@ -27,7 +29,7 @@ function Landing(): JSX.Element {
   return (
     <Grid
       sx={{
-        backgroundColor: `rgba(0,0,0,1)`,
+        background: `linear-gradient(180deg, #f2f2f2 0%, #FFFFFF 50%, #f2f2f2 100%)`,
       }}
     >
       {widthAboveLg ? (
@@ -40,7 +42,31 @@ function Landing(): JSX.Element {
       <Disciplines />
       <UpcomingEvents />
       <Teachers />
+      <Extension />
+      <Others />
       <Footer />
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        paddingY={1}
+        sx={{
+          backgroundColor: `#0C0C10`,
+          color: `white`,
+        }}
+      >
+        <Typography variant="body2" textAlign="center">
+          Desarrollado por {` `}
+          <a
+            href="https://www.instagram.com/s.vrgs/"
+            target="_blank"
+            rel="noreferrer"
+            className="credits"
+          >
+            Sergio Vargas
+          </a>
+        </Typography>
+      </Grid>
     </Grid>
   )
 }

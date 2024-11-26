@@ -36,6 +36,18 @@ const SelectedDiscipline = ({
   const handleCloseModal = (): void => {
     setOpenModal(false)
   }
+  const handlePrevPhoto = (): void => {
+    if (selectedPhotoIndex === 0) {
+      return
+    }
+    setSelectedIndexPhoto(selectedPhotoIndex - 1)
+  }
+  const handleNextPhoto = (): void => {
+    if (selectedPhotoIndex === discipline?.imagesUploaded.length - 1) {
+      return
+    }
+    setSelectedIndexPhoto(selectedPhotoIndex + 1)
+  }
   return (
     <>
       <ImageModal
@@ -43,6 +55,8 @@ const SelectedDiscipline = ({
         imageUrl={discipline?.imagesUploaded[selectedPhotoIndex].url}
         imageName={discipline?.name}
         handleCloseModal={handleCloseModal}
+        handlePrev={handlePrevPhoto}
+        handleNext={handleNextPhoto}
       />
       <Grid container padding={6} gap={4}>
         <Grid container>

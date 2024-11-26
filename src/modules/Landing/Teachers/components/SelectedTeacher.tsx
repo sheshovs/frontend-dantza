@@ -20,6 +20,18 @@ const SelectedTeacher = ({ teacher, handleCloseTeacher }: SelectedTeacherProps):
   const handleCloseModal = (): void => {
     setOpenModal(false)
   }
+  const handlePrevPhoto = (): void => {
+    if (selectedPhotoIndex === 0) {
+      return
+    }
+    setSelectedIndexPhoto(selectedPhotoIndex - 1)
+  }
+  const handleNextPhoto = (): void => {
+    if (selectedPhotoIndex === teacher?.imagesUploaded.length - 1) {
+      return
+    }
+    setSelectedIndexPhoto(selectedPhotoIndex + 1)
+  }
   return (
     <>
       <ImageModal
@@ -27,6 +39,8 @@ const SelectedTeacher = ({ teacher, handleCloseTeacher }: SelectedTeacherProps):
         imageUrl={teacher?.imagesUploaded[selectedPhotoIndex].url}
         imageName={teacher?.name}
         handleCloseModal={handleCloseModal}
+        handlePrev={handlePrevPhoto}
+        handleNext={handleNextPhoto}
       />
       <Grid container padding={6} gap={4}>
         <Grid container>
