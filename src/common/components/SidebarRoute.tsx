@@ -18,7 +18,7 @@ const SidebarRoute = ({ label, color, route, onClick }: SidebarRouteProps): JSX.
 
   useScroll({
     onChange: ({ value: { scrollYProgress } }) => {
-      if ((scrollYProgress > 0.077 && scrollYProgress < 0.5) || scrollYProgress > 0.59) {
+      if ((scrollYProgress > 0.077 && scrollYProgress < 0.44) || scrollYProgress > 0.54) {
         sidebarItemApi.start({ color: `black` })
       } else {
         sidebarItemApi.start({ color: `white` })

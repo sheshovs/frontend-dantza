@@ -1,12 +1,19 @@
-import { Grid, Typography } from '@mui/material'
+import { Button, Grid, Typography } from '@mui/material'
 import { HEADER_BG } from '@/assets'
 
 interface CardServicesProps {
+  cardBackground?: string
   title: string
   description: string
+  onClick?: () => void
 }
 
-const CardServices = ({ title, description }: CardServicesProps): JSX.Element => {
+const CardServices = ({
+  cardBackground,
+  title,
+  description,
+  onClick,
+}: CardServicesProps): JSX.Element => {
   return (
     <Grid
       container
@@ -22,7 +29,7 @@ const CardServices = ({ title, description }: CardServicesProps): JSX.Element =>
       sx={{
         backgroundColor: `common.white`,
         borderRadius: `15px`,
-        backgroundImage: `url(${HEADER_BG})`,
+        backgroundImage: `url(${cardBackground || HEADER_BG})`,
         backgroundPosition: `center`,
         backgroundRepeat: `no-repeat`,
         backgroundSize: `cover`,
@@ -43,6 +50,10 @@ const CardServices = ({ title, description }: CardServicesProps): JSX.Element =>
               opacity: 1,
               transition: `opactiy 1s ease-in-out`,
             },
+            button: {
+              opacity: 1,
+              transition: `opactiy 1s ease-in-out`,
+            },
           },
         },
         '&:not(:hover)': {
@@ -51,6 +62,10 @@ const CardServices = ({ title, description }: CardServicesProps): JSX.Element =>
             background: `none`,
             transition: `all 0.5s ease-in-out`,
             'p:nth-child(2)': {
+              opacity: 0,
+              transition: `opactiy 1s ease-in-out`,
+            },
+            button: {
               opacity: 0,
               transition: `opactiy 1s ease-in-out`,
             },
@@ -96,6 +111,18 @@ const CardServices = ({ title, description }: CardServicesProps): JSX.Element =>
         >
           {description}
         </Typography>
+        {onClick ? (
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              marginTop: 2,
+            }}
+            onClick={onClick}
+          >
+            Ver más
+          </Button>
+        ) : null}
       </Grid>
     </Grid>
   )

@@ -15,6 +15,7 @@ const Footer = (): JSX.Element => {
         backgroundColor: `#20202a`,
         minHeight: `400px`,
       }}
+      position="relative"
     >
       <Grid
         container

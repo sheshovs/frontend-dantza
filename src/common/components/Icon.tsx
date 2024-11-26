@@ -3,6 +3,7 @@ import {
   AddCircleOutlineRounded,
   AddRounded,
   AddToPhotosRounded,
+  ArrowBackIosRounded,
   ArrowBackRounded,
   ArrowForwardIosRounded,
   ArrowRightAltRounded,
@@ -16,6 +17,7 @@ import {
 export const icons = {
   arrowRight: ArrowRightAltRounded,
   arrowForward: ArrowForwardIosRounded,
+  arrowBackIos: ArrowBackIosRounded,
   arrowBack: ArrowBackRounded,
   close: CloseRounded,
   menuExpand: MenuRounded,

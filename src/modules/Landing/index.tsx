@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Grid, useMediaQuery, useTheme } from '@mui/material'
+import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useState } from 'react'
 import Navbar from '../../common/components/Navbar'
 import Sidebar from '../../common/components/Sidebar'
@@ -45,6 +45,28 @@ function Landing(): JSX.Element {
       <Extension />
       <Others />
       <Footer />
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        paddingY={1}
+        sx={{
+          backgroundColor: `#0C0C10`,
+          color: `white`,
+        }}
+      >
+        <Typography variant="body2" textAlign="center">
+          Desarrollado por {` `}
+          <a
+            href="https://www.instagram.com/s.vrgs/"
+            target="_blank"
+            rel="noreferrer"
+            className="credits"
+          >
+            Sergio Vargas
+          </a>
+        </Typography>
+      </Grid>
     </Grid>
   )
 }

@@ -1,6 +1,5 @@
 import Container from '@/common/components/Container'
 import { Box, Divider, Grid, Typography } from '@mui/material'
-import { HEADER_BG } from '@/assets'
 
 const Extension = (): JSX.Element => {
   return (
@@ -79,7 +78,7 @@ const Extension = (): JSX.Element => {
                 }}
               >
                 <img
-                  src={HEADER_BG}
+                  src="https://images-dantza.s3.us-east-2.amazonaws.com/77ed0379-c24f-4102-a081-bfe01e77c987.jpeg"
                   width="100%"
                   height="100%"
                   style={{
@@ -102,7 +101,7 @@ const Extension = (): JSX.Element => {
                 }}
               >
                 <img
-                  src={HEADER_BG}
+                  src="https://images-dantza.s3.us-east-2.amazonaws.com/b5eed086-368d-4518-8bea-b2f80d035c98.jpeg"
                   width="100%"
                   height="100%"
                   style={{
@@ -123,7 +122,7 @@ const Extension = (): JSX.Element => {
                 }}
               >
                 <img
-                  src={HEADER_BG}
+                  src="https://images-dantza.s3.us-east-2.amazonaws.com/0ff6cbf6-1734-4f1d-beba-09e09366b21d.jpeg"
                   width="100%"
                   height="100%"
                   style={{
@@ -149,7 +148,7 @@ const Extension = (): JSX.Element => {
               }}
             >
               <img
-                src={HEADER_BG}
+                src="https://images-dantza.s3.us-east-2.amazonaws.com/f1fd924b-119d-464d-b7bf-94be70098510.jpeg"
                 width="100%"
                 height="100%"
                 style={{
