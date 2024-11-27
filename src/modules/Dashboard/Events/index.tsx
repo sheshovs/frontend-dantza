@@ -190,13 +190,13 @@ const Events = (): JSX.Element => {
                     fontSize: `13px !important`,
                   }}
                 >
-                  Puedes agregar un máximo de 20 imágenes ·{` `}
+                  Puedes agregar un máximo de 100 imágenes ·{` `}
                   <span
                     style={{
-                      color: allImages.length > 20 ? `red` : ``,
+                      color: allImages.length > 100 ? `red` : ``,
                     }}
                   >
-                    {allImages.length}/20
+                    {allImages.length}/100
                   </span>
                 </Typography>
               </Grid>
@@ -214,7 +214,7 @@ const Events = (): JSX.Element => {
                   variant="outlined"
                   color="primary"
                   component="label"
-                  disabled={allImages.length >= 20}
+                  disabled={allImages.length >= 100}
                 >
                   <input
                     hidden

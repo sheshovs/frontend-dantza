@@ -3,8 +3,9 @@ import { animated, useScroll, useSpring } from '@react-spring/web'
 import SidebarRoute from './SidebarRoute'
 import { FaInstagram, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
 import { LOGO_COLOR, LOGO_WHITE } from '../../assets'
-import { useState } from 'react'
-import { routes } from './routes'
+import { useEffect, useState } from 'react'
+import { routes, routesWithGallery } from './routes'
+import { useEventStore } from '../store/useEventStore'
 
 const Sidebar = (): JSX.Element => {
   const [sidebarStyles, sidebarApi] = useSpring(() => ({
@@ -26,6 +27,16 @@ const Sidebar = (): JSX.Element => {
   }))
 
   const [sidebarLogo, setSidebarLogo] = useState(LOGO_WHITE)
+  const [actualRoutes, setActualRoutes] = useState(routes)
+  const { galleryEvents } = useEventStore()
+
+  useEffect(() => {
+    if (galleryEvents.length > 0) {
+      setActualRoutes(routesWithGallery)
+    } else {
+      setActualRoutes(routes)
+    }
+  }, [galleryEvents])
 
   useScroll({
     onChange: ({ value: { scrollYProgress } }) => {
@@ -73,7 +84,7 @@ const Sidebar = (): JSX.Element => {
         </Grid>
 
         <Grid container item flexDirection="column">
-          {routes.map((route) => (
+          {actualRoutes.map((route) => (
             <SidebarRoute key={route.id} label={route.label} route={route.route} />
           ))}
         </Grid>

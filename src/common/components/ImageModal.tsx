@@ -1,4 +1,4 @@
-import { Grid, IconButton, Modal, useTheme } from '@mui/material'
+import { Grid, IconButton, Modal, useMediaQuery, useTheme } from '@mui/material'
 import Icon from './Icon'
 
 interface ImageModalProps {
@@ -20,7 +20,9 @@ const ImageModal = ({
 }: ImageModalProps): JSX.Element => {
   const {
     palette: { common },
+    breakpoints,
   } = useTheme()
+  const widthAboveLg = useMediaQuery(breakpoints.up(900))
   return (
     <Modal
       open={openModal}
@@ -60,46 +62,88 @@ const ImageModal = ({
             }}
           />
         </IconButton>
-        <Grid container justifyContent="center" alignItems="center" gap={4}>
-          <Grid item>
-            <IconButton>
-              <Icon
-                icon="arrowBackIos"
-                sx={{
-                  color: common.white,
-                  fontSize: 40,
-                  cursor: `pointer`,
-                }}
-                onClick={handlePrev}
-              />
-            </IconButton>
-          </Grid>
+        {widthAboveLg ? (
+          <Grid container justifyContent="center" alignItems="center" gap={4}>
+            <Grid item>
+              <IconButton>
+                <Icon
+                  icon="arrowBackIos"
+                  sx={{
+                    color: common.white,
+                    fontSize: 40,
+                    cursor: `pointer`,
+                  }}
+                  onClick={handlePrev}
+                />
+              </IconButton>
+            </Grid>
 
-          <Grid item>
-            <img
-              src={imageUrl}
-              alt={`Foto de ${imageName}`}
-              style={{
-                height: `80vh`,
-                objectFit: `contain`,
-              }}
-            />
-          </Grid>
-
-          <Grid item>
-            <IconButton>
-              <Icon
-                icon="arrowForward"
-                sx={{
-                  color: common.white,
-                  fontSize: 40,
-                  cursor: `pointer`,
+            <Grid item>
+              <img
+                src={imageUrl}
+                alt={`Foto de ${imageName}`}
+                style={{
+                  width: `auto`,
+                  height: `80vh`,
+                  objectFit: `contain`,
                 }}
-                onClick={handleNext}
               />
-            </IconButton>
+            </Grid>
+
+            <Grid item>
+              <IconButton>
+                <Icon
+                  icon="arrowForward"
+                  sx={{
+                    color: common.white,
+                    fontSize: 40,
+                    cursor: `pointer`,
+                  }}
+                  onClick={handleNext}
+                />
+              </IconButton>
+            </Grid>
           </Grid>
-        </Grid>
+        ) : (
+          <Grid container justifyContent="center" alignItems="center" gap={4}>
+            <Grid item container justifyContent="center">
+              <img
+                src={imageUrl}
+                alt={`Foto de ${imageName}`}
+                style={{
+                  width: `90%`,
+                  height: `auto`,
+                  objectFit: `contain`,
+                }}
+              />
+            </Grid>
+
+            <Grid item container gap={6} justifyContent="center" alignItems="center">
+              <IconButton>
+                <Icon
+                  icon="arrowBackIos"
+                  sx={{
+                    color: common.white,
+                    fontSize: 40,
+                    cursor: `pointer`,
+                  }}
+                  onClick={handlePrev}
+                />
+              </IconButton>
+              <IconButton>
+                <Icon
+                  icon="arrowForward"
+                  sx={{
+                    color: common.white,
+                    fontSize: 40,
+                    cursor: `pointer`,
+                  }}
+                  onClick={handleNext}
+                />
+              </IconButton>
+            </Grid>
+          </Grid>
+        )}
       </Grid>
     </Modal>
   )
