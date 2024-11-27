@@ -85,8 +85,8 @@ const useTeachers = () => {
   const [editingTeacher, setEditingTeacher] = useState<string | null>(null)
   const [state, setState] = useState<Teacher>(initialState)
   const { name, images, imagesUploaded, description, disciplines, mainImageName } = state
-  const { data: disciplinesQuery } = useDisciplineQuery()
-  const { data: teachersQuery } = useTeacherQuery()
+  const { data: disciplinesQuery, isPending: isLoadingDisciplines } = useDisciplineQuery()
+  const { data: teachersQuery, isPending: isLoadingTeachers } = useTeacherQuery()
 
   const { rows } = useMemo(() => {
     if (!teachersQuery?.data) {
@@ -269,6 +269,7 @@ const useTeachers = () => {
   const allImages = [...imagesUploaded, ...images]
   const disableSubmitButton =
     !name || !description || allImages.length < 1 || allImages.length > 10 || !mainImageName
+  const isLoading = isLoadingDisciplines || isLoadingTeachers
 
   return {
     columns,
@@ -281,6 +282,7 @@ const useTeachers = () => {
     disciplinesQuery,
     isCreatingOrUpdating,
     isDeletingTeacher,
+    isLoading,
     disableSubmitButton,
     handleOpenDrawer,
     handleCloseDrawer,

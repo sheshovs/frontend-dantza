@@ -91,7 +91,7 @@ const useDiscipline = () => {
   const [state, setState] = useState<DisciplineState>(initialState)
   const { name, images, imagesUploaded, description, categorySchedule, mainImageName } = state
   const [disableUpdateButton, setDisableUpdateButton] = useState(true)
-  const { data: disciplinesQuery } = useDisciplineQuery()
+  const { data: disciplinesQuery, isPending: isLoadingDisciplines } = useDisciplineQuery()
 
   const { rows } = useMemo(() => {
     if (!disciplinesQuery) {
@@ -363,6 +363,7 @@ const useDiscipline = () => {
     allImages,
     isCreatingOrUpdating,
     isDeletingDiscipline,
+    isLoadingDisciplines,
     disableScheduleTab,
     disableUpdateButton,
     setState,

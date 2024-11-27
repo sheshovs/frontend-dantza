@@ -1,4 +1,14 @@
-import { Button, Drawer, Grid, Modal, Paper, Tab, Tabs, Typography } from '@mui/material'
+import {
+  Button,
+  CircularProgress,
+  Drawer,
+  Grid,
+  Modal,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import Layout from '../components/Layout'
 import General from './Tabs/General'
@@ -19,6 +29,7 @@ const Disciplines = (): JSX.Element => {
     allImages,
     isCreatingOrUpdating,
     isDeletingDiscipline,
+    isLoadingDisciplines,
     disableScheduleTab,
     disableUpdateButton,
     handleOpenDrawer,
@@ -139,31 +150,37 @@ const Disciplines = (): JSX.Element => {
             Agregar disciplina
           </Button>
         </Grid>
-        <Grid container>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 8,
+        {isLoadingDisciplines ? (
+          <>
+            <CircularProgress />
+          </>
+        ) : (
+          <Grid container>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 8,
+                  },
                 },
-              },
-            }}
-            pageSizeOptions={[8]}
-            disableRowSelectionOnClick
-            disableColumnSorting
-            disableColumnMenu
-            disableColumnResize
-            disableColumnSelector
-            localeText={{
-              noRowsLabel: `No hay disciplinas`,
-            }}
-            sx={{
-              minHeight: `500px`,
-            }}
-          />
-        </Grid>
+              }}
+              pageSizeOptions={[8]}
+              disableRowSelectionOnClick
+              disableColumnSorting
+              disableColumnMenu
+              disableColumnResize
+              disableColumnSelector
+              localeText={{
+                noRowsLabel: `No hay disciplinas`,
+              }}
+              sx={{
+                minHeight: `500px`,
+              }}
+            />
+          </Grid>
+        )}
       </Layout>
     </>
   )

@@ -3,6 +3,7 @@ import {
   Autocomplete,
   Button,
   Chip,
+  CircularProgress,
   Drawer,
   Grid,
   IconButton,
@@ -26,6 +27,7 @@ const Teachers = (): JSX.Element => {
     editingTeacher,
     isCreatingOrUpdating,
     isDeletingTeacher,
+    isLoading,
     disableSubmitButton,
     disciplinesQuery,
     allImages,
@@ -349,31 +351,37 @@ const Teachers = (): JSX.Element => {
             Agregar profesor
           </Button>
         </Grid>
-        <Grid container>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 8,
+        {isLoading ? (
+          <>
+            <CircularProgress />
+          </>
+        ) : (
+          <Grid container>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 8,
+                  },
                 },
-              },
-            }}
-            pageSizeOptions={[8]}
-            disableRowSelectionOnClick
-            disableColumnSorting
-            disableColumnMenu
-            disableColumnResize
-            disableColumnSelector
-            localeText={{
-              noRowsLabel: `No hay profesores`,
-            }}
-            sx={{
-              minHeight: `500px`,
-            }}
-          />
-        </Grid>
+              }}
+              pageSizeOptions={[8]}
+              disableRowSelectionOnClick
+              disableColumnSorting
+              disableColumnMenu
+              disableColumnResize
+              disableColumnSelector
+              localeText={{
+                noRowsLabel: `No hay profesores`,
+              }}
+              sx={{
+                minHeight: `500px`,
+              }}
+            />
+          </Grid>
+        )}
       </Layout>
     </>
   )

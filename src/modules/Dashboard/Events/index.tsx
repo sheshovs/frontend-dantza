@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   Chip,
+  CircularProgress,
   Drawer,
   Grid,
   IconButton,
@@ -33,6 +34,7 @@ const Events = (): JSX.Element => {
     columns,
     isCreatingOrUpdating,
     isDeletingEvent,
+    isLoadingEvents,
     disableSubmit,
     handleInputChange,
     handleOpenDrawer,
@@ -352,32 +354,38 @@ const Events = (): JSX.Element => {
             Agregar evento
           </Button>
         </Grid>
-        <Grid container>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 8,
+        {isLoadingEvents ? (
+          <>
+            <CircularProgress />
+          </>
+        ) : (
+          <Grid container>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 8,
+                  },
                 },
-              },
-            }}
-            pageSizeOptions={[8]}
-            disableRowSelectionOnClick
-            disableColumnSorting
-            disableColumnMenu
-            disableColumnResize
-            disableColumnSelector
-            localeText={{
-              noRowsLabel: `No hay eventos`,
-            }}
-            sx={{
-              minHeight: `500px`,
-            }}
-            getRowId={(row) => row.id}
-          />
-        </Grid>
+              }}
+              pageSizeOptions={[8]}
+              disableRowSelectionOnClick
+              disableColumnSorting
+              disableColumnMenu
+              disableColumnResize
+              disableColumnSelector
+              localeText={{
+                noRowsLabel: `No hay eventos`,
+              }}
+              sx={{
+                minHeight: `500px`,
+              }}
+              getRowId={(row) => row.id}
+            />
+          </Grid>
+        )}
       </Layout>
     </>
   )

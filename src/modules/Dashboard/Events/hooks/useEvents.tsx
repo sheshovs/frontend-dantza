@@ -96,7 +96,7 @@ const useEvents = () => {
   const [state, setState] = useState<Event>(initialState)
   const { name, images, imagesUploaded, description, location, date, mainImageName } = state
   const [editingEvent, setEditingEvent] = useState<string | null>(null)
-  const { data: eventsQuery } = useEventQuery()
+  const { data: eventsQuery, isPending: isLoadingEvents } = useEventQuery()
 
   const { rows } = useMemo(() => {
     if (!eventsQuery?.data) {
@@ -298,6 +298,7 @@ const useEvents = () => {
     columns,
     isCreatingOrUpdating,
     isDeletingEvent,
+    isLoadingEvents,
     disableSubmit,
     handleInputChange,
     handleOpenDrawer,
