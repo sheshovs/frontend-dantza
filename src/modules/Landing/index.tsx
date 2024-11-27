@@ -11,6 +11,7 @@ import Teachers from './Teachers'
 import Footer from './Footer'
 import Extension from './Extension'
 import Others from './Others'
+import Gallery from './Gallery'
 
 function Landing(): JSX.Element {
   const { breakpoints } = useTheme()
@@ -42,6 +43,7 @@ function Landing(): JSX.Element {
       <Disciplines />
       <UpcomingEvents />
       <Teachers />
+      <Gallery />
       <Extension />
       <Others />
       <Footer />
