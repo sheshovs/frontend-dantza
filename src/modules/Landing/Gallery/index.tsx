@@ -98,42 +98,42 @@ const Gallery = (): JSX.Element => {
             <Grid container gap={3} marginBottom={2} alignItems="center">
               {isLoading
                 ? Array.from({ length: 8 }).map((_, index) => (
-                    <Paper
-                      key={index}
+                  <Paper
+                    key={index}
+                    sx={{
+                      width: `300px`,
+                      minHeight: `330px`,
+                      padding: 1,
+                      borderRadius: `16px`,
+                      position: `relative`,
+                    }}
+                    elevation={3}
+                  >
+                    <Skeleton
+                      variant="rectangular"
+                      width="100%"
+                      height="189px"
+                      animation="wave"
                       sx={{
-                        width: `300px`,
-                        minHeight: `330px`,
-                        padding: 1,
-                        borderRadius: `16px`,
-                        position: `relative`,
+                        borderRadius: `8px`,
                       }}
-                      elevation={3}
-                    >
+                    />
+
+                    <Grid container padding={1} flex={1} gap={1}>
+                      <Skeleton variant="text" width="100%" height="32px" animation="wave" />
+                      <Skeleton variant="text" width="80%" height="21px" animation="wave" />
                       <Skeleton
                         variant="rectangular"
                         width="100%"
-                        height="189px"
+                        height="36px"
                         animation="wave"
                         sx={{
-                          borderRadius: `8px`,
+                          borderRadius: `4px`,
                         }}
                       />
-
-                      <Grid container padding={1} flex={1} gap={1}>
-                        <Skeleton variant="text" width="100%" height="32px" animation="wave" />
-                        <Skeleton variant="text" width="80%" height="21px" animation="wave" />
-                        <Skeleton
-                          variant="rectangular"
-                          width="100%"
-                          height="36px"
-                          animation="wave"
-                          sx={{
-                            borderRadius: `4px`,
-                          }}
-                        />
-                      </Grid>
-                    </Paper>
-                  ))
+                    </Grid>
+                  </Paper>
+                ))
                 : null}
               {eventsWithImages.map((event) => {
                 const mainImage = event.imagesUploaded.find((image) => image.isMain)
@@ -172,7 +172,7 @@ const Gallery = (): JSX.Element => {
                         borderRadius: `8px`,
                       }}
                     />
-                    <Grid container padding={1} flex={1} gap={1}>
+                    <Grid container padding={1} flex={1} gap={1} flexDirection="column">
                       <Typography variant="h6">{event.name}</Typography>
                       <Typography
                         variant="body2"

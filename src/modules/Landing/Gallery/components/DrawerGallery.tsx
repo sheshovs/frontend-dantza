@@ -35,6 +35,8 @@ const DrawerGallery = ({
   const { breakpoints } = useTheme()
   const widthAboveLg = useMediaQuery(breakpoints.up(900))
 
+  const isDrawerOpen = selectedEvent?.uuid !== undefined || open
+
   const [openModal, setOpenModal] = useState(false)
   const [selectedPhotoIndex, setSelectedIndexPhoto] = useState(0)
   const handleCloseModal = (): void => {
@@ -188,7 +190,7 @@ const DrawerGallery = ({
         handleNext={handleNextPhoto}
       />
       <Drawer
-        open={open}
+        open={isDrawerOpen}
         onClose={onClose}
         anchor="right"
         sx={{
